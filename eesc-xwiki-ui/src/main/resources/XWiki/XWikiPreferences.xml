@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1375383729000</creationDate>
-  <date>1385041553000</date>
-  <contentUpdateDate>1384961257000</contentUpdateDate>
+  <date>1385378238000</date>
+  <contentUpdateDate>1385378238000</contentUpdateDate>
   <version>1.1</version>
   <title>XWiki Preferences</title>
   <defaultTemplate/>
@@ -2690,7 +2690,7 @@ Your account on ${wikiname} has been successfully activated. You can now login a
       <registration_registered>---</registration_registered>
     </property>
     <property>
-      <rightPanels>EESCCode.QuickLinksPanel,EESCCode.ActionsPanel,Panels.MyRecentModifications</rightPanels>
+      <rightPanels>EESCCode.QuickLinksPanel,EESCCode.ActionsPanel,Panels.MyRecentModifications,TaskCode.TaskPanel</rightPanels>
     </property>
     <property>
       <showLeftPanels>0</showLeftPanels>

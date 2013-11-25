@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1385041579000</creationDate>
-  <date>1385049511000</date>
-  <contentUpdateDate>1385041504000</contentUpdateDate>
+  <creationDate>1385374928000</creationDate>
+  <date>1385375606000</date>
+  <contentUpdateDate>1385374928000</contentUpdateDate>
   <version>1.1</version>
   <title>Quick Links Panel</title>
   <defaultTemplate/>
@@ -111,11 +111,12 @@
 * [[$services.localization.render('eesc.panel.quicklinks.personalSpaceHome')&gt;&gt;${context.user}.WebHome]]
 #if(!$doc.space.equals("Main") &amp;&amp; !$doc.space.equals("$context.user"))
 * [[$services.localization.render('eesc.panel.quicklinks.spaceHome') $doc.space&gt;&gt;${doc.space}.WebHome]]
-#end 
+#end
+* [[$services.localization.render('TaskCode.TaskPanel_title')&gt;&gt;Tasks.WebHome]]
 
 
 #if ($xwiki.hasAdminRights())
-[[$services.localization.render('xe.panels.edit')&gt;&gt;path:${xwiki.getURL('Panels.QuickLinks', 'inline')}]]
+[[$services.localization.render('xe.panels.edit')&gt;&gt;path:${xwiki.getURL('EESCCode.QuickLinksPanel', 'inline')}]]
 #end
 #panelfooter()
 {{/velocity}}</content>

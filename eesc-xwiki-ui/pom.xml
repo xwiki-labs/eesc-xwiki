@@ -37,4 +37,13 @@
 
   <name>EESC - XWiki - UI</name>
   <description>The UI for the EESC XWiki component</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.contrib</groupId>
+      <artifactId>task-manager-application</artifactId>
+      <version>1.0-SNAPSHOT</version>
+      <type>xar</type>
+    </dependency>
+  </dependencies>
 </project>
