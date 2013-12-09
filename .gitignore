@@ -15,6 +15,7 @@ overlays
 .checkstyle
 .fbprefs
 bin
+target-eclipse
 
 # NetBeans
 nbproject
