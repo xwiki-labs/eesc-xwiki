@@ -45,5 +45,6 @@
     <module>eesc-xwiki-distribution</module>
     <module>eesc-xwiki-ui</module>
     <module>eesc-xwiki-web</module>
+    <module>eesc-xwiki-service</module>
   </modules>
 </project>

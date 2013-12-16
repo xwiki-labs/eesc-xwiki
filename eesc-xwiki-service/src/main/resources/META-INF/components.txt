@@ -1,0 +1,2 @@
+com.xwikisas.eesc.internal.EESCTestImpl
+com.xwikisas.eesc.EESCScriptService
