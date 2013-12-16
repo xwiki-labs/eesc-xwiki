@@ -62,6 +62,12 @@
   <dependencies>
     <dependency>
       <groupId>com.xwikisas</groupId>
+      <artifactId>eesc-xwiki-service</artifactId>
+      <version>${project.version}</version>
+      <type>jar</type>
+    </dependency>
+    <dependency>
+      <groupId>com.xwikisas</groupId>
       <artifactId>eesc-xwiki-web-merged</artifactId>
       <version>${project.version}</version>
       <type>war</type>
