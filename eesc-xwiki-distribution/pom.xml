@@ -41,6 +41,8 @@
   <modules>
     <module>eesc-xwiki-web-hsqldb</module>
     <module>eesc-xwiki-ui-all</module>
+    <module>eesc-xwiki-ui-template-user-all</module>
+    <module>eesc-xwiki-ui-template-group-all</module>
   </modules>
 
   <build>
