@@ -35,7 +35,12 @@ public class EESCTestImpl implements EESC, Initializable
     private UserStatus getUserStatus(String userId)
     {
         String userKey = String.format("user.%s.status", userId);
-        return UserStatus.valueOf(properties.getProperty(userKey));
+        String property = properties.getProperty(userKey);
+        UserStatus userStatus = null;
+        if (property != null) {
+            userStatus = UserStatus.valueOf(property);
+        }
+        return userStatus;
 
     }
 
@@ -48,19 +53,25 @@ public class EESCTestImpl implements EESC, Initializable
     private GroupType getGroupType(String groupId)
     {
         String groupKey = String.format("group.%s.type", groupId);
-        return GroupType.valueOf(properties.getProperty(groupKey));
+        String property = properties.getProperty(groupKey);
+        GroupType groupType = null;
+        if (property != null) {
+            groupType = GroupType.valueOf(property);
+        }
+        return groupType;
 
     }
-
 
     @Override
     public User getUser(String userId)
     {
         User user = null;
-        if(userId != null) {
+        if (userId != null) {
             String userName = getUserName(userId);
             UserStatus userStatus = getUserStatus(userId);
-            user = new User(userId, userName, userStatus);
+            if (userName != null && userStatus != null) {
+                user = new User(userId, userName, userStatus);
+            }
         }
         return user;
     }
@@ -69,14 +80,16 @@ public class EESCTestImpl implements EESC, Initializable
     public Group getGroup(String groupId)
     {
         Group group = null;
-        if(groupId != null) {
+        if (groupId != null) {
             String groupName = getGroupName(groupId);
             GroupType groupType = getGroupType(groupId);
-            group = new Group(groupId, groupName, groupType);
+            if (groupName != null && groupType != null) {
+                group = new Group(groupId, groupName, groupType);
+            }
         }
         return group;
     }
-    
+
     @Override
     public List<User> getUsersForGroup(String groupId)
     {
