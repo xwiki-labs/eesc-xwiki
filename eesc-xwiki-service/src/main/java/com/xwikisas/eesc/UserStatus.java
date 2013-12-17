@@ -4,6 +4,8 @@ public enum UserStatus
 {
     STUDENT,
     TEACHER,
-    ADMIN,
-    PARENT
+    STAFF,
+    PARENT,
+    LOCAL_ADMIN,
+    GUEST
 }
