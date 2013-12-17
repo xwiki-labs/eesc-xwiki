@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xwikidoc>
+<web>EESCCode</web>
+<name>CSRedirect</name>
+<language></language>
+<defaultLanguage>en</defaultLanguage>
+<translation>0</translation>
+<parent></parent>
+<creator>XWiki.Admin</creator>
+<author>XWiki.Admin</author>
+<customClass></customClass>
+<contentAuthor>XWiki.Admin</contentAuthor>
+<creationDate>1386936210000</creationDate>
+<date>1386936725000</date>
+<contentUpdateDate>1386936725000</contentUpdateDate>
+<version>1.4</version>
+<title>Accès l'espace</title>
+<defaultTemplate></defaultTemplate>
+<validationScript></validationScript>
+<comment></comment>
+<minorEdit>true</minorEdit>
+<syntaxId>xwiki/2.1</syntaxId>
+<hidden>false</hidden>
+<content>{{velocity}}
+#*
+  Redirection to collaborative spaces
+  -----------
+
+  This sheet is called from Main.WebHome and redirects to the subwikis.  In case the subwiki doesn't exists, this sheet redirects on WikiManager.CreateWiki which will create the missing subwiki.
+  
+  Author: Jean SIMARD (jean.simard@xwiki.com)
+*#
+##############################################
+##                 GLOBALS
+##############################################
+## HTTP REQUEST PARAMETERS
+#set($userId = $!request.getParameter("ENT_USERID"))
+#set($groupId = $!request.getParameter("groupid"))
+#set($isUser = $!request.getParameter("is_user"))
+
+## GLOBAL VARIABLES
+#set($user = $services.eesc.getUser($userId))
+#set($group = $services.eesc.getGroup($groupId))
+#if($isUser == true)
+  #set($wikiName = 'u' + $user.getId())
+#else
+  #set($wikiName = 'g' + $group.getId())
+#end
+#set($wikiNameMainWebHome = $wikiName + ':Main.WebHome')
+
+##############################################
+##                CONTROLLER
+##############################################
+#controller()
+#macro(controller)
+  #if($services.wiki.exists($wikiName))
+    #set($wikiDescriptor = $services.wiki.getById($wikiName))
+    #set($jobId = ["wiki", "provisioning", "wikiprovisioning.template", $wikiDescriptor.id])
+    #set($status = $services.wiki.template.getWikiProvisioningJobStatus($jobId))
+    #if($status &amp;&amp; $status.getState() == "FINISHED")
+      #redirectWiki()
+    #else
+      #createWiki()
+    #end
+  #else
+    #createWiki()
+  #end
+#end
+
+##############################################
+##                  VIEW
+##############################################
+#macro(redirectWiki)
+  #set($discard = $response.sendRedirect($xwiki.getURL($wikiNameMainWebHome)))
+#end
+
+#macro(createWiki)
+  #if($user &amp;&amp; ($isUser == true || $user.getStatus() == "ADMIN" || $user.getStatus() == "TEACHER" || $user.getStatus() == "PARENT"))
+    #set($queryStringElements = [])
+    ## Jump to the creation step into Main.CreateWiki
+    #set($discard = $queryStringElements.add('step=create'))
+    ## Give the name of the wiki
+    #set($discard = $queryStringElements.add("wikiname=$wikiName"))
+    ## Give the needed template for the wiki creation
+    #if($isUser == true)
+      #set($discard = $queryStringElements.add('template=usertemplate'))
+    #else
+      #set($discard = $queryStringElements.add('template=grouptemplate'))
+    #end
+    ## Give the pretty name of the wiki
+    #if($isUser == true)
+      #set($discard = $queryStringElements.add("wikiprettyname=Espace de $user.getName()"))
+    #else
+      #set($discard = $queryStringElements.add("wikiprettyname=Espace collaboratif du groupe $group.getName()"))
+    #end
+    ## Give the owner of the wiki
+    #set($discard = $queryStringElements.add("ownerId=xwiki:XWiki.$user.getId()"))
+    ## Give an empty description of the wiki (since the CreateWiki page need one)
+    #set($discard = $queryStringElements.add("description="))
+    ## The wiki should only accept global users (i.e. defined in the main wiki)
+    #set($discard = $queryStringElements.add("userScope=global_only"))
+    ## Give the right access of the wiki
+    #if($isUser == true)
+      #set($discard = $queryStringElements.add("membershipType=invite"))
+    #else
+      #if($group.type == "PUBLIC")
+        #set($discard = $queryStringElements.add("membershipType=open"))
+      #elseif($group.type == "RESTRICTED")
+        #set($discard = $queryStringElements.add("membershipType=request"))
+      #elseif($group.type == "PRIVATE")
+        #set($discard = $queryStringElements.add("membershipType=invite"))
+      #end
+    #end
+
+    #set($queryString = '')
+    #set($sep = '')
+    #foreach($e in $queryStringElements)
+      #set($queryString = "$queryString$sep$e")
+      #set($sep = '&amp;')
+    #end
+    #set($discard = $response.sendRedirect($xwiki.getURL('WikiManager.CreateWiki', 'view', $queryString)))
+  #else
+    {{warning}}
+      Cet espace collaboratif n'existe pas encore et vous n'avez pas les droits pour le créer. Revenir à l'[[Accueil&gt;&gt;Main.WebHome]].
+    {{/warning}}
+  #end
+#end
+
+##############################################
+##               OTHER MACROS
+##############################################
+#macro(constructQueryString $queryString)
+    
+#end
+{{/velocity}}</content></xwikidoc>
