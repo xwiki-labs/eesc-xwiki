@@ -12,7 +12,7 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1386950384000</creationDate>
-  <date>1386946519000</date>
+  <date>1387364540000</date>
   <contentUpdateDate>1386946383000</contentUpdateDate>
   <version>1.1</version>
   <title>Recently created documents</title>
@@ -107,10 +107,10 @@
       <content>{{include reference="xwiki:Main.WebHome" /}}</content>
     </property>
     <property>
-      <description>List the last 5 documents created.</description>
+      <description>Display the navigation menu in a panel.</description>
     </property>
     <property>
-      <name>EESCMenu</name>
+      <name>EESCNavigation</name>
     </property>
     <property>
       <type>view</type>
