@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1386936210000</creationDate>
-  <date>1386936725000</date>
-  <contentUpdateDate>1386936725000</contentUpdateDate>
+  <date>1387376852000</date>
+  <contentUpdateDate>1387376852000</contentUpdateDate>
   <version>1.1</version>
   <title>Accès l'espace</title>
   <defaultTemplate/>
@@ -125,13 +125,6 @@
       Cet espace collaboratif n'existe pas encore et vous n'avez pas les droits pour le créer. Revenir à l'[[Accueil&gt;&gt;Main.WebHome]].
     {{/warning}}
   #end
-#end
-
-##############################################
-##               OTHER MACROS
-##############################################
-#macro(constructQueryString $queryString)
-    
 #end
 {{/velocity}}</content>
 </xwikidoc>
