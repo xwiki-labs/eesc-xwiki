@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<xwikidoc version="1.1">
+<xwikidoc>
   <web>Main</web>
   <name>WebHome</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1386940812000</creationDate>
   <parent/>
+  <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1386953252000</date>
-  <contentUpdateDate>1386953252000</contentUpdateDate>
+  <creationDate>1386940812000</creationDate>
+  <date>1387378994000</date>
+  <contentUpdateDate>1387378994000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('xe.home.title')</title>
   <defaultTemplate/>
@@ -22,22 +22,7 @@
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.0</syntaxId>
   <hidden>true</hidden>
-  <content>{{velocity}}
-
-{{html}}
-&lt;a href="$xwiki.getURL('Main.WebHome', 'create', 'tocreate=space')"&gt;
-&lt;input type="button" class="button" value="Nouvel espace" /&gt;
-&lt;/a&gt;
-{{/html}}
-
-{{/velocity}}
-
-{{documents /}}</content>
   <object>
-    <name>Main.WebHome</name>
-    <number>0</number>
-    <className>XWiki.EditModeClass</className>
-    <guid>f95059ba-30ca-4bd0-8687-b145273d1090</guid>
     <class>
       <name>XWiki.EditModeClass</name>
       <customClass/>
@@ -57,8 +42,23 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </defaultEditMode>
     </class>
+    <name>Main.WebHome</name>
+    <number>0</number>
+    <className>XWiki.EditModeClass</className>
+    <guid>f95059ba-30ca-4bd0-8687-b145273d1090</guid>
     <property>
       <defaultEditMode>edit</defaultEditMode>
     </property>
   </object>
+  <content>{{velocity}}
+
+{{html}}
+&lt;a href="$xwiki.getURL('Main.WebHome', 'create', 'tocreate=space')"&gt;
+&lt;input type="button" class="button" value="Nouvel espace" /&gt;
+&lt;/a&gt;
+{{/html}}
+
+{{/velocity}}
+
+{{documents /}}</content>
 </xwikidoc>

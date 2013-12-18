@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1386936210000</creationDate>
-  <date>1387378719000</date>
-  <contentUpdateDate>1387376852000</contentUpdateDate>
+  <date>1387380978000</date>
+  <contentUpdateDate>1387380976000</contentUpdateDate>
   <version>1.1</version>
   <title>Accès l'espace</title>
   <defaultTemplate/>
@@ -24,13 +24,13 @@
   <hidden>false</hidden>
   <content>{{velocity}}
 #*
-  Redirection to collaborative spaces
-  -----------
-
-  This sheet is called from Main.WebHome and redirects to the subwikis.  In case the subwiki doesn't exists, this sheet redirects on WikiManager.CreateWiki which will create the missing subwiki.
-  
-  Author: Jean SIMARD (jean.simard@xwiki.com)
-*#
+ * Redirection to collaborative spaces
+ * -----
+ *
+ * This sheet is called from Main.WebHome and redirects to the subwikis.  In case the subwiki doesn't exists, this sheet redirects on WikiManager.CreateWiki which will create the missing subwiki.
+ *
+ * Author: Jean SIMARD (jean.simard@xwiki.com)
+ *#
 ##############################################
 ##                 GLOBALS
 ##############################################
