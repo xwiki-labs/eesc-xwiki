@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1386952932000</creationDate>
-  <date>1387464628000</date>
-  <contentUpdateDate>1387464482000</contentUpdateDate>
+  <date>1387471232000</date>
+  <contentUpdateDate>1387467263000</contentUpdateDate>
   <version>1.1</version>
   <title>Créer un nouveau document</title>
   <defaultTemplate/>
@@ -67,6 +67,73 @@
   #else
     #displayError()
   #end
+#end
+
+##############################################
+##               ADD DATA
+##############################################
+#*
+ * Create the document
+ * -----
+ *
+ * Given the HTTP POST request, create the document with the rights that apply.
+ *
+ * @param $spaceName The name of the folder to create
+ * @param $documentName The name of the document to create
+ * @param $rights The type of restriction of the document ('public', 'restricted' or 'private')
+ * @param $members The list of members if it apply (if $rights is 'restricted')
+ *#
+#macro(stepCreate, $spaceName, $documentName, $rights, $members)
+  #set($documentFullName = "$spaceName.$documentName")
+  #if($rights)
+    #set($newDocument = $xwiki.getDocument($documentFullName))
+    #if($rights.equals('private') || $rights.equals('restricted'))
+      #set($n = $newDocument.createNewObject('XWiki.XWikiRights'))
+      #set($discard = $newDocument.save())
+      #set($rightsObject = $newDocument.getObject('XWiki.XWikiRights', $n))
+      #set($discard = $rightsObject.set('allow', 1))
+      #set($discard = $rightsObject.set('users', "xwiki:$newDocument.creator"))
+      #set($discard = $rightsObject.set('levels', 'view,edit,delete'))
+      #if($rights.equals('restricted'))
+        #set($n = $newDocument.createNewObject('XWiki.XWikiRights'))
+        #set($rightsObject = $newDocument.getObject('XWiki.XWikiRights', $n))
+        #set($discard = $rightsObject.set('allow', 1))
+        #set($membersList = '')
+        #set($sep = '')
+        #foreach($member in $members)
+          #set($membersList = "$membersList$sep$member")
+          #set($sep = ',')
+        #end
+        #set($discard = $rightsObject.set('users', $membersList))
+        #set($discard = $rightsObject.set('levels', 'view,edit'))
+      #end
+      #if($user.getStatus() == 'STUDENT' &amp;&amp; ($rights.equals('private') || $rights.equals('restricted')))
+        #addModerators($newDocument, $user)
+      #end
+      #set($discard = $newDocument.save())
+    #end
+  #end
+  #set($discard = $response.sendRedirect($xwiki.getURL($documentFullName, 'edit')))
+#end
+
+#macro(addModerators, $document, $user)
+  #set($groupID = $services.wiki.currentWikiId.substring(1))
+  #set($users = $services.eesc.getUsersForGroup($groupID))
+  #set($moderatorsList = '')
+  #set($sep = '')
+  #foreach($u in $users)
+    #if($u.getStatus() == 'TEACHER' || $u.getStatus() == 'LOCAL_ADMIN')
+      #set($moderatorsList = "$moderatorsList${sep}xwiki:XWiki.$u.getId()")
+      #set($sep = ',')
+    #end
+  #end
+  #set($n = $document.createNewObject('XWiki.XWikiRights'))
+  #set($discard = $document.save())
+  #set($rightsObject = $document.getObject('XWiki.XWikiRights', $n))
+  #set($discard = $rightsObject.set('allow', 1))
+  #set($discard = $rightsObject.set('users', $moderatorsList))
+  #set($discard = $rightsObject.set('levels', 'view,edit,delete'))
+  #set($discard = $document.save())
 #end
 
 ##############################################
@@ -158,50 +225,6 @@
     &lt;/form&gt;
   {{/html}}
 
-#end
-
-##############################################
-##               ADD DATA
-##############################################
-#*
- * Create the document
- * -----
- *
- * Given the HTTP POST request, create the document with the rights that apply.
- *
- * @param $spaceName The name of the folder to create
- * @param $documentName The name of the document to create
- * @param $rights The type of restriction of the document ('public', 'restricted' or 'private')
- * @param $members The list of members if it apply (if $rights is 'restricted')
- *#
-#macro(stepCreate, $spaceName, $documentName, $rights, $members)
-  #set($documentFullName = "$spaceName.$documentName")
-  #if($rights)
-    #set($newDocument = $xwiki.getDocument($documentFullName))
-    #if($rights.equals('private') || $rights.equals('restricted'))
-      #set($n = $newDocument.createNewObject('XWiki.XWikiRights'))
-      #set($discard = $newDocument.save())
-      #set($rightsObject = $newDocument.getObject('XWiki.XWikiRights', $n))
-      #set($discard = $rightsObject.set('allow', 1))
-      #set($discard = $rightsObject.set('users', "xwiki:$newDocument.creator"))
-      #set($discard = $rightsObject.set('levels', 'view,edit,delete'))
-      #if($rights.equals('restricted'))
-        #set($n = $newDocument.createNewObject('XWiki.XWikiRights'))
-        #set($rightsObject = $newDocument.getObject('XWiki.XWikiRights', $n))
-        #set($discard = $rightsObject.set('allow', 1))
-        #set($membersList = '')
-        #set($sep = '')
-        #foreach($member in $members)
-          #set($membersList = "$membersList$sep$member")
-          #set($sep = ',')
-        #end
-        #set($discard = $rightsObject.set('users', $membersList))
-        #set($discard = $rightsObject.set('levels', 'view,edit'))
-      #end
-      #set($discard = $newDocument.save())
-    #end
-  #end
-  #set($discard = $response.sendRedirect($xwiki.getURL($documentFullName, 'edit')))
 #end
 {{/velocity}}
 </content>
