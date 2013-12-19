@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1386940812000</creationDate>
-  <date>1387378994000</date>
-  <contentUpdateDate>1387378994000</contentUpdateDate>
+  <date>1387462956000</date>
+  <contentUpdateDate>1387462947000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('xe.home.title')</title>
   <defaultTemplate/>
@@ -53,9 +53,12 @@
   <content>{{velocity}}
 
 {{html}}
-&lt;a href="$xwiki.getURL('Main.WebHome', 'create', 'tocreate=space')"&gt;
-&lt;input type="button" class="button" value="Nouvel espace" /&gt;
-&lt;/a&gt;
+  &lt;form method="GET" action="$xwiki.getURL('EESCCode.CreateDocument')"&gt;
+    &lt;input type="hidden" name="step" value="form" /&gt;
+    &lt;span class="buttonwrapper"&gt;
+      &lt;input type="submit" class="button" value="Nouvel espace" /&gt;
+    &lt;/span&gt;
+  &lt;/form&gt;
 {{/html}}
 
 {{/velocity}}
