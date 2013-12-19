@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1386935632000</creationDate>
-  <date>1387377222000</date>
-  <contentUpdateDate>1387376775000</contentUpdateDate>
+  <date>1387462324000</date>
+  <contentUpdateDate>1387461872000</contentUpdateDate>
   <version>1.1</version>
   <title>Accueil</title>
   <defaultTemplate/>
@@ -52,13 +52,13 @@
   </object>
   <content>{{velocity}}
 #*
-  Main webhome
-  -----------
-
-  This sheet presents all the spaces that a user can access.  This includes his own personal space and all of the spaces linked to the group he is in.
-  
-  Author: Jean SIMARD (jean.simard@xwiki.com)
-*#
+ * Main webhome
+ *  -----------
+ *
+ * This sheet presents all the spaces that a user can access.  This includes his own personal space and all of the spaces linked to the group he is in.
+ *
+ * Author: Jean SIMARD (jean.simard@xwiki.com)
+ *#
 ##############################################
 ##                 GLOBALS
 ##############################################
@@ -98,7 +98,9 @@
 #macro(createUser, $user)
   #set($userDoc = $xwiki.getDocument($userPage))
   #set($userObj = $userDoc.getObject('XWiki.XWikiUsers', true))
-  #set($userObj = $userDoc.getObject('XWiki.XWikiRights', true))
+  ## Must fill both 'first_name' and 'last_name' because of the join SQL search when using userPicker functionality
+  #set($discard = $userObj.set('first_name', $user.getName()))
+  #set($discard = $userObj.set('last_name', ''))
   #set($discard = $userDoc.save())
   #addUserToGroup($user, 'XWikiAllGroup')
   #if($user.getStatus() == 'STUDENT')
@@ -127,9 +129,11 @@
  * @param $groupName Group where to insert the user
  *#
 #macro(addUserToGroup, $user, $groupName)
-  #set($userPage = 'xwiki:XWiki.' + $user.getId())
+  #set($userPage = 'XWiki.' + $user.getId())
   #set($groupsDoc = $xwiki.getDocument("XWiki.$groupName"))
-  #set($groupObj = $groupsDoc.newObject('XWiki.XWikiGroups'))
+  #if(!$groupsDoc.getObject('XWiki.XWikiGroups', 'member', "XWiki.${user.getId()}"))
+    #set($groupObj = $groupsDoc.newObject('XWiki.XWikiGroups'))
+  #end
   #set($discard = $groupObj.set('member', $userPage))
   #set($discard = $groupsDoc.save())
 #end
@@ -137,6 +141,12 @@
 ##############################################
 ##                  VIEW
 ##############################################
+#*
+ * Display the navigation menu
+ * -----
+ *
+ * Display all subwikis links (which go through the CSRedirect redirection page) and applications (like task manager) in a 'menu' element.
+ *#
 #macro(displayMenu)
   {{menu type="vertical collapsible"}}
     * [[image:icon:house Accueil&gt;&gt;xwiki:Main.WebHome]]
@@ -159,6 +169,12 @@
   {{/menu}}
 #end
 
+#*
+ * Display error
+ * -----
+ *
+ * Display an error when the user is part of no group.
+ *#
 #macro(displayErrorNoGroup)
   {{error}}Vous n'êtes inscrit à aucun groupe.{{/error}}
 #end
