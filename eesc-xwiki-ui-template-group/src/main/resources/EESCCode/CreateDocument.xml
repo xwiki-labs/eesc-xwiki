@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1386952932000</creationDate>
-  <date>1387471232000</date>
-  <contentUpdateDate>1387467263000</contentUpdateDate>
+  <date>1387558353000</date>
+  <contentUpdateDate>1387534494000</contentUpdateDate>
   <version>1.1</version>
   <title>Créer un nouveau document</title>
   <defaultTemplate/>
@@ -36,7 +36,6 @@
 ##                 GLOBALS
 ##############################################
 ## HTTP REQUEST PARAMETERS
-#set($reqUserId = $request.getParameter('ENT_USERID'))
 #set($reqStep = $request.getParameter('step'))
 #if($request.getParameter('cancel'))
   #set($reqStep = 'cancel')
@@ -51,7 +50,8 @@
 #set($reqMembers = $request.getParameterValues('members'))
 
 ## GLOBAL VARIABLES
-#set($user = $services.eesc.getUser($reqUserId))
+#set($userId = $xcontext.getUser().replace('XWiki.', ''))
+#set($user = $services.eesc.getUser($userId))
 
 ##############################################
 ##                CONTROLLER
