@@ -12,7 +12,7 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1387379542000</creationDate>
-  <date>1387380106000</date>
+  <date>1388399390000</date>
   <contentUpdateDate>1387379542000</contentUpdateDate>
   <version>1.1</version>
   <title/>
@@ -21,6 +21,6 @@
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
-  <hidden>false</hidden>
+  <hidden>true</hidden>
   <content>{{documents space='EESCCode' /}}</content>
 </xwikidoc>
