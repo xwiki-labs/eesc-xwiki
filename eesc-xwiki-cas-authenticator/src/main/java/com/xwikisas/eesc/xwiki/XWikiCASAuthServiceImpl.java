@@ -9,10 +9,13 @@ import org.securityfilter.realm.SimplePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xwiki.extension.distribution.internal.DistributionManager;
+import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
+import org.xwiki.model.reference.EntityReference;
 
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
+import com.xpn.xwiki.objects.BaseObject;
 import com.xpn.xwiki.doc.XWikiDocument;
 import com.xpn.xwiki.user.api.XWikiUser;
 import com.xpn.xwiki.user.impl.xwiki.XWikiAuthServiceImpl;
@@ -20,7 +23,7 @@ import com.xpn.xwiki.web.Utils;
 
 /**
  * XWikiCASAuthServiceImpl.
- *
+ * 
  * @version $Id$
  */
 public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
@@ -31,7 +34,8 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
 
     private static final String ENT_USERID = "ENT_USERID";
 
-    @Override public XWikiUser checkAuth(XWikiContext context) throws XWikiException
+    @Override
+    public XWikiUser checkAuth(XWikiContext context) throws XWikiException
     {
         Principal principal = authenticate(null, null, context);
         if (principal != null) {
@@ -42,8 +46,9 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
         return super.checkAuth(context);
     }
 
-    @Override public XWikiUser checkAuth(String username, String password, String rememberme, XWikiContext context)
-            throws XWikiException
+    @Override
+    public XWikiUser checkAuth(String username, String password, String rememberme, XWikiContext context)
+        throws XWikiException
     {
         Principal principal = authenticate(null, null, context);
         if (principal != null) {
@@ -55,13 +60,14 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
     }
 
     @Override
-    public Principal authenticate(String username, String password, XWikiContext context)
-            throws XWikiException
+    public Principal authenticate(String username, String password, XWikiContext context) throws XWikiException
     {
         HttpServletRequest request = context.getRequest().getHttpServletRequest();
 
-        /* This is a mechanism to bypass CAS authentication and switch back to standard one. Useful for initializing
-           and administering the wiki. */
+        /*
+         * This is a mechanism to bypass CAS authentication and switch back to standard one. Useful for initializing and
+         * administering the wiki.
+         */
         Cookie noCasCookie = context.getRequest().getCookie(NO_CAS_COOKIE);
         if (noCasCookie != null) {
             return super.authenticate(username, password, context);
@@ -80,11 +86,17 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
         if (!DistributionManager.DistributionState.NEW.equals(state)) {
             /* If the user doesn't exist, create it. We do this only if the main wiki has been setup */
             XWikiDocument userdoc =
-                    context.getWiki()
-                            .getDocument(new DocumentReference(context.getDatabase(), "XWiki", userWikiName), context);
+                context.getWiki().getDocument(new DocumentReference(context.getDatabase(), "XWiki", userWikiName),
+                    context);
             if (userdoc.isNew()) {
                 LOGGER.info("Creating user " + userWikiName);
                 context.getWiki().createEmptyUser(userWikiName, "edit", context);
+                XWikiDocument allGroup =
+                    context.getWiki().getDocument(
+                        new DocumentReference(context.getDatabase(), "XWiki", "XWikiAllGroup"), context);
+                BaseObject rights =
+                    allGroup.newXObject(new EntityReference("xwiki:XWiki.XWikiGroups", EntityType.OBJECT), context);
+                rights.set("member", "xwiki:XWiki." + userWikiName, context);
             }
         }
 
