@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1388677446000</creationDate>
-  <date>1388677446000</date>
-  <contentUpdateDate>1388677446000</contentUpdateDate>
+  <creationDate>1388680136000</creationDate>
+  <date>1388681859000</date>
+  <contentUpdateDate>1388681859000</contentUpdateDate>
   <version>1.1</version>
   <title>Accueil</title>
   <defaultTemplate/>
@@ -63,7 +63,7 @@
 ##                 GLOBALS
 ##############################################
 ## GLOBAL VARIABLES
-#set($userId = $xcontext.getUser().replace('XWiki.', ''))
+#set($userId = $xcontext.getUser().replace('xwiki:', '').replace('XWiki.', ''))
 #set($user = $services.eesc.getUser($userId))
 #set($groupsForUser = $services.eesc.getGroupsForUser($userId))
 
@@ -96,24 +96,27 @@
 #macro(initUser, $user)
   #set($userDoc = $xwiki.getDocument($userPage))
   #set($userObj = $userDoc.getObject('XWiki.XWikiUsers', true))
-  #set($discard = $userDoc.setHidden())
-  ## Must fill both 'first_name' and 'last_name' because of the join SQL search when using userPicker functionality
-  #set($discard = $userObj.set('first_name', $user.getName()))
-  #set($discard = $userObj.set('last_name', ''))
-  #set($discard = $userDoc.save("Set the first name of user '${user.getName()}'"))
-  #if($user.getStatus() == 'STUDENT')
-    #addUserToGroup($user, 'ENTStudents')
-  #elseif($user.getStatus() == 'TEACHER')
-    #addUserToGroup($user, 'ENTTeachers')
-  #elseif($user.getStatus() == 'STAFF')
-    #addUserToGroup($user, 'ENTStaffs')
-  #elseif($user.getStatus() == 'PARENT')
-    #addUserToGroup($user, 'ENTParents')
-  #elseif($user.getStatus() == 'LOCAL_ADMIN')
-    #addUserToGroup($user, 'XWikiAdminGroup')
-    #addUserToGroup($user, 'ENTLocalAdmins')
-  #elseif($user.getStatus() == 'GUEST')
-    #addUserToGroup($user, 'ENTGuests')
+  ## Check if the user has already been initialized (the document of the profile should have been hidden)
+  #if($userDoc.isHidden() == false)
+    #set($discard = $userDoc.setHidden())
+    ## Must fill both 'first_name' and 'last_name' because of the join SQL search when using userPicker functionality
+    #set($discard = $userObj.set('first_name', $user.getName()))
+    #set($discard = $userObj.set('last_name', ''))
+    #set($discard = $userDoc.save("Set the first name of user '${user.getName()}'"))
+    #if($user.getStatus() == 'STUDENT')
+      #addUserToGroup($user, 'ENTStudents')
+    #elseif($user.getStatus() == 'TEACHER')
+      #addUserToGroup($user, 'ENTTeachers')
+    #elseif($user.getStatus() == 'STAFF')
+      #addUserToGroup($user, 'ENTStaffs')
+    #elseif($user.getStatus() == 'PARENT')
+      #addUserToGroup($user, 'ENTParents')
+    #elseif($user.getStatus() == 'LOCAL_ADMIN')
+      #addUserToGroup($user, 'XWikiAdminGroup')
+      #addUserToGroup($user, 'ENTLocalAdmins')
+    #elseif($user.getStatus() == 'GUEST')
+      #addUserToGroup($user, 'ENTGuests')
+    #end
   #end
 #end
 
@@ -156,7 +159,7 @@
     #set($userWikiName = 'u' + $user.getId())
     #if($services.wiki.exists($userWikiName))
       #set($userTaskManagerWebHome = $userWikiName + ':Tasks.WebHome')
-      * [[image:icon:calendar Gestionnaire de projets&gt;&gt;$userTaskManagerWebHome]]
+      ##* [[image:icon:calendar Gestionnaire de projets&gt;&gt;$userTaskManagerWebHome]]
     #end
     * ----
     #foreach($group in $groupsForUser)

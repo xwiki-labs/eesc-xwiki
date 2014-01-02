@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1388677448000</creationDate>
-  <date>1388677448000</date>
-  <contentUpdateDate>1388677448000</contentUpdateDate>
+  <creationDate>1388680135000</creationDate>
+  <date>1388680135000</date>
+  <contentUpdateDate>1388680135000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('platform.wiki.create.title')</title>
   <defaultTemplate/>
