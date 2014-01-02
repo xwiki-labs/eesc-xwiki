@@ -2699,13 +2699,13 @@ Your account on ${wikiname} has been successfully activated. You can now login a
       <showRightPanels>1</showRightPanels>
     </property>
     <property>
-      <showannotations>0</showannotations>
+      <showannotations>1</showannotations>
     </property>
     <property>
       <showattachments/>
     </property>
     <property>
-      <showcomments/>
+      <showcomments>0</showcomments>
     </property>
     <property>
       <showhistory/>
