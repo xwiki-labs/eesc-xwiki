@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1388680136000</creationDate>
-  <date>1388681859000</date>
-  <contentUpdateDate>1388681859000</contentUpdateDate>
+  <creationDate>1388742161000</creationDate>
+  <date>1388743309000</date>
+  <contentUpdateDate>1388743308000</contentUpdateDate>
   <version>1.1</version>
   <title>Accueil</title>
   <defaultTemplate/>
@@ -102,7 +102,7 @@
     ## Must fill both 'first_name' and 'last_name' because of the join SQL search when using userPicker functionality
     #set($discard = $userObj.set('first_name', $user.getName()))
     #set($discard = $userObj.set('last_name', ''))
-    #set($discard = $userDoc.save("Set the first name of user '${user.getName()}'"))
+    #set($discard = $userDoc.saveWithProgrammingRights("Set the first name of user '${user.getName()}'"))
     #if($user.getStatus() == 'STUDENT')
       #addUserToGroup($user, 'ENTStudents')
     #elseif($user.getStatus() == 'TEACHER')
