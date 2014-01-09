@@ -48,5 +48,6 @@
     <module>eesc-xwiki-ui-template-group</module>
     <module>eesc-xwiki-web</module>
     <module>eesc-xwiki-service</module>
+    <module>eesc-xwiki-platform-wiki-template-script</module>
   </modules>
 </project>
