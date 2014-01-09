@@ -9,7 +9,7 @@
  * #set($displayShortcuts = false)
  *#
  
-#if(!$hasAdmin)
+##if(!$xwiki.user.isUserInGroup('xwiki:XWiki.XWikiAdminGroup'))
   #set($displayContentMenu = false)
   #set($displayMainMenu = false)
   ##set($displayDocExtra = false)

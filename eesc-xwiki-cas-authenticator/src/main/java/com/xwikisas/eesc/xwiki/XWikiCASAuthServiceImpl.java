@@ -8,18 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import org.securityfilter.realm.SimplePrincipal;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.xwiki.component.manager.ComponentLookupException;
 import org.xwiki.extension.distribution.internal.DistributionManager;
-import org.xwiki.model.EntityType;
 import org.xwiki.model.reference.DocumentReference;
-import org.xwiki.model.reference.EntityReference;
 
+import com.xpn.xwiki.XWiki;
 import com.xpn.xwiki.XWikiContext;
 import com.xpn.xwiki.XWikiException;
-import com.xpn.xwiki.objects.BaseObject;
 import com.xpn.xwiki.doc.XWikiDocument;
+import com.xpn.xwiki.objects.BaseObject;
 import com.xpn.xwiki.user.api.XWikiUser;
 import com.xpn.xwiki.user.impl.xwiki.XWikiAuthServiceImpl;
 import com.xpn.xwiki.web.Utils;
+import com.xwikisas.eesc.EESC;
+import com.xwikisas.eesc.User;
 
 /**
  * XWikiCASAuthServiceImpl.
@@ -33,6 +35,13 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
     private static final String NO_CAS_COOKIE = "NO_CAS";
 
     private static final String ENT_USERID = "ENT_USERID";
+
+    private EESC eesc;
+
+    public XWikiCASAuthServiceImpl() throws ComponentLookupException
+    {
+        eesc = Utils.getComponentManager().getInstance(EESC.class, "test");
+    }
 
     @Override
     public XWikiUser checkAuth(XWikiContext context) throws XWikiException
@@ -86,20 +95,80 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
         if (!DistributionManager.DistributionState.NEW.equals(state)) {
             /* If the user doesn't exist, create it. We do this only if the main wiki has been setup */
             XWikiDocument userdoc =
-                context.getWiki().getDocument(new DocumentReference(context.getDatabase(), "XWiki", userWikiName),
+                context.getWiki().getDocument(new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userWikiName),
                     context);
             if (userdoc.isNew()) {
                 LOGGER.info("Creating user " + userWikiName);
                 context.getWiki().createEmptyUser(userWikiName, "edit", context);
-                XWikiDocument allGroup =
-                    context.getWiki().getDocument(
-                        new DocumentReference(context.getDatabase(), "XWiki", "XWikiAllGroup"), context);
-                BaseObject rights =
-                    allGroup.newXObject(new EntityReference("xwiki:XWiki.XWikiGroups", EntityType.OBJECT), context);
-                rights.set("member", "xwiki:XWiki." + userWikiName, context);
+                initUser(userWikiName, context);
+
             }
         }
 
         return new SimplePrincipal("xwiki:XWiki." + userWikiName);
+    }
+
+    private boolean initUser(String userWikiName, XWikiContext context) throws XWikiException
+    {
+        XWikiDocument userDoc =
+            context.getWiki().getDocument(new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userWikiName), context);
+        BaseObject userObj = userDoc.getXObject(new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiUsers"));
+        //BaseObject userObj = userDoc.getObject("XWiki.XWikiUsers");
+
+        userDoc.setHidden(true);
+
+        User user = eesc.getUser(userWikiName);
+        userObj.set("first_name", user.getName(), context);
+        userObj.set("last_name", "", context);
+
+        // Add the user to the authorized users of XWiki (adding in XWikiAllGroup)
+        XWikiDocument allGroup =
+            context.getWiki().getDocument(new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiAllGroup"),
+                context);
+        DocumentReference xwikiGroupsRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiGroups");
+        BaseObject rights = allGroup.newXObject(xwikiGroupsRef, context);
+        rights.set("member", "xwiki:XWiki." + userWikiName, context);
+
+        // Add the user to the ENT groups
+        switch (user.getStatus()) {
+            case TEACHER:
+                addUserToGroup(user, "ENTTeacher", context);
+                break;
+            case STUDENT:
+                addUserToGroup(user, "ENTStudent", context);
+                break;
+            case PARENT:
+                addUserToGroup(user, "ENTParent", context);
+                break;
+            case LOCAL_ADMIN:
+                addUserToGroup(user, "XWikiAdminGroup", context);
+                addUserToGroup(user, "ENTLocalAdmin", context);
+                break;
+            case STAFF:
+                addUserToGroup(user, "ENTStaff", context);
+                break;
+            case GUEST:
+                addUserToGroup(user, "ENTGuest", context);
+                break;
+        }
+       context.getWiki().saveDocument(userDoc, context); 
+
+        return true;
+    }
+
+    private boolean addUserToGroup(User user, String groupName, XWikiContext context) throws XWikiException
+    {
+        DocumentReference groupDocRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, groupName);
+        DocumentReference xwikiGroupsRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiGroups");
+        XWikiDocument groupDoc = context.getWiki().getDocument(groupDocRef, context);
+        String userPageName = String.format("XWiki.%s", user.getId());
+        BaseObject groupObject = groupDoc.getXObject(xwikiGroupsRef, "member", userPageName);
+
+        if (groupObject == null) {
+            BaseObject groupObj = groupDoc.newXObject(xwikiGroupsRef, context);
+            groupObj.set("member", userPageName, context);
+            context.getWiki().saveDocument(groupDoc, context);
+        }
+        return true;
     }
 }

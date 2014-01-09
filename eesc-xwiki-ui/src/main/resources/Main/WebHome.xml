@@ -72,72 +72,10 @@
 ##############################################
 #controller()
 #macro(controller)
-  #if($xcontext.hasProgrammingRights() &amp;&amp; $user.getId())
-    #initUser($user)
-  #end
   #if(!$groupsForUser.isEmpty())
     #displayMenu()
   #else
     #displayErrorNoGroup()
-  #end
-#end
-
-##############################################
-##               ADD DATA
-##############################################
-#*
- * Initialize a user.
- * -----
- *
- * Initialize a new user by creating the page, adding XWikiUsers and XWikiRights objects then adding the user to XWikiAllGroup.
- *
- * @param $user EESC user of the user to initialize
- *#
-#macro(initUser, $user)
-  #set($userDoc = $xwiki.getDocument($services.model.createDocumentReference($xcontext.mainWikiName, 'XWiki', $userId)))
-  #set($userObj = $userDoc.getObject('XWiki.XWikiUsers', true))
-  ## Check if the user has already been initialized (the document of the profile should have been hidden)
-  #if($userDoc.isHidden() == false)
-    #set($discard = $userDoc.setHidden())
-    #set($discard = $userDoc.saveWithProgrammingRights("Set the page hidden"))
-    ## Must fill both 'first_name' and 'last_name' because of the join SQL search when using userPicker functionality
-    #set($discard = $userObj.set('first_name', $user.getName()))
-    #set($discard = $userObj.set('last_name', ''))
-    #set($discard = $userDoc.saveWithProgrammingRights("Set the first name of user '${user.getName()}'"))
-    #if($user.getStatus() == 'STUDENT')
-      #addUserToGroup($user, 'ENTStudents')
-    #elseif($user.getStatus() == 'TEACHER')
-      #addUserToGroup($user, 'ENTTeachers')
-    #elseif($user.getStatus() == 'STAFF')
-      #addUserToGroup($user, 'ENTStaffs')
-    #elseif($user.getStatus() == 'PARENT')
-      #addUserToGroup($user, 'ENTParents')
-    #elseif($user.getStatus() == 'LOCAL_ADMIN')
-      #addUserToGroup($user, 'XWikiAdminGroup')
-      #addUserToGroup($user, 'ENTLocalAdmins')
-    #elseif($user.getStatus() == 'GUEST')
-      #addUserToGroup($user, 'ENTGuests')
-    #end
-  #end
-#end
-
-#*
- * Add user to a group
- * -----
- *
- * Add a user to a XWiki group.
- *
- * @param $userId EESC user to insert in the group
- * @param $groupName Group where to insert the user
- *#
-#macro(addUserToGroup, $user, $groupName)
-  #set($userPage = 'XWiki.' + $user.getId())
-  #set($groupsDoc = $xwiki.getDocument($services.model.createDocumentReference($xcontext.mainWikiName, 'XWiki', $groupName)))
-  #if(!$groupsDoc.getObject('XWiki.XWikiGroups', 'member', "XWiki.${user.getId()}"))
-    #set($groupObj = $groupsDoc.newObject('XWiki.XWikiGroups'))
-    #set($discard = $groupsDoc.setHidden())
-    #set($discard = $groupObj.set('member', $userPage))
-    #set($discard = $groupsDoc.saveWithProgrammingRights("Add '${user.getName()}' to the group '$groupName'"))
   #end
 #end
 
