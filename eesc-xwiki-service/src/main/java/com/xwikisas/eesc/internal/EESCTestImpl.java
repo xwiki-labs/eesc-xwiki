@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Properties;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
@@ -18,7 +19,8 @@ import com.xwikisas.eesc.GroupType;
 import com.xwikisas.eesc.User;
 import com.xwikisas.eesc.UserStatus;
 
-@Component("test")
+@Component
+@Named("test")
 public class EESCTestImpl implements EESC, Initializable
 {
     @Inject
