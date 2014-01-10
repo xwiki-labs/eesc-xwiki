@@ -9,10 +9,13 @@
  * #set($displayShortcuts = false)
  *#
  
-##if(!$xwiki.user.isUserInGroup('xwiki:XWiki.XWikiAdminGroup'))
+#set($currentUser = $xwiki.user.user.toString())
+#set($adminDoc = $xwiki.getDocument('xwiki:XWiki.XWikiAdminGroup'))
+#set($adminObj = $adminDoc.getObject('XWiki.XWikiGroups', 'member', $currentUser.replace('xwiki:', '')))
+
+#if(!$adminObj)
   #set($displayContentMenu = false)
   #set($displayMainMenu = false)
   ##set($displayDocExtra = false)
   #set($displayShortcuts = false)
 #end
- 
