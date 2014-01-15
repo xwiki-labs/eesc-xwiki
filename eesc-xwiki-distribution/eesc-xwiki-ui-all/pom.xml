@@ -62,6 +62,11 @@
           <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
           <configuration>
             <includeDependencies>true</includeDependencies>
+            <excludes>
+              <exclude>Blog/*</exclude>
+              <exclude>Dashboard/*</exclude>
+              <exclude>Sandbox/*</exclude>
+            </excludes>
           </configuration>
         </plugin>
       </plugins>
