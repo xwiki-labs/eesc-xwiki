@@ -11,11 +11,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1389256448000</creationDate>
-  <date>1389256448000</date>
-  <contentUpdateDate>1389256448000</contentUpdateDate>
+  <creationDate>1389279579000</creationDate>
+  <date>1389780385000</date>
+  <contentUpdateDate>1389780272000</contentUpdateDate>
   <version>1.1</version>
-  <title>$services.localization.render('platform.wiki.create.title')</title>
+  <title>$services.localization.render('eesc.platform.wiki.create.title')</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -352,11 +352,22 @@ XWiki.ProvisioningBar = Class.create({
       }.bind(this)
    });
   },
-  _refresh : function (status) {    
+  _refresh : function (status) {
     if (status.status == 'FINISHED') {
-      $('ui-progress').addClassName('hidden');
-      $('successMessage').removeClassName('hidden');
-      $('finalize').removeClassName('hidden');
+      var redirectURL = window.location.href.split('?')[0];
+      var queryMap = new Map();
+      queryMap.set('step', 'finalize');
+      queryMap.set('membershipType', $('membershipType').value);
+      queryMap.set('userScope', $('userScope').value);
+      queryMap.set('wikiId', $('wikiId').value);
+      var queryString = '';
+      var querySep = '?';
+      for (var [key, value] of queryMap) {
+        queryString += querySep + key + '=' + value;
+        querySep = '&amp;';
+      }
+      console.log('Redirect to ' + redirectURL + queryString);
+      window.location.href = redirectURL + queryString;
     }
     else {
       var progress = status.progress;
@@ -383,8 +394,7 @@ var init = function(event) {
 
 // End XWiki augmentation.
 return XWiki;
-}(XWiki || {}));
-      </code>
+}(XWiki || {}));</code>
     </property>
     <property>
       <name>Progress Bar JS</name>
@@ -627,8 +637,7 @@ return XWiki;
 
   -webkit-background-size: 50px 50px;
   -moz-background-size: 50px 50px;
-}
-      </code>
+}</code>
     </property>
     <property>
       <name>Progress Bar stylesheet</name>
@@ -704,7 +713,7 @@ return XWiki;
     #end
     &lt;div class="clearfloats"&gt;&lt;/div&gt;
   &lt;/div&gt;
-    
+
 #end
 ##################################
 ##           FOOTER
@@ -715,7 +724,7 @@ return XWiki;
   &lt;div class="clearfloats"&gt;&lt;/div&gt;
   &lt;div class="wizard-footer buttons"&gt;
     #if($prev!='')
-      &lt;span class="buttonwrapper left"&gt;      
+      &lt;span class="buttonwrapper left"&gt;
         &lt;button value="$prev" title="Previous Step" name="step" id="wizard-next" class="button secondary"&gt;Previous Step&lt;/button&gt;
       &lt;/span&gt;
     #end
@@ -1004,13 +1013,13 @@ return XWiki;
   #set($fromTemplate = false)
   #if("$!request.template" != '' &amp;&amp; $request.template != 'xwikinotemplate')
     ## check if the wiki is already in creation
-    #if(!$services.wiki.template.getWikiCreationStatus($request.wikiname))
+    #if(!$services.wiki.exists($request.wikiname))
       ##set($discard = $services.wiki.template.createWikiFromTemplate($request.wikiname, $request.wikiname, $request.template, $request.ownerId, true))
       #set($discard = $xwiki.parseGroovyFromPage('EESCCode.CreateFromWikiTemplate').create($request.wikiname, $request.wikiname, $request.template, $request.ownerId, true))
     #end
     #set($wikiDescriptor = $services.wiki.getById($request.wikiname))
     #set($fromTemplate = true)
-  #else 
+  #else
     #set($wikiDescriptor = $services.wiki.createWiki($request.wikiname, $request.wikiname, $request.ownerId, true))
   #end
   #if (!$wikiDescriptor)
@@ -1094,13 +1103,13 @@ return XWiki;
   {{html}}
     &lt;form class="xform" method="post" action="$doc.getURL()"&gt;
     #addMembersAsHiddenInput()
-    &lt;input type="hidden" name="membershipType" value="$!escapetool.xml($request.getParameter('membershipType'))" /&gt;
-    &lt;input type="hidden" name="userScope" value="$!escapetool.xml($request.userScope)" /&gt;
+    &lt;input type="hidden" name="membershipType" id="membershipType" value="$!escapetool.xml($request.getParameter('membershipType'))" /&gt;
+    &lt;input type="hidden" name="userScope" id="userScope" value="$!escapetool.xml($request.userScope)" /&gt;
     &lt;input type="hidden" name="wikiId" id="wikiId" value="$!escapetool.xml($wikiDescriptor.id)" /&gt;
-    #wizardHeader($services.localization.render('platform.wiki.create.wizard.step.provisioning'))
+    #wizardHeader($services.localization.render('eesc.platform.wiki.create.wizard.step.provisioning'))
     &lt;div class="wizard-body"&gt;
       &lt;div class="ui-progress" id="ui-progress"&gt;
-        $services.localization.render('platform.wiki.create.wizard.step.provisioning.wait')
+        $services.localization.render('eesc.platform.wiki.create.wizard.step.provisioning.wait')
         &lt;div class="ui-progress-background"&gt;
           #set ($jobId = ["wiki", "provisioning", "wikiprovisioning.template", $wikiDescriptor.id])
           #set ($percent = $services.wiki.template.getWikiProvisioningJobStatus($jobId).progress.offset)
@@ -1113,7 +1122,7 @@ return XWiki;
         &lt;/div&gt;
       &lt;/div&gt;
       &lt;p class="successmessage box hidden" id="successMessage"&gt;
-      $services.localization.render('platform.wiki.create.wizard.step.provisioning.complete')
+      $services.localization.render('eesc.platform.wiki.create.wizard.step.provisioning.complete')
       &lt;/p&gt;
     &lt;/div&gt;
     #wizardFooter('', '', '', $services.localization.render('platform.wiki.create.wizard.step.provisioning.finalize'))
