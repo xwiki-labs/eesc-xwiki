@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1389279579000</creationDate>
-  <date>1389780385000</date>
-  <contentUpdateDate>1389780272000</contentUpdateDate>
+  <date>1389793443000</date>
+  <contentUpdateDate>1389793388000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.platform.wiki.create.title')</title>
   <defaultTemplate/>
@@ -354,20 +354,10 @@ XWiki.ProvisioningBar = Class.create({
   },
   _refresh : function (status) {
     if (status.status == 'FINISHED') {
-      var redirectURL = window.location.href.split('?')[0];
-      var queryMap = new Map();
-      queryMap.set('step', 'finalize');
-      queryMap.set('membershipType', $('membershipType').value);
-      queryMap.set('userScope', $('userScope').value);
-      queryMap.set('wikiId', $('wikiId').value);
-      var queryString = '';
-      var querySep = '?';
-      for (var [key, value] of queryMap) {
-        queryString += querySep + key + '=' + value;
-        querySep = '&amp;';
-      }
-      console.log('Redirect to ' + redirectURL + queryString);
-      window.location.href = redirectURL + queryString;
+      $('ui-progress').addClassName('hidden');
+      var formFinalize = $('finalize-form');
+      formFinalize.insert(new Element('input', {'type': 'hidden', 'name': 'step', 'value': 'finalize'}));
+      formFinalize.submit();
     }
     else {
       var progress = status.progress;
@@ -663,7 +653,7 @@ return XWiki;
 #########################
 #set($docextras = {})
 #########################
-## PLUGINS DEPENDANCIES
+## PLUGINS DEPENDENCIES
 #########################
 #if (!$services.wiki)
   {{error}}{{translation key="platform.wiki.dependencies.wiki.missing"/}}{{/error}}
@@ -1101,7 +1091,7 @@ return XWiki;
   #set($discard = $xwiki.ssfx.use('uicomponents/wizard/wizard.css', true))
 
   {{html}}
-    &lt;form class="xform" method="post" action="$doc.getURL()"&gt;
+    &lt;form class="xform" method="post" id="finalize-form" action="$doc.getURL()"&gt;
     #addMembersAsHiddenInput()
     &lt;input type="hidden" name="membershipType" id="membershipType" value="$!escapetool.xml($request.getParameter('membershipType'))" /&gt;
     &lt;input type="hidden" name="userScope" id="userScope" value="$!escapetool.xml($request.userScope)" /&gt;
