@@ -63,6 +63,8 @@
           <configuration>
             <includeDependencies>true</includeDependencies>
             <excludes>
+              <exclude>Main/Welcome*</exclude>
+              <exclude>Main/RssFeeds.xml</exclude>
               <exclude>Blog/*</exclude>
               <exclude>Dashboard/*</exclude>
               <exclude>Sandbox/*</exclude>
