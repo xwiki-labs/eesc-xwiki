@@ -120,14 +120,10 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
         User user = eesc.getUser(userWikiName);
         userObj.set("first_name", user.getName(), context);
         userObj.set("last_name", "", context);
+        context.getWiki().saveDocument(userDoc, context); 
 
         // Add the user to the authorized users of XWiki (adding in XWikiAllGroup)
-        XWikiDocument allGroup =
-            context.getWiki().getDocument(new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiAllGroup"),
-                context);
-        DocumentReference xwikiGroupsRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiGroups");
-        BaseObject rights = allGroup.newXObject(xwikiGroupsRef, context);
-        rights.set("member", "xwiki:XWiki." + userWikiName, context);
+        addUserToGroup(user, "XWikiAllGroup", context);
 
         // Add the user to the ENT groups
         switch (user.getStatus()) {
@@ -151,7 +147,6 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
                 addUserToGroup(user, "ENTGuest", context);
                 break;
         }
-       context.getWiki().saveDocument(userDoc, context); 
 
         return true;
     }
