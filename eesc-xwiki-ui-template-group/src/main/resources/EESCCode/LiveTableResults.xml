@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1388398562000</creationDate>
-  <date>1388399316000</date>
-  <contentUpdateDate>1388399233000</contentUpdateDate>
+  <creationDate>1389884996000</creationDate>
+  <date>1389884996000</date>
+  <contentUpdateDate>1389884996000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('platform.livetable.results')</title>
   <defaultTemplate/>
@@ -39,7 +39,7 @@
   #set ($extra = "${extra} and doc.parent='' and doc.name&lt;&gt;'WebHome'")
 #end
 #set($extra = "${extra} and doc.space &lt;&gt; 'XWiki'")
-#set($extra = "${extra} and doc.fullName &lt;&gt; 'Main.WebHome'")
+#set($extra = "${extra} and doc.space &lt;&gt; 'Main'")
 #set($extra = "${extra} and doc.fullName &lt;&gt; 'Tasks.WebHome'")
 #gridresultwithfilter("$!request.classname" $request.collist.split(',') '' "${extra}" $params)
 {{/velocity}}</content>
