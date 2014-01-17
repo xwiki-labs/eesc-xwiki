@@ -6,16 +6,16 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent/>
+  <parent>xwiki:Main.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1389884997000</creationDate>
-  <date>1389884997000</date>
-  <contentUpdateDate>1389884997000</contentUpdateDate>
+  <date>1389956645000</date>
+  <contentUpdateDate>1389956546000</contentUpdateDate>
   <version>1.1</version>
-  <title>$services.localization.render('xe.home.title')</title>
+  <title>$services.localization.render('eesc.subwiki.group.webhome.title') $services.wiki.getById($services.wiki.getCurrentWikiId().toString()).getPrettyName()</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -50,18 +50,5 @@
       <defaultEditMode>edit</defaultEditMode>
     </property>
   </object>
-  <content>{{velocity}}
-
-{{html}}
-  &lt;form method="GET" action="$xwiki.getURL('EESCCode.CreateDocument')"&gt;
-    &lt;input type="hidden" name="step" value="form" /&gt;
-    &lt;span class="buttonwrapper"&gt;
-      &lt;input type="submit" class="button" value="Nouvel espace" /&gt;
-    &lt;/span&gt;
-  &lt;/form&gt;
-{{/html}}
-
-{{/velocity}}
-
-{{spacedocuments /}}</content>
+  <content>{{spacedocuments /}}</content>
 </xwikidoc>
