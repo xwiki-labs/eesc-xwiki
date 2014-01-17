@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1389866602000</creationDate>
-  <date>1389869792000</date>
-  <contentUpdateDate>1389866602000</contentUpdateDate>
+  <creationDate>1389890428000</creationDate>
+  <date>1389953379000</date>
+  <contentUpdateDate>1389890428000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -133,14 +133,15 @@
     &lt;span class="eesc-menu-header"&gt;$services.localization.render('eesc.panel.actions.header.creation')&lt;/span&gt;
     &lt;ul&gt;
       &lt;li&gt;
-        &lt;a href="$xwiki.getURL('Main.WebHome', 'create')"&gt;
-          &lt;input type="button" class="button" value="$services.localization.render('eesc.panel.actions.button.create.document')" /&gt;
-        &lt;/a&gt;
+        &lt;form method="GET" action="$xwiki.getURL('Main.WebHome', 'create')"&gt;
+          &lt;input type="submit" class="button" value="$services.localization.render('eesc.panel.actions.button.create.document')" /&gt;
+        &lt;/form&gt;
       &lt;/li&gt;
       &lt;li&gt;
-        &lt;a href="$xwiki.getURL('Main.WebHome', 'create', 'tocreate=space')"&gt;
-          &lt;input type="button" class="button" value="$services.localization.render('eesc.panel.actions.button.create.space')" /&gt;
-        &lt;/a&gt;
+        &lt;form method="GET" action="$xwiki.getURL('Main.WebHome', 'create')"&gt;
+          &lt;input type="hidden" name="tocreate" value="space" /&gt;
+          &lt;input type="submit" class="button" value="$services.localization.render('eesc.panel.actions.button.create.space')" /&gt;
+        &lt;/form&gt;
       &lt;/li&gt;
     &lt;/ul&gt;
   &lt;/div&gt;
