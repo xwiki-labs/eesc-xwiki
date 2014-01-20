@@ -39,7 +39,7 @@
   #set ($extra = "${extra} and doc.parent='' and doc.name&lt;&gt;'WebHome'")
 #end
 #set($extra = "${extra} and doc.space &lt;&gt; 'XWiki'")
-#set($extra = "${extra} and doc.fullName &lt;&gt; 'Main.WebHome'")
+#set($extra = "${extra} and doc.fullName &lt;&gt; 'Main.WebHome' and doc.fullName &lt;&gt; 'Main.Welcome'")
 #set($extra = "${extra} and doc.fullName &lt;&gt; 'Tasks.WebHome'")
 #gridresultwithfilter("$!request.classname" $request.collist.split(',') '' "${extra}" $params)
 {{/velocity}}</content>
