@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1389884997000</creationDate>
-  <date>1389956645000</date>
-  <contentUpdateDate>1389956546000</contentUpdateDate>
+  <creationDate>1389977497000</creationDate>
+  <date>1389977497000</date>
+  <contentUpdateDate>1389977497000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.subwiki.group.webhome.title') $services.wiki.getById($services.wiki.getCurrentWikiId().toString()).getPrettyName()</title>
   <defaultTemplate/>

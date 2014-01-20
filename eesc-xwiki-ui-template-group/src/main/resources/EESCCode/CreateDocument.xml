@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1389884997000</creationDate>
-  <date>1389954816000</date>
-  <contentUpdateDate>1389954814000</contentUpdateDate>
+  <creationDate>1389977498000</creationDate>
+  <date>1389978186000</date>
+  <contentUpdateDate>1389978186000</contentUpdateDate>
   <version>1.1</version>
   <title>Créer un nouveau document</title>
   <defaultTemplate/>
@@ -171,7 +171,7 @@
   #userPicker_import()
 
   {{html clean='false'}}
-    &lt;form class="xform" method="POST" action="$xwiki.getURL("grouptemplate:EESCCode.CreateDocument")"&gt;
+    &lt;form class="xform" method="POST" action="$xwiki.getURL("EESCCode.CreateDocument")"&gt;
       &lt;input type="hidden" name="step" value="create" /&gt;
       &lt;input type="hidden" name="referer" value="$reqReferer" /&gt;
       &lt;dl&gt;
