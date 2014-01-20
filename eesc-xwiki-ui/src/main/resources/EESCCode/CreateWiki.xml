@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1389885411000</creationDate>
-  <date>1389885411000</date>
-  <contentUpdateDate>1389885411000</contentUpdateDate>
+  <creationDate>1389973521000</creationDate>
+  <date>1390223985000</date>
+  <contentUpdateDate>1390223985000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.platform.wiki.create.title')</title>
   <defaultTemplate/>
@@ -1051,14 +1051,15 @@ return XWiki;
   ## Remove empty strings from the list of members (the user picker submits by default an empty string).
   #set ($discard = $members.removeAll(['']))
   #if ("$!members" != '' &amp;&amp; $members.size() &gt; 0)
+    #set( $globalMembers = [])
     ## Enforce global users
     #foreach ($member in $members)
       #if (!$member.startsWith("${services.wiki.mainWikiId}:"))
-        #set ($member = "${services.wiki.mainWikiId}:${member}")
+        #set ($discard = $globalMembers.add("${services.wiki.mainWikiId}:${member}"))
       #end
     #end
     ## Add the members
-    #set($discard = $services.wiki.user.addMembers($members, $wikiDescriptor.id))
+    #set($discard = $services.wiki.user.addMembers($globalMembers, $wikiDescriptor.id))
   #end
   ## Redirect to the new wiki's homepage.
   #set ($discard = $response.sendRedirect($xwiki.getURL($wikiDescriptor.mainPageReference)))
@@ -1073,13 +1074,9 @@ return XWiki;
   #set($membersValue = '')
   #foreach($m in $members)
     #if($m != '')
-      #if($velocityCount &gt; 1)
-        #set($membersValue = "${membersValue},")
-      #end
-      #set($membersValue = "${membersValue}${m}")
+      &lt;input type="hidden" name="members" value="$!escapetool.xml($m)" /&gt;
     #end
   #end
-  &lt;input type="hidden" name="members" value="$!escapetool.xml($membersValue)" /&gt;
 #end
 ##################################
 ##     TEMPLATE PROVISIONING
