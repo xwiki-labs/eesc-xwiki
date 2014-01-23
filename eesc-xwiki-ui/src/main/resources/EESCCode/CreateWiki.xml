@@ -120,6 +120,14 @@
    * Init the event handlers
    */
   function init() {
+    if ($('prettyname')) {
+      initStepType();
+    } else if ($('owner')) {
+      initStepUsers();
+    }
+  }
+  
+  function initStepType() {
     var prettyName = $('prettyname');
     prettyName.observe('change', prettyNameChanged);
     prettyName.observe('keyup', prettyNameChanged);
@@ -128,9 +136,16 @@
     wikiName.observe('keyup', wikiNameChanged);
     if(prettyName.value.blank() || wikiName.value.blank()){
       $('wizard-next').disabled = true;
-    } 
+    }
   }
-  
+
+  function initStepUsers() {
+    userScopeChanged();
+    $$('input[type=radio][name=userScope]').each(function (item){
+      item.observe('click', userScopeChanged);
+    });
+  }
+
   /**
    * Pretty name changed
    */
@@ -138,7 +153,7 @@
     var prettyName = $('prettyname');
     if(prettyName.value.blank()){
       $('wikiprettynamevalidation').innerHTML = "$MSG_ERROR_WIKIPRETTYNAMEEMPTY";
-      prettyName.addClassName('xErrorField');          
+      prettyName.addClassName('xErrorField');
     }else{
       $('wikiprettynamevalidation').innerHTML = '';
       prettyName.removeClassName('xErrorField');
@@ -162,7 +177,7 @@
    */
   function validateWikiName(){
     var wikiNameElement = $('wikiname');
-    var wikiname = wikiNameElement.value; 
+    var wikiname = wikiNameElement.value;
     var filteredWikiName = filterWikiName(wikiname);
     if (wikiname != filteredWikiName) {
       wikiNameElement.value = filteredWikiName;
@@ -233,6 +248,25 @@
     return result;
   }
 
+  function userScopeChanged(){
+    var value = $$('input:checked[type=radio][name=userScope]')[0].value
+    if (value=='local_only') {
+      // Disable membership type radio button
+      $$('input[type=radio][name=membershipType]').each(function (item){
+        item.disabled = true;
+      });
+      // Disable the members
+      $('members').disabled = true;
+    } else {
+      // Enable membership type radio button
+      $$('input[type=radio][name=membershipType]').each(function (item){
+        item.disabled = false;
+      });
+      // Enable the members
+      $('members').disabled = false;
+    }
+  };
+
   /**
    * Call Init
    */
@@ -269,8 +303,8 @@
         <number>5</number>
         <prettyName>Caching policy</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
+        <separator/>
+        <separators>,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>long|short|default|forbid</values>
@@ -314,8 +348,8 @@
         <number>3</number>
         <prettyName>Use this extension</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
+        <separator/>
+        <separators>,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
@@ -384,7 +418,8 @@ var init = function(event) {
 
 // End XWiki augmentation.
 return XWiki;
-}(XWiki || {}));</code>
+}(XWiki || {}));
+      </code>
     </property>
     <property>
       <name>Progress Bar JS</name>
@@ -415,8 +450,8 @@ return XWiki;
         <number>5</number>
         <prettyName>Caching policy</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
+        <separator/>
+        <separators>,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>long|short|default|forbid</values>
@@ -460,8 +495,8 @@ return XWiki;
         <number>3</number>
         <prettyName>Use this extension</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
+        <separator/>
+        <separators>,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
@@ -484,7 +519,10 @@ return XWiki;
   display: inline;
   text-transform: none;
 }
-      </code>
+
+.whatnext{
+  margin: 1em;
+}</code>
     </property>
     <property>
       <name>CSS</name>
@@ -515,8 +553,8 @@ return XWiki;
         <number>5</number>
         <prettyName>Caching policy</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
+        <separator/>
+        <separators>,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>long|short|default|forbid</values>
@@ -560,8 +598,8 @@ return XWiki;
         <number>3</number>
         <prettyName>Use this extension</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
+        <separator/>
+        <separators>,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
@@ -627,7 +665,8 @@ return XWiki;
 
   -webkit-background-size: 50px 50px;
   -moz-background-size: 50px 50px;
-}</code>
+}
+      </code>
     </property>
     <property>
       <name>Progress Bar stylesheet</name>
@@ -670,13 +709,14 @@ return XWiki;
 ##################################
 ##         CONTROLLER
 ##################################
-#macro(controller)  
+#macro(controller)
   #if($request.step == 'members')
     #stepMembers()
   #elseif($request.step == 'create')
     #create()
   #elseif($request.step == 'finalize')
-    #setMembers()
+    #set($wikiDescriptor = $services.wiki.getById($request.wikiId))
+    #setMembers($wikiDescriptor)
   #else
     ## Default step
     #stepType()
@@ -711,24 +751,23 @@ return XWiki;
 ## Display the wizard footer
 ##################################
 #macro(wizardFooter $prev $next $create $finalize)
-  &lt;div class="clearfloats"&gt;&lt;/div&gt;
   &lt;div class="wizard-footer buttons"&gt;
-    #if($prev!='')
+    #if("$!prev" !='')
       &lt;span class="buttonwrapper left"&gt;
-        &lt;button value="$prev" title="Previous Step" name="step" id="wizard-next" class="button secondary"&gt;Previous Step&lt;/button&gt;
+        &lt;button value="$prev" title="Previous Step" name="step" id="wizard-previous" class="button secondary"&gt;Previous Step&lt;/button&gt;
       &lt;/span&gt;
     #end
-    #if($next!='')
+    #if("$!next" !='')
       &lt;span class="buttonwrapper"&gt;
         &lt;button value="$next" title="Go to next step" name="step" id="wizard-next" class="button"&gt;Go to next step&lt;/button&gt;
       &lt;/span&gt;
     #end
-    #if($create!='')
+    #if("$!create" !='')
       &lt;span class="buttonwrapper"&gt;
-        &lt;button value="$create" title="Create" name="step" id="wizard-next" class="button"&gt;Create&lt;/button&gt;
+        &lt;button value="$create" title="Create" name="step" id="wizard-create" class="button"&gt;Create&lt;/button&gt;
       &lt;/span&gt;
     #end
-    #if($finalize != '')
+    #if("$!finalize" != '')
       &lt;span class="buttonwrapper"&gt;
         &lt;button value="finalize" title="Finalize" name="step" id="finalize" class="button hidden"&gt;$finalize&lt;/button&gt;
       &lt;/span&gt;
@@ -847,6 +886,7 @@ return XWiki;
         &lt;/div&gt;
       ### END OF WIZARD BODY
       &lt;/div&gt;
+      &lt;div class="clearfloats"&gt;&lt;/div&gt;
       #wizardFooter('', 'members', '')
     &lt;/form&gt;
   {{/html}}
@@ -863,7 +903,7 @@ return XWiki;
   {{html}}
     &lt;form class="xform" method="post" action="$doc.getURL()"&gt;
       #wizardHeader($services.localization.render('platform.wiki.create.wizard.step.users'), 2)
-      ### WIZARD BODY ###  
+      ### WIZARD BODY ###
       &lt;div class="wizard-body"&gt;
         ### FIRST STEP VALUES
         &lt;input type="hidden" name="wikiprettyname" value="$!escapetool.xml($request.getParameter('wikiprettyname'))" /&gt;
@@ -980,6 +1020,12 @@ return XWiki;
         &lt;/div&gt;
       ### END OF WIZARD BODY
       &lt;/div&gt;
+      &lt;div class="clearfloats"&gt;&lt;/div&gt;
+      #if ("$!request.template" == '' || $request.template == 'xwikinotemplate')
+        &lt;div class="box infomessage whatnext"&gt;
+          &lt;p&gt;$services.localization.render('platform.wiki.create.wizard.step.dw')&lt;/p&gt;
+        &lt;/div&gt;
+      #end
       #wizardFooter('type', '', 'create')
     &lt;/form&gt;
   {{/html}}
@@ -1044,28 +1090,27 @@ return XWiki;
 ## This macro set the members of the wiki
 ##################################
 #macro(setMembers $wikiDescriptor)
-  #if(!$wikiDescriptor)
-    #set($wikiDescriptor = $services.wiki.getById($request.wikiId))
-  #end
   ## Set the membership type and the local users
-  #set ($discard = $services.wiki.user.setMembershipType($wikiDescriptor.id, $request.membershipType))
   #set ($discard = $services.wiki.user.setUserScope($wikiDescriptor.id, $request.userScope))
-  #set ($groupsClassName = "${wikiDescriptor.id}:XWiki.XWikiGroups")
-  ## Save the members
-  #set ($members = [])
-  #getRequestList($members 'members')
-  ## Remove empty strings from the list of members (the user picker submits by default an empty string).
-  #set ($discard = $members.removeAll(['']))
-  #if ("$!members" != '' &amp;&amp; $members.size() &gt; 0)
-    #set( $globalMembers = [])
-    ## Enforce global users
-    #foreach ($member in $members)
-      #if (!$member.startsWith("${services.wiki.mainWikiId}:"))
-        #set ($discard = $globalMembers.add("${services.wiki.mainWikiId}:${member}"))
+    #set ($discard = $services.wiki.user.setMembershipType($wikiDescriptor.id, $request.membershipType))
+    #set ($groupsClassName = "${wikiDescriptor.id}:XWiki.XWikiGroups")
+    ## Save the members
+    #set ($members = [])
+    #getRequestList($members 'members')
+    ## Remove empty strings from the list of members (the user picker submits by default an empty string).
+    #set ($discard = $members.removeAll(['']))
+    #if ("$!members" != '' &amp;&amp; $members.size() &gt; 0)
+      #set ($globalMembers = [])
+      ## Enforce global users
+      #foreach ($member in $members)
+        #if (!$member.startsWith("${services.wiki.mainWikiId}:"))
+          #set ($member = "${services.wiki.mainWikiId}:${member}")
+        #end
+        #set ($discard = $globalMembers.add("${member}"))
       #end
+      ## Add the members
+      #set ($discard = $services.wiki.user.addMembers($globalMembers, $wikiDescriptor.id))
     #end
-    ## Add the members
-    #set($discard = $services.wiki.user.addMembers($globalMembers, $wikiDescriptor.id))
   #end
   ## Redirect to the new wiki's homepage.
   #set ($discard = $response.sendRedirect($xwiki.getURL($wikiDescriptor.mainPageReference)))
