@@ -95,8 +95,8 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
         if (!DistributionManager.DistributionState.NEW.equals(state)) {
             /* If the user doesn't exist, create it. We do this only if the main wiki has been setup */
             XWikiDocument userdoc =
-                context.getWiki().getDocument(new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userWikiName),
-                    context);
+                context.getWiki().getDocument(
+                    new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userWikiName), context);
             if (userdoc.isNew()) {
                 LOGGER.info("Creating user " + userWikiName);
                 context.getWiki().createEmptyUser(userWikiName, "edit", context);
@@ -110,17 +110,17 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
 
     private boolean initUser(String userWikiName, XWikiContext context) throws XWikiException
     {
-        XWikiDocument userDoc =
-            context.getWiki().getDocument(new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userWikiName), context);
-        BaseObject userObj = userDoc.getXObject(new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiUsers"));
-        //BaseObject userObj = userDoc.getObject("XWiki.XWikiUsers");
+        DocumentReference userDocRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userWikiName);
+        XWikiDocument userDoc = context.getWiki().getDocument(userDocRef, context);
+        DocumentReference userObjRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiUsers");
+        BaseObject userObj = userDoc.getXObject(userObjRef);
 
         userDoc.setHidden(true);
 
         User user = eesc.getUser(userWikiName);
         userObj.set("first_name", user.getName(), context);
         userObj.set("last_name", "", context);
-        context.getWiki().saveDocument(userDoc, context); 
+        context.getWiki().saveDocument(userDoc, context);
 
         // Add the user to the authorized users of XWiki (adding in XWikiAllGroup)
         addUserToGroup(user, "XWikiAllGroup", context);
@@ -154,14 +154,16 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
     private boolean addUserToGroup(User user, String groupName, XWikiContext context) throws XWikiException
     {
         DocumentReference groupDocRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, groupName);
-        DocumentReference xwikiGroupsRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiGroups");
         XWikiDocument groupDoc = context.getWiki().getDocument(groupDocRef, context);
+        DocumentReference groupObjRef =
+            new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiGroups");
         String userPageName = String.format("XWiki.%s", user.getId());
-        BaseObject groupObject = groupDoc.getXObject(xwikiGroupsRef, "member", userPageName);
+        BaseObject groupObj = groupDoc.getXObject(groupObjRef, "member", userPageName);
 
-        if (groupObject == null) {
-            BaseObject groupObj = groupDoc.newXObject(xwikiGroupsRef, context);
+        if (groupObj == null) {
+            groupObj = groupDoc.newXObject(groupObjRef, context);
             groupObj.set("member", userPageName, context);
+            groupDoc.setHidden(true);
             context.getWiki().saveDocument(groupDoc, context);
         }
         return true;
