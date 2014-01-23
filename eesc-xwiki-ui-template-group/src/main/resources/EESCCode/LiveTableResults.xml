@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1389977498000</creationDate>
-  <date>1389977498000</date>
-  <contentUpdateDate>1389977498000</contentUpdateDate>
+  <date>1390493538000</date>
+  <contentUpdateDate>1390493538000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('platform.livetable.results')</title>
   <defaultTemplate/>
@@ -38,9 +38,43 @@
 #if ("$!request.orphaned" == '1')
   #set ($extra = "${extra} and doc.parent='' and doc.name&lt;&gt;'WebHome'")
 #end
-#set($extra = "${extra} and doc.space &lt;&gt; 'XWiki'")
-#set($extra = "${extra} and doc.fullName &lt;&gt; 'Main.WebHome' and doc.fullName &lt;&gt; 'Main.Welcome'")
-#set($extra = "${extra} and doc.fullName &lt;&gt; 'Tasks.WebHome'")
+
+## Init variables
+#set($userId = "$xcontext.getUser()")
+#set($groupId = $services.wiki.getCurrentWikiId().substring(1))
+
+## Get the list of documents
+#set($xwql_query = 'where ')
+#set($sep = '')
+#set($groupList = $services.eesc.getUsersForGroup($groupId))
+#if(!$groupList.isEmpty())
+  #foreach($u in $groupList)
+    #set($userId = "xwiki:XWiki.$u.getId()")
+    #set($xwql_query = "${xwql_query}${sep}doc.creator = '$userId'")
+    #set($sep = ' or ')
+  #end
+  #set($queryResult = $services.query.xwql($xwql_query).addFilter("hidden").execute())
+
+  ## Keep only the documents that the user can access
+  #if(!$queryResult.isEmpty())
+    ## Open parenthesis
+    #set($begin = ' and ( ')
+    #set($sep = '')
+    #set($end = " and doc.fullName = 'NULL'") ## Must display no document if no document are shared
+    #foreach($d in $queryResult)
+      #set($d = $xwiki.getDocument("$d"))
+      #if($d.hasAccessLevel('view'))
+        #set($extra = "${begin}${extra}${sep}doc.fullName = '${d.toString()}'")
+        #set($begin = '')
+        #set($sep = ' or ')
+        #set($end = ' )')
+      #end
+    #end
+    ## Close parenthesis
+    #set($extra = "${extra}${end}")
+  #end
+#end
+
 #gridresultwithfilter("$!request.classname" $request.collist.split(',') '' "${extra}" $params)
 {{/velocity}}</content>
 </xwikidoc>
