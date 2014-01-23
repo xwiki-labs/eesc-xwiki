@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1389973521000</creationDate>
-  <date>1390223985000</date>
-  <contentUpdateDate>1390223985000</contentUpdateDate>
+  <date>1390403744000</date>
+  <contentUpdateDate>1390403744000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.platform.wiki.create.title')</title>
   <defaultTemplate/>
@@ -966,7 +966,13 @@ return XWiki;
                 &lt;span class="xHint"&gt;$services.localization.render('platform.wiki.create.wizard.desc.members')&lt;/span&gt;
               &lt;/dt&gt;
               &lt;dd&gt;
-                &lt;input type="text" id="members" name="members" value="$!escapetool.xml($request.members)" class="suggestUsers multipleSelection"/&gt;
+                #set($listMembers = '')
+                #set($sep = '')
+                #foreach($m in $request.getParameterValues('members'))
+                  #set($listMembers = "${listMembers}${sep}$!escapetool.xml($m)")
+                  #set($sep = ',')
+                #end
+                &lt;input type="text" id="members" name="members" value="$listMembers" class="suggestUsers multipleSelection"/&gt;
               &lt;/dd&gt;
             &lt;/dl&gt;
           &lt;/div&gt;
