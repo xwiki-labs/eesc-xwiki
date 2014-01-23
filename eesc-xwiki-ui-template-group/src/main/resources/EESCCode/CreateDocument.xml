@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1389977498000</creationDate>
-  <date>1389978186000</date>
-  <contentUpdateDate>1389978186000</contentUpdateDate>
+  <date>1390492848000</date>
+  <contentUpdateDate>1390492847000</contentUpdateDate>
   <version>1.1</version>
   <title>Créer un nouveau document</title>
   <defaultTemplate/>
@@ -87,22 +87,19 @@
   #set($documentFullName = "$spaceName.$documentName")
   #if($rights)
     #set($newDocument = $xwiki.getDocument($documentFullName))
+    #set($discard = $newDocument.save())
     #if($rights.equals('private') || $rights.equals('restricted'))
       #set($rightsObject = $newDocument.newObject('XWiki.XWikiRights'))
       #set($discard = $rightsObject.set('allow', 1))
-      #set($discard = $rightsObject.set('users', "xwiki:$newDocument.creator"))
+      #set($discard = $rightsObject.set('users', "$newDocument.creator"))
       #set($discard = $rightsObject.set('levels', 'view,edit,delete'))
       #if($rights.equals('restricted'))
-        #set($rightsObject = $newDocument.newObject('XWiki.XWikiRights'))
-        #set($discard = $rightsObject.set('allow', 1))
-        #set($membersList = '')
-        #set($sep = '')
         #foreach($member in $members)
-          #set($membersList = "$membersList$sep$member")
-          #set($sep = ',')
+          #set($rightsObject = $newDocument.newObject('XWiki.XWikiRights'))
+          #set($discard = $rightsObject.set('allow', 1))
+          #set($discard = $rightsObject.set('users', $member))
+          #set($discard = $rightsObject.set('levels', 'view,edit'))
         #end
-        #set($discard = $rightsObject.set('users', $membersList))
-        #set($discard = $rightsObject.set('levels', 'view,edit'))
       #end
       #if($user.getStatus() == 'STUDENT' &amp;&amp; ($rights.equals('private') || $rights.equals('restricted')))
         #addModerators($newDocument, $user)
