@@ -1092,6 +1092,7 @@ return XWiki;
 #macro(setMembers $wikiDescriptor)
   ## Set the membership type and the local users
   #set ($discard = $services.wiki.user.setUserScope($wikiDescriptor.id, $request.userScope))
+  #if ($request.userScope != 'local_only')
     #set ($discard = $services.wiki.user.setMembershipType($wikiDescriptor.id, $request.membershipType))
     #set ($groupsClassName = "${wikiDescriptor.id}:XWiki.XWikiGroups")
     ## Save the members
