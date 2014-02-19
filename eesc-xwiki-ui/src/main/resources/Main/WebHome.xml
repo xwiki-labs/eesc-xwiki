@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1389885411000</creationDate>
-  <date>1389973523000</date>
-  <contentUpdateDate>1389973523000</contentUpdateDate>
+  <creationDate>1392737033000</creationDate>
+  <date>1392800866000</date>
+  <contentUpdateDate>1392800148000</contentUpdateDate>
   <version>1.1</version>
   <title>Accueil</title>
   <defaultTemplate/>
@@ -91,16 +91,16 @@
 #macro(displayMenu)
   {{menu type="vertical collapsible"}}
     * [[image:icon:house Accueil&gt;&gt;xwiki:Main.WebHome]]
-    * ----
+    ----
     #set($queryString = 'is_user=true')
     #set($userName = $user.getName())
     * [[image:icon:user Espace de ${escapetool.xml($userName)}&gt;&gt;xwiki:EESCCode.CSRedirect||queryString="$queryString"]]
     #set($userWikiName = 'u' + $user.getId())
-    #if($services.wiki.exists($userWikiName))
-      #set($userTaskManagerWebHome = $userWikiName + ':Tasks.WebHome')
-      ##* [[image:icon:calendar Gestionnaire de projets&gt;&gt;$userTaskManagerWebHome]]
-    #end
-    * ----
+    ##if($services.wiki.exists($userWikiName))
+      #set($taskManagerWebHome = 'taskmanager:Tasks.WebHome')
+      * [[image:icon:calendar Gestionnaire de tâches&gt;&gt;$taskManagerWebHome]]
+    ##end
+    ----
     #foreach($group in $groupsForUser)
       #set($groupId = $group.getId())
       #set($groupName = $group.getName())

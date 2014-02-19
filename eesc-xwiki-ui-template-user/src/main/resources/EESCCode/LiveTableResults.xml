@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1389977437000</creationDate>
-  <date>1390493658000</date>
-  <contentUpdateDate>1390493658000</contentUpdateDate>
+  <creationDate>1392737127000</creationDate>
+  <date>1392737127000</date>
+  <contentUpdateDate>1392737127000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('platform.livetable.results')</title>
   <defaultTemplate/>

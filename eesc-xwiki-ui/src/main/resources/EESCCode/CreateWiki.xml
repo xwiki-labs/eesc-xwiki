@@ -11,9 +11,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1389973521000</creationDate>
-  <date>1390403744000</date>
-  <contentUpdateDate>1390403744000</contentUpdateDate>
+  <creationDate>1392737054000</creationDate>
+  <date>1392737053000</date>
+  <contentUpdateDate>1392737053000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('eesc.platform.wiki.create.title')</title>
   <defaultTemplate/>
@@ -303,8 +303,8 @@
         <number>5</number>
         <prettyName>Caching policy</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator/>
-        <separators>,|</separators>
+        <separator> </separator>
+        <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>long|short|default|forbid</values>
@@ -348,8 +348,8 @@
         <number>3</number>
         <prettyName>Use this extension</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator/>
-        <separators>,|</separators>
+        <separator> </separator>
+        <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
@@ -450,8 +450,8 @@ return XWiki;
         <number>5</number>
         <prettyName>Caching policy</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator/>
-        <separators>,|</separators>
+        <separator> </separator>
+        <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>long|short|default|forbid</values>
@@ -495,8 +495,8 @@ return XWiki;
         <number>3</number>
         <prettyName>Use this extension</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator/>
-        <separators>,|</separators>
+        <separator> </separator>
+        <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
@@ -553,8 +553,8 @@ return XWiki;
         <number>5</number>
         <prettyName>Caching policy</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator/>
-        <separators>,|</separators>
+        <separator> </separator>
+        <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>long|short|default|forbid</values>
@@ -598,8 +598,8 @@ return XWiki;
         <number>3</number>
         <prettyName>Use this extension</prettyName>
         <relationalStorage>0</relationalStorage>
-        <separator/>
-        <separators>,|</separators>
+        <separator> </separator>
+        <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
         <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
