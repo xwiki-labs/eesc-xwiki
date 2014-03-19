@@ -126,6 +126,7 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
         addUserToGroup(user, "XWikiAllGroup", context);
 
         // Add the user to the ENT groups
+        addUserToGroup(user, "ENTAllGroup", context);
         switch (user.getStatus()) {
             case TEACHER:
                 addUserToGroup(user, "ENTTeacher", context);

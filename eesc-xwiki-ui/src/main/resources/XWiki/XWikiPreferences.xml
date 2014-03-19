@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1389885402000</creationDate>
-  <date>1389973510000</date>
-  <contentUpdateDate>1389973510000</contentUpdateDate>
+  <date>1395249924000</date>
+  <contentUpdateDate>1394810595000</contentUpdateDate>
   <version>1.1</version>
   <title>XWiki Preferences</title>
   <defaultTemplate/>
@@ -2603,7 +2603,7 @@
       <authenticate_view>0</authenticate_view>
     </property>
     <property>
-      <colorTheme>xwiki:EESCCode.EESCColorTheme</colorTheme>
+      <colorTheme>EESCCode.ColorTheme</colorTheme>
     </property>
     <property>
       <comment_anonymous>---</comment_anonymous>
@@ -2655,7 +2655,7 @@ Your account on ${wikiname} has been successfully activated. You can now login a
       <languages>fr</languages>
     </property>
     <property>
-      <leftPanels>xwiki:EESCCode.NavigationPanel</leftPanels>
+      <leftPanels/>
     </property>
     <property>
       <meta>&lt;meta name="revisit-after" content="7 days" /&gt;
@@ -2690,7 +2690,7 @@ Your account on ${wikiname} has been successfully activated. You can now login a
       <registration_registered>---</registration_registered>
     </property>
     <property>
-      <rightPanels>TaskCode.TaskPanel</rightPanels>
+      <rightPanels/>
     </property>
     <property>
       <showLeftPanels>1</showLeftPanels>

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>EESCCode</web>
+  <name>CreateDocument</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1394813960000</creationDate>
+  <date>1395249749000</date>
+  <contentUpdateDate>1395248954000</contentUpdateDate>
+  <version>1.1</version>
+  <title>${services.localization.render('eesc.CreateDocument.title')}</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>EESCCode.CreateDocument</name>
+    <number>0</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>ffab7aeb-1885-4590-9d5a-ba49e6ac451e</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>require(["jquery"], function($) {
+  $(window).load(function() {
+    if($("#eesc-share-shared").is(":checked")) {
+      $("#eesc-share-with-users").css("display", "block");
+    } else {
+      $("#eesc-share-with-users").css("display", "none");
+    }
+  });
+  $("input[type='radio']").click(function() {
+    var id = $(this).attr('id');
+    if(id === "eesc-share-shared") {
+      $("#eesc-share-with-users").css("display", "block");
+    } else {
+      $("#eesc-share-with-users").css("display", "none");
+    }
+  });
+});</code>
+    </property>
+    <property>
+      <name>Share with users display</name>
+    </property>
+    <property>
+      <parse/>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>EESCCode.CreateDocument</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>064dcc1c-a089-4011-885e-41e98eeaeb18</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>#eesc-share-with-users {
+  display: none;
+}
+#eesc-share #eesc-share-choice td {
+  border: none;
+}</code>
+    </property>
+    <property>
+      <name>Sharing choices</name>
+    </property>
+    <property>
+      <parse/>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <content>{{velocity}}
+#*
+ * Main webhome
+ * -----
+ *
+ * This sheet creates a new document.
+ *
+ * Author: Fabio MANCINELLI &lt;fabio.mancinelli@xwiki.com&gt;
+ *         Jean SIMARD &lt;jean.simard@xwiki.com&gt;
+ *#
+##############################################
+##                 GLOBALS
+##############################################
+## HTTP REQUEST PARAMETERS
+#set($reqStep = $request.getParameter('step'))
+#if($request.getParameter('cancel'))
+  #set($reqStep = 'cancel')
+#end
+#set($reqReferer = $request.getParameter('referer'))
+#if(!$reqReferer)
+  #set($reqReferer = $request.getHeader('referer'))
+#end
+#set($reqSpaceName = $request.getParameter('spacename'))
+#set($reqDocumentName = $request.getParameter('documentname'))
+#set($reqRights = $request.getParameter('rights'))
+#set($reqMembers = $request.getParameterValues('members'))
+
+## GLOBAL VARIABLES
+#set($userId = $xcontext.getUser().replace('XWiki.', ''))
+#set($user = $services.eesc.getUser($userId))
+
+##############################################
+##                CONTROLLER
+##############################################
+#controller()
+#macro(controller)
+  #if($reqStep.equals('cancel'))
+    #stepCancel($reqReferer)
+  #elseif($reqStep.equals('form'))
+    #stepForm($reqSpaceName)
+  #elseif($reqStep.equals('create'))
+    #stepCreate($reqSpaceName, $reqDocumentName, $reqRights, $reqMembers)
+  #else
+    #displayError()
+  #end
+#end
+
+##############################################
+##               ADD DATA
+##############################################
+#*
+ * Create the document
+ * -----
+ *
+ * Given the HTTP POST request, create the document with the rights that apply.
+ *
+ * @param $spaceName The name of the folder to create
+ * @param $documentName The name of the document to create
+ * @param $rights The type of restriction of the document ('public', 'shared' or 'private')
+ * @param $members The list of members if it apply (if $rights is 'shared')
+ *#
+#macro(stepCreate, $spaceName, $documentName, $rights, $members)
+  #set($documentFullName = "$spaceName.$documentName")
+  #if($rights)
+    #set($newDocument = $xwiki.getDocument($documentFullName))
+    #set($discard = $newDocument.setParent('Main.WebHome'))
+    #set($discard = $newDocument.save())
+    #set($rightsObject = $newDocument.newObject('XWiki.XWikiRights'))
+    #set($discard = $rightsObject.set('allow', 1))
+    #set($discard = $rightsObject.set('users', "${newDocument.creator}"))
+    #set($discard = $rightsObject.set('levels', 'view,edit,delete'))
+    #if($rights.equals('public'))
+      #set($rightsObject = $newDocument.newObject('XWiki.XWikiRights'))
+      #set($discard = $rightsObject.set('allow', 1))
+      #set($discard = $rightsObject.set('groups', 'XWiki.ENTAllGroup'))
+      #set($discard = $rightsObject.set('levels', 'view,edit'))
+    #elseif($rights.equals('shared'))
+      #foreach($member in $members)
+        #set($rightsObject = $newDocument.newObject('XWiki.XWikiRights'))
+        #set($discard = $rightsObject.set('allow', 1))
+        #set($discard = $rightsObject.set('users', $member))
+        #set($discard = $rightsObject.set('levels', 'view,edit'))
+      #end
+    #end
+    ## TODO: Evolve this code considering defined sharing rules
+    #if($user.getStatus() == 'STUDENT')
+      #addModerators($newDocument, $user)
+    #end
+    #set($discard = $newDocument.save())
+  #end
+  #set($discard = $response.sendRedirect($xwiki.getURL($documentFullName, 'edit')))
+#end
+
+#macro(addModerators, $document, $user)
+  #set($groupID = $services.wiki.currentWikiId.substring(1))
+  #set($users = $services.eesc.getUsersForGroup($groupID))
+  #set($moderatorsList = '')
+  #set($sep = '')
+  #foreach($u in $users)
+    #if($u.getStatus() == 'TEACHER' || $u.getStatus() == 'LOCAL_ADMIN')
+      #set($moderatorsList = "$moderatorsList${sep}xwiki:XWiki.$u.getId()")
+      #set($sep = ',')
+    #end
+  #end
+  #set($rightsObject = $document.newObject('XWiki.XWikiRights'))
+  #set($discard = $rightsObject.set('allow', 1))
+  #set($discard = $rightsObject.set('users', $moderatorsList))
+  #set($discard = $rightsObject.set('levels', 'view,edit,delete'))
+  #set($discard = $document.save())
+#end
+
+##############################################
+##                  VIEW
+##############################################
+#*
+ * Redirect to the referer
+ * -----
+ *
+ * Redirect the user to the page from where it was coming from.
+ *
+ * @param $referer The URL to redirect
+ *#
+#macro(stepCancel, $referer)
+  #set($discard = $response.sendRedirect($referer))
+#end
+
+#*
+ * Display error
+ * -----
+ *
+ * Display an error when the HTTP request is incomplete.
+ *#
+#macro(displayError)
+  {{error}}
+    ${services.localization.render('eesc.CreateDocument.error')}
+  {{/error}}
+#end
+
+#*
+ * Display the form
+ * -----
+ *
+ * Display the form to the user to name the folder and the document name.
+ *
+ * @param $spaceName The optional space name that may have been given
+ *#
+#macro(stepForm, $spaceName)
+  #userPicker_import()
+
+  {{html clean='false'}}
+    &lt;form class="xform" method="POST" action="$xwiki.getURL("EESCCode.CreateDocument")"&gt;
+      &lt;input type="hidden" name="step" value="create" /&gt;
+      &lt;input type="hidden" name="referer" value="$reqReferer" /&gt;
+      &lt;dl&gt;
+        &lt;dt&gt;
+          &lt;label for="spacename"&gt;
+            ${services.localization.render('eesc.CreateDocument.label.foldername')}
+          &lt;/label&gt;
+          &lt;span class="xHint"&gt;
+            ${services.localization.render('eesc.CreateDocument.hint.folders')}
+          &lt;/span&gt;
+        &lt;/dt&gt;
+        &lt;dd&gt;
+          &lt;input type="text" name="spacename" #if($spaceName) value="$spaceName" class="suggestSpaces" #else value="${services.localization.render('eesc.CreateDocument.hint.foldername')}" class="suggestSpaces withTip" autofocus #end /&gt;
+        &lt;/dd&gt;
+        &lt;dt&gt;
+          &lt;label for="documentname"&gt;
+            ${services.localization.render('eesc.CreateDocument.label.documentname')}
+          &lt;/label&gt;
+        &lt;/dt&gt;
+        &lt;dd&gt;
+          &lt;input type="text" name="documentname" value="${services.localization.render('eesc.CreateDocument.hint.documentname')}" class="withTip" #if($spaceName) autofocus #end /&gt;
+        &lt;/dd&gt;
+        &lt;dt&gt;
+          &lt;label for="shareWith"&gt;
+            ${services.localization.render('eesc.CreateDocument.label.sharewith')}
+          &lt;/label&gt;
+        &lt;/dt&gt;
+        &lt;dd&gt;
+          &lt;div id="eesc-share"&gt;
+            &lt;table id="eesc-share-choice"&gt;
+              &lt;tr&gt;
+                &lt;td&gt;
+                  &lt;input type="radio" name="rights" id="eesc-share-public" value="public" checked="checked" /&gt;
+                  ${services.localization.render('eesc.CreateDocument.share.public')}
+                &lt;/td&gt;
+                &lt;td&gt;
+                  &lt;input type="radio" name="rights" id="eesc-share-shared" value="shared" /&gt;
+                  ${services.localization.render('eesc.CreateDocument.share.shared')}
+                &lt;/td&gt;
+                &lt;td&gt;
+                  &lt;input type="radio" name="rights" id="eesc-share-private" value="private" /&gt;
+                  ${services.localization.render('eesc.CreateDocument.share.private')}
+                &lt;/td&gt;
+              &lt;/tr&gt;
+            &lt;/table&gt;
+            &lt;div id="eesc-share-with-users"&gt;
+              &lt;span class="xHint"&gt;
+                ${services.localization.render('eesc.CreateDocument.hint.users')}
+              &lt;/span&gt;
+              &lt;input type="text" name="members" class="suggestUsers global multipleSelection" /&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;div class="bottombuttons"&gt;
+        &lt;div class="buttons"&gt;
+          &lt;span class="buttonwrapper"&gt;
+            &lt;input type="submit" name="create" value="${services.localization.render('eesc.CreateDocument.bottombuttons.create')}" class="button" /&gt;
+          &lt;/span&gt;
+          &lt;span class="buttonwrapper"&gt;
+            &lt;input type="submit" name="cancel" value="${services.localization.render('eesc.CreateDocument.bottombuttons.cancel')}" class="button" /&gt;
+          &lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+  {{/html}}
+
+#end
+{{/velocity}}
+</content>
+</xwikidoc>

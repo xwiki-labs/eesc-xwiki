@@ -2,7 +2,7 @@
 
 <xwikidoc>
   <web>EESCCode</web>
-  <name>EESCColorTheme</name>
+  <name>ColorTheme</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -11,11 +11,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1389973521000</creationDate>
-  <date>1390299680000</date>
-  <contentUpdateDate>1389973521000</contentUpdateDate>
+  <creationDate>1395249891000</creationDate>
+  <date>1395249891000</date>
+  <contentUpdateDate>1395249891000</contentUpdateDate>
   <version>1.1</version>
-  <title>EESCColorTheme</title>
+  <title>ColorTheme</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -643,10 +643,10 @@ QAEAAAAAAAAAAMCjASdCAAHaYFhTAAAAAElFTkSuQmCC
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </titleColor>
     </class>
-    <name>EESCCode.EESCColorTheme</name>
+    <name>EESCCode.ColorTheme</name>
     <number>0</number>
     <className>ColorThemes.ColorThemeClass</className>
-    <guid>dd4ef64e-3192-4adc-adeb-2903f09f79f0</guid>
+    <guid>9fada2b6-c70a-4ab8-8b4d-c20db7fb574b</guid>
     <property>
       <backgroundSecondaryColor>#F3F3F3</backgroundSecondaryColor>
     </property>

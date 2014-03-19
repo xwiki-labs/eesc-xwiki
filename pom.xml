@@ -45,8 +45,6 @@
     <module>eesc-xwiki-cas-authenticator</module>
     <module>eesc-xwiki-distribution</module>
     <module>eesc-xwiki-ui</module>
-    <module>eesc-xwiki-ui-template-user</module>
-    <module>eesc-xwiki-ui-template-group</module>
     <module>eesc-xwiki-web</module>
     <module>eesc-xwiki-service</module>
     <module>eesc-xwiki-platform-wiki-template-script</module>
