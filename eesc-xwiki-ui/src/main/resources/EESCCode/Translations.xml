@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1394810613000</creationDate>
-  <date>1395244259000</date>
-  <contentUpdateDate>1395243769000</contentUpdateDate>
+  <date>1395394920000</date>
+  <contentUpdateDate>1395394899000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -79,5 +79,12 @@ eesc.CreateDocument.share.public=Public
 eesc.CreateDocument.share.shared=Partagé
 eesc.CreateDocument.share.private=Privé
 eesc.CreateDocument.title=Créer un nouveau document
+
+# Share a document
+eesc.ShareDocument.bottombuttons.share=Partager le document
+eesc.ShareDocument.bottombuttons.cancel=Annuler
+eesc.ShareDocument.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
+eesc.ShareDocument.message=Comment souhaitez vous partager le document {0} du dossier {1} ?
+eesc.ShareDocument.title=Partager un document
 </content>
 </xwikidoc>

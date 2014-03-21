@@ -29,20 +29,25 @@
 </style>
 <div class="buttons">
   <span class="eesc-headerdocument">
+  #set($documentref = $services.model.resolveDocument($doc.fullName))
+  #set($sharedocumentref = $services.model.resolveDocument("EESCCode.ShareDocument"))
   #if(!$doc.isHidden() && $hasEdit)
     <span class="buttonwrapper">
-      <form action="$xwiki.getURL($doc, "edit")">
+      <form method="GET" action="$xwiki.getURL($documentref, 'edit')">
         <input type="submit" class="button" value="$services.localization.render('eesc.template.eescheader.document.edit')" /> 
       </form>
     </span>
     #if($doc.hasAccessLevel("delete"))
       <span class="buttonwrapper">
-        <form action="$xwiki.getURL($doc, "delete")">
+        <form method="GET" action="$xwiki.getURL($sharedocumentref, 'view')">
+		  <input type="hidden" name="step" value="form" />
+		  <input type="hidden" name="spacename" value="${doc.space}" />
+		  <input type="hidden" name="documentname" value="${doc.name}" />
           <input type="submit" class="button" value="$services.localization.render('eesc.template.eescheader.document.share')" /> 
         </form>
       </span>
       <span class="buttonwrapper">
-        <form action="$xwiki.getURL($doc, "delete")">
+        <form method="GET" action="$xwiki.getURL($documentref, 'delete')">
           <input type="submit" class="button eesc-delete" value="$services.localization.render('eesc.template.eescheader.document.delete')" /> 
         </form>
       </span>
