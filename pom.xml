@@ -26,7 +26,7 @@
   <parent>
     <groupId>org.xwiki.enterprise</groupId>
     <artifactId>xwiki-enterprise</artifactId>
-    <version>5.3</version>
+    <version>5.4.2</version>
   </parent>
 
   <groupId>com.xwikisas</groupId>
@@ -47,6 +47,5 @@
     <module>eesc-xwiki-ui</module>
     <module>eesc-xwiki-web</module>
     <module>eesc-xwiki-service</module>
-    <module>eesc-xwiki-platform-wiki-template-script</module>
   </modules>
 </project>
