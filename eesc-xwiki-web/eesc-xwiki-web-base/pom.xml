@@ -48,25 +48,5 @@
       <artifactId>eesc-xwiki-cas-authenticator</artifactId>
       <version>${project.version}</version>
     </dependency>
-    <dependency>
-      <groupId>com.xwikisas</groupId>
-      <artifactId>eesc-xwiki-platform-wiki-template-script</artifactId>
-      <version>${project.version}</version>
-    </dependency>
   </dependencies>
-
-
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-          <packagingExcludes>
-            WEB-INF/lib/xwiki-platform-wiki-template-script-*.jar
-          </packagingExcludes>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>
