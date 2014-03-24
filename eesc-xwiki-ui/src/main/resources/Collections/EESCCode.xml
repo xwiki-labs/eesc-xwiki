@@ -12,8 +12,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1394810613000</creationDate>
-  <date>1394810613000</date>
-  <contentUpdateDate>1394810613000</contentUpdateDate>
+  <date>1395673164000</date>
+  <contentUpdateDate>1395673164000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -94,5 +94,5 @@
       <type>xwql</type>
     </property>
   </object>
-  <content>where doc.space = 'EESCCode' or doc.fullName = 'Main.WebHome' or doc.fullName = 'XWiki.XWikiPreferences' or doc.fullName = 'Collections.EESCCode'</content>
+  <content>where doc.space = 'EESCCode' or doc.fullName = 'Main.WebHome' or doc.fullName = 'XWiki.XWikiPreferences' or doc.fullName = 'Collections.EESCCode' or doc.fullName = 'XWiki.XWikiUserSheet'</content>
 </xwikidoc>
