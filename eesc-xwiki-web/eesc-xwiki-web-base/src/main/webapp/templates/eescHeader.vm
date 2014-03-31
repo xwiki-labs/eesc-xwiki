@@ -30,7 +30,8 @@
 <div class="buttons">
   <span class="eesc-headerdocument">
   #set($documentref = $services.model.resolveDocument($doc.fullName))
-  #set($sharedocumentref = $services.model.resolveDocument("EESCCode.ShareDocument"))
+  #set($documentshareref = $services.model.resolveDocument('EESCCode.DocumentShare'))
+  #set($documentcreateref = $services.model.resolveDocument('EESCCode.DocumentCreate'))
   #if(!$doc.isHidden() && $hasEdit)
     <span class="buttonwrapper">
       <form method="GET" action="$xwiki.getURL($documentref, 'edit')">
@@ -39,7 +40,7 @@
     </span>
     #if($doc.hasAccessLevel("delete"))
       <span class="buttonwrapper">
-        <form method="GET" action="$xwiki.getURL($sharedocumentref, 'view')">
+        <form method="GET" action="$xwiki.getURL($documentshareref, 'view')">
 		  <input type="hidden" name="step" value="form" />
 		  <input type="hidden" name="spacename" value="${doc.space}" />
 		  <input type="hidden" name="documentname" value="${doc.name}" />
@@ -56,7 +57,7 @@
     </span>
     <span class="eesc-headercreate">
       <span class="buttonwrapper">
-        <form method="GET" action="$xwiki.getURL('EESCCode.CreateDocument')">
+        <form method="GET" action="$xwiki.getURL($documentcreateref)">
           <input type="hidden" name="step" value="form" />
           <input type="hidden" name="spacename" value="${doc.getSpace()}" />
           <input type="submit" class="button eesc-create" value="$services.localization.render('eesc.template.eescheader.create.document')" />

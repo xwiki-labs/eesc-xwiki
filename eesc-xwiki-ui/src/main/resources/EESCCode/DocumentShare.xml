@@ -21,7 +21,7 @@
 
 <xwikidoc>
   <web>EESCCode</web>
-  <name>ShareDocument</name>
+  <name>DocumentShare</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -30,11 +30,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1395313241000</creationDate>
-  <date>1396255569000</date>
-  <contentUpdateDate>1396255569000</contentUpdateDate>
+  <creationDate>1396255912000</creationDate>
+  <date>1396256405000</date>
+  <contentUpdateDate>1396256405000</contentUpdateDate>
   <version>1.1</version>
-  <title>${services.localization.render('eesc.ShareDocument.title')}</title>
+  <title>${services.localization.render('eesc.DocumentShare.title')}</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -131,7 +131,7 @@
  *#
 #macro(displayError)
   {{error}}
-    ${services.localization.render('eesc.ShareDocument.error')}
+    ${services.localization.render('eesc.DocumentShare.error')}
   {{/error}}
 #end
 #*
@@ -145,10 +145,10 @@
 #macro(stepForm, $spaceName)
   #set($documentref = $services.model.resolveDocument("${reqSpaceName}.${reqDocumentName}"))
   #set($documentlink = "&lt;span class=""wikilink""&gt;&lt;a href=""${xwiki.getURL($documentref)}""&gt;${reqDocumentName}&lt;/a&gt;&lt;/span&gt;")
-  #set($message = ${services.localization.render('eesc.ShareDocument.message', ["${documentlink}", "${reqSpaceName}"])})
+  #set($message = ${services.localization.render('eesc.DocumentShare.message', ["${documentlink}", "${reqSpaceName}"])})
 
   {{html clean='false'}}
-    &lt;form class="xform" method="POST" action="${xwiki.getURL('EESCCode.ShareDocument')}"&gt;
+    &lt;form class="xform" method="POST" action="${xwiki.getURL($services.model.resolveDocument('EESCCode.DocumentShare'))}"&gt;
       &lt;input type="hidden" name="step" value="share" /&gt;
       &lt;input type="hidden" name="referer" value="${reqReferer}" /&gt;
       &lt;input type="hidden" name="spacename" value="${reqSpaceName}" /&gt;
@@ -166,10 +166,10 @@
       &lt;div class="bottombuttons"&gt;
         &lt;div class="buttons"&gt;
           &lt;span class="buttonwrapper"&gt;
-            &lt;input type="submit" name="share" value="${services.localization.render('eesc.ShareDocument.bottombuttons.share')}" class="button" /&gt;
+            &lt;input type="submit" name="share" value="${services.localization.render('eesc.DocumentShare.bottombuttons.share')}" class="button" /&gt;
           &lt;/span&gt;
           &lt;span class="buttonwrapper"&gt;
-            &lt;input type="submit" name="cancel" value="${services.localization.render('eesc.ShareDocument.bottombuttons.cancel')}" class="button" /&gt;
+            &lt;input type="submit" name="cancel" value="${services.localization.render('eesc.DocumentShare.bottombuttons.cancel')}" class="button" /&gt;
           &lt;/span&gt;
         &lt;/div&gt;
       &lt;/div&gt;

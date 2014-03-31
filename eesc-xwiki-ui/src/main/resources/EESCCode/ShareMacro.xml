@@ -31,8 +31,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1395334474000</creationDate>
-  <date>1395763815000</date>
-  <contentUpdateDate>1395763815000</contentUpdateDate>
+  <date>1396256088000</date>
+  <contentUpdateDate>1396256048000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -381,28 +381,28 @@
       &lt;tr&gt;
         &lt;td&gt;
           &lt;input type="radio" name="rights" id="eesc-share-public" value="public" checked="checked" /&gt;
-          ${services.localization.render('eesc.CreateDocument.share.public')}
+          ${services.localization.render('eesc.DocumentCreate.share.public')}
         &lt;/td&gt;
         &lt;td&gt;
           &lt;input type="radio" name="rights" id="eesc-share-shared" value="shared" /&gt;
-          ${services.localization.render('eesc.CreateDocument.share.shared')}
+          ${services.localization.render('eesc.DocumentCreate.share.shared')}
         &lt;/td&gt;
         &lt;td&gt;
           &lt;input type="radio" name="rights" id="eesc-share-private" value="private" /&gt;
-          ${services.localization.render('eesc.CreateDocument.share.private')}
+          ${services.localization.render('eesc.DocumentCreate.share.private')}
         &lt;/td&gt;
       &lt;/tr&gt;
     &lt;/table&gt;&lt;!-- "#eesc-share-choice" --&gt;
     &lt;div id="eesc-share-with"&gt;
       &lt;div id="eesc-share-with-users"&gt;
         &lt;span class="xHint"&gt;
-          ${services.localization.render('eesc.CreateDocument.hint.users')}
+          ${services.localization.render('eesc.DocumentCreate.hint.users')}
         &lt;/span&gt;
         &lt;input type="text" name="users" class="suggestUsers global multipleSelection" /&gt;
       &lt;/div&gt;&lt;!-- "#eesc-share-with-users" --&gt;
       &lt;div id="eesc-share-with-groups"&gt;
         &lt;span class="xHint"&gt;
-          ${services.localization.render('eesc.CreateDocument.hint.users')}
+          ${services.localization.render('eesc.DocumentCreate.hint.users')}
         &lt;/span&gt;
         &lt;input type="text" name="groups" class="suggestGroups global multipleSelection" /&gt;
       &lt;/div&gt;&lt;!-- "#eesc-share-with-groups" --&gt;
@@ -494,28 +494,28 @@
       &lt;tr&gt;
         &lt;td&gt;
           &lt;input type="radio" name="rights" id="eesc-share-public" value="public" #if($documentshare.equals('public')) checked="checked" #end /&gt;
-          ${services.localization.render('eesc.CreateDocument.share.public')}
+          ${services.localization.render('eesc.DocumentCreate.share.public')}
         &lt;/td&gt;
         &lt;td&gt;
           &lt;input type="radio" name="rights" id="eesc-share-shared" value="shared" #if($documentshare.equals('shared')) checked="checked" #end /&gt;
-          ${services.localization.render('eesc.CreateDocument.share.shared')}
+          ${services.localization.render('eesc.DocumentCreate.share.shared')}
         &lt;/td&gt;
         &lt;td&gt;
           &lt;input type="radio" name="rights" id="eesc-share-private" value="private" #if($documentshare.equals('private')) checked="checked" #end /&gt;
-          ${services.localization.render('eesc.CreateDocument.share.private')}
+          ${services.localization.render('eesc.DocumentCreate.share.private')}
         &lt;/td&gt;
       &lt;/tr&gt;
     &lt;/table&gt;&lt;!-- "#eesc-share-choice" --&gt;
     &lt;div id="eesc-share-with"&gt;
       &lt;div id="eesc-share-with-users"&gt;
         &lt;span class="xHint"&gt;
-          ${services.localization.render('eesc.CreateDocument.hint.users')}
+          ${services.localization.render('eesc.DocumentCreate.hint.users')}
         &lt;/span&gt;
         &lt;input type="text" name="users" class="suggestUsers global multipleSelection" value="${documentusers}" /&gt;
       &lt;/div&gt;&lt;!-- "#eesc-share-with-users" --&gt;
       &lt;div id="eesc-share-with-groups"&gt;
         &lt;span class="xHint"&gt;
-          ${services.localization.render('eesc.CreateDocument.hint.users')}
+          ${services.localization.render('eesc.DocumentCreate.hint.users')}
         &lt;/span&gt;
         &lt;input type="text" name="groups" class="suggestGroups global multipleSelection" value="${documentgroups}" /&gt;
       &lt;/div&gt;&lt;!-- "#eesc-share-with-groups" --&gt;
