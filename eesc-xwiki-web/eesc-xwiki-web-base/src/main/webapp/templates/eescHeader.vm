@@ -58,12 +58,6 @@
       <span class="buttonwrapper">
         <form method="GET" action="$xwiki.getURL('EESCCode.CreateDocument')">
           <input type="hidden" name="step" value="form" />
-          <input type="submit" class="button" value="$services.localization.render('eesc.template.eescheader.create.space')" />
-        </form>
-      </span>
-      <span class="buttonwrapper">
-        <form method="GET" action="$xwiki.getURL('EESCCode.CreateDocument')">
-          <input type="hidden" name="step" value="form" />
           <input type="hidden" name="spacename" value="${doc.getSpace()}" />
           <input type="submit" class="button eesc-create" value="$services.localization.render('eesc.template.eescheader.create.document')" />
         </form>

@@ -78,7 +78,6 @@
   </object>
   <content># Templates
 eesc.template.eescheader.create.document=Nouveau document
-eesc.template.eescheader.create.space=Nouveau dossier
 eesc.template.eescheader.document.delete=Supprimer
 eesc.template.eescheader.document.edit=Modifier
 eesc.template.eescheader.document.share=Partager
