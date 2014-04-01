@@ -25,14 +25,14 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>WebHome</parent>
+  <parent>Main.WebHome</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1395391855000</creationDate>
-  <date>1396026880000</date>
-  <contentUpdateDate>1396026874000</contentUpdateDate>
+  <date>1396261421000</date>
+  <contentUpdateDate>1396261421000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -90,7 +90,6 @@ private void removeShareDocument(documentname, toremovelist) {
     def toremovepage = xwiki.getDocument(toremoveref)
     def shareobj = toremovepage.getObject("EESCCode.ShareListClass", true)
     def sharelist = new LinkedList&lt;String&gt;(Arrays.asList(shareobj.get("shareList").split("\\|")))
-    println("  ---&gt; Is &lt;"+documentname+"&gt; in &lt;"+sharelist+"&gt;")
     if(sharelist.contains(documentname)) {
       sharelist.remove(documentname)
       shareobj.set("shareList", StringUtils.join(sharelist, "|"))
@@ -116,7 +115,6 @@ private void updateRights(document, rights, users, groups) {
 
   removeShareDocument(documentname, oldusers)
   addShareDocument(documentname, users)
-  println("---&gt; Add &lt;" + documentname + "&gt; to &lt;" + document.creator + "&gt;")
   addShareDocument(documentname, [document.creator])
   removeShareDocument(documentname, oldgroups)
   addShareDocument(documentname, groups)
@@ -156,6 +154,23 @@ public void shareDocument(documentref, rights, users, groups, context) {
     addXWikiRightsObject(document, 1, "", StringUtils.join(groups, ","), "view,edit")
   }
   document.save()
+}
+
+public void deleteDocumentRights(documentref, context) {
+  xcontext = context.get(0)
+  xwiki = context.get(1)
+  services = context.get(2)
+
+  def document = xwiki.getDocument(documentref)
+  def documentname = document.fullName
+  def rightobjs = document.getObjects("XWiki.XWikiRights")
+
+  for(rightobj in rightobjs) {
+    def users = Arrays.asList(rightobj.getProperty("users").value.split(","))
+    removeShareDocument(documentname, users)
+    def groups = Arrays.asList(rightobj.getProperty("groups").value.split(","))
+    removeShareDocument(documentname, groups)
+  }
 }
 //{{/groovy}}</content>
 </xwikidoc>
