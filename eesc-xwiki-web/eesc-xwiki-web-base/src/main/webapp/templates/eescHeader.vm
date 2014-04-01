@@ -34,13 +34,13 @@
   #set($documentcreateref = $services.model.resolveDocument('EESCCode.DocumentCreate'))
   #if(!$doc.isHidden() && $hasEdit)
     <span class="buttonwrapper">
-      <form method="GET" action="$xwiki.getURL($documentref, 'edit')">
+      <form method="GET" action="$xwiki.getURL($documentref, 'edit', '')">
         <input type="submit" class="button" value="$services.localization.render('eesc.template.eescheader.document.edit')" /> 
       </form>
     </span>
     #if($doc.hasAccessLevel("delete"))
       <span class="buttonwrapper">
-        <form method="GET" action="$xwiki.getURL($documentshareref, 'view')">
+        <form method="GET" action="$xwiki.getURL($documentshareref, 'view', '')">
 		  <input type="hidden" name="step" value="form" />
 		  <input type="hidden" name="spacename" value="${doc.space}" />
 		  <input type="hidden" name="documentname" value="${doc.name}" />
@@ -48,7 +48,7 @@
         </form>
       </span>
       <span class="buttonwrapper">
-        <form method="GET" action="$xwiki.getURL($documentref, 'delete')">
+        <form method="GET" action="$xwiki.getURL($documentref, 'delete', '')">
           <input type="submit" class="button eesc-delete" value="$services.localization.render('eesc.template.eescheader.document.delete')" /> 
         </form>
       </span>
