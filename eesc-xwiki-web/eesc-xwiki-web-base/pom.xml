@@ -20,6 +20,7 @@
   * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
   *
 -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -48,5 +49,53 @@
       <artifactId>eesc-xwiki-cas-authenticator</artifactId>
       <version>${project.version}</version>
     </dependency>
+  <dependency>
+    <groupId>org.xwiki.platform</groupId>
+    <artifactId>xwiki-platform-legacy-oldcore</artifactId>
+    <version>${xwiki.version}</version>
+    <classifier>objectpolicy</classifier>
+  </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+		<!-- Don't check for legacy dependency usages since we depend on oldcore for the patch -->
+		<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-enforcer-plugin</artifactId>
+			<executions>
+				<execution>
+					<id>enforce-no-legacy-dependencies</id>
+					<configuration>
+						<skip>true</skip>
+					</configuration>
+				</execution>
+			</executions>
+		</plugin>
+		<plugin>
+			<artifactId>maven-war-plugin</artifactId>
+			<configuration>
+				<!-- We exclude the oldcore in the overlay expansion so that we have a /target/xwiki-... directory ready to be 
+				  used as a webapp -->
+				<overlays>
+					<overlay>
+						<groupId>org.xwiki.enterprise</groupId>
+						<artifactId>xwiki-enterprise-web</artifactId>
+						<excludes>
+							<exclude>WEB-INF/lib/xwiki-platform-legacy-oldcore-*.jar</exclude>
+						</excludes>
+					</overlay>
+				</overlays>
+			</configuration>
+		</plugin>
+	</plugins>
+</build>
+
+<repositories>
+	<repository>
+		<id>local-repo</id>
+		<url>file://${basedir}/patched-jars</url>
+	</repository>
+</repositories>
+
 </project>
