@@ -138,7 +138,6 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
                 addUserToGroup(user, "ENTParent", context);
                 break;
             case LOCAL_ADMIN:
-                addUserToGroup(user, "XWikiAdminGroup", context);
                 addUserToGroup(user, "ENTLocalAdmin", context);
                 break;
             case STAFF:
