@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc>
+  <web>EESCCode</web>
+  <name>CollaborativeDocumentSheet</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>EESCCode.CollaborativeDocumentClass</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1397826570000</creationDate>
+  <date>1397828969000</date>
+  <contentUpdateDate>1397828969000</contentUpdateDate>
+  <version>1.1</version>
+  <title>#if($doc.name == 'CollaborativeDocumentSheet')CollaborativeDocument Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.SheetDescriptorClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <action>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>action</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>Action</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </action>
+    </class>
+    <name>EESCCode.CollaborativeDocumentSheet</name>
+    <number>0</number>
+    <className>XWiki.SheetDescriptorClass</className>
+    <guid>d8284a7c-8e6e-4110-a365-aeff65992bda</guid>
+    <property>
+      <action>edit</action>
+    </property>
+  </object>
+  <content>{{velocity}}
+
+{{html}}
+#if($doc.name != 'CollaborativeDocumentSheet')
+  $xwiki.getTextArea($tdoc.content) 
+  #wysiwyg_editProperty($tdoc, 'content', true)
+  #set($parameterMap = $request.getParameterMap())
+  #foreach($parameterEntry in $parameterMap.entrySet())
+    #set($parameterName = $parameterEntry.getKey())
+    #set($parameterValues = $parameterEntry.getValue())
+    #foreach($parameterValue in $parameterValues)
+      &lt;input type="hidden" id="${parameterName}" name="${parameterName}" value="${parameterValue}" /&gt;
+    #end
+  #end
+#end
+{{/html}}
+
+{{/velocity}}</content>
+</xwikidoc>
