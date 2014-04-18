@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397816175000</creationDate>
-  <date>1397827993000</date>
-  <contentUpdateDate>1397827811000</contentUpdateDate>
+  <creationDate>1397831587000</creationDate>
+  <date>1397835407000</date>
+  <contentUpdateDate>1397835407000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -90,7 +90,7 @@ eesc.DocumentCreate.bottombuttons.create=Créer le document
 eesc.DocumentCreate.bottombuttons.cancel=Annuler
 eesc.DocumentCreate.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
 eesc.DocumentCreate.error.document=Ce document existe déjà.
-eesc.DocumentCreate.error.space=Ce dossier est réservé; vous ne pouvez pas y créer de document.
+eesc.DocumentCreate.error.space=Ce dossier est réservé, vous ne pouvez pas y créer de document.
 eesc.DocumentCreate.hint.users=Commencer à taper les premiers caractères pour afficher les utilisateurs.
 eesc.DocumentCreate.hint.folders=Commencer à taper les premiers caractères pour afficher les suggestions des dossiers existants.
 eesc.DocumentCreate.hint.documentname=Entrez le nom du document...

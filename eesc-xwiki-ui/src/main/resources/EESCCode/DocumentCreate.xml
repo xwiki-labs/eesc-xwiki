@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1396256289000</creationDate>
-  <date>1396347752000</date>
-  <contentUpdateDate>1396347740000</contentUpdateDate>
+  <creationDate>1397831587000</creationDate>
+  <date>1397835469000</date>
+  <contentUpdateDate>1397835469000</contentUpdateDate>
   <version>1.1</version>
   <title>${services.localization.render('eesc.DocumentCreate.title')}</title>
   <defaultTemplate/>
@@ -275,9 +274,6 @@
   #set($reqReferer = $reqReferer.split('\?').get(0))
 #end
 #set($reqSpaceName = $request.getParameter('spacename'))
-#if($eescForbiddenSpaces.contains($reqSpaceName))
-  #set($reqSpaceName = '')
-#end
 #set($reqDocumentName = $request.getParameter('documentname'))
 #set($reqRights = $request.getParameter('rights'))
 #set($reqUsers = $request.getParameterValues('users'))
@@ -345,8 +341,8 @@
     #foreach($error in $errors)
       #set($querystring = "${querystring}${sep}errors=${error}")
     #end
-    #set($documentref = $services.model.resolveDocument('EESCCode.DocumentCreate'))
-    #set($discard = $response.sendRedirect($xwiki.getURL($documentref, 'view', $querystring)))
+    #set($documentcreateref = $services.model.resolveDocument('EESCCode.DocumentCreate'))
+    #set($discard = $response.sendRedirect($xwiki.getURL($documentcreateref, 'view', $querystring)))
   #end
 #end
 #*
@@ -363,10 +359,31 @@
  *#
 #macro(stepCreate $spaceName $documentName $rights $users $groups)
   #checkFields($spaceName, $documentName, $rights, $users, $groups)
+  #set($querystring = 'template=EESCCode.CollaborativeDocumentTemplate')
+  #set($sep = '&amp;')
+  #set($querystring = "${querystring}${sep}objectPolicy=updateOrCreate")
+  ## Creator of the document
+  #set($querystring = "${querystring}${sep}XWiki.XWikiRights_0_users=${xcontext.user}")
+  #if($rights.equals('public'))
+    #set($querystring = "${querystring}${sep}XWiki.XWikiRights_1_groups=XWiki.ENTAllGroup")
+    #set($querystring = "${querystring}${sep}XWiki.XWikiRights_1_levels=view,edit")
+  #elseif($rights.equals('shared'))
+    #set($nextindex= 1)
+    #foreach($user in $users)
+      #set($prefix = "XWiki.XWikiRights_${nextindex}_")
+      #set($querystring = "${querystring}${sep}${prefix}user=${user}")
+      #set($querystring = "${querystring}${sep}${prefix}levels=view,edit")
+      #set($nextindex = $nextindex + 1)
+    #end
+    #foreach($group in $groups)
+      #set($prefix = "XWiki.XWikiRights_${nextindex}_")
+      #set($querystring = "${querystring}${sep}${prefix}user=${group}")
+      #set($querystring = "${querystring}${sep}${prefix}levels=view,edit")
+      #set($nextindex = $nextindex + 1)
+    #end
+  #end
   #set($documentref = $services.model.resolveDocument("${spaceName}.${documentName}"))
-  #set($shareScript = $xwiki.parseGroovyFromPage('EESCCode.GroovyAddRights'))
-  #set($discard = $shareScript.shareDocument($documentref, $rights, $users, $groups, [$xcontext, $xwiki, $services]))
-  #set($discard = $response.sendRedirect($xwiki.getURL($documentref, 'edit', '')))
+  #set($discard = $response.sendRedirect($xwiki.getURL($documentref, 'edit', $querystring)))
 #end
 ##############################################
 ##                  VIEW
