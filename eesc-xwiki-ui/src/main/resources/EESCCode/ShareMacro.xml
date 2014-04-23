@@ -31,8 +31,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1397831587000</creationDate>
-  <date>1397831587000</date>
-  <contentUpdateDate>1397831587000</contentUpdateDate>
+  <date>1398260601000</date>
+  <contentUpdateDate>1398259266000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -451,29 +451,31 @@
   #set($discard = $xwiki.jsx.use("EESCCode.ShareMacro"))
   #set($discard = $xwiki.ssx.use("EESCCode.ShareMacro"))
   #userPicker_import()
-  #set($documentref = $services.model.resolveDocument("${spacename}.${documentname}"))
+  #set($documentref = $services.model.createDocumentReference(${xcontext.mainWikiName}, $spacename, $documentname))
   #set($document = $xwiki.getDocument($documentref))
-  #set($rightobjs = $document.getObjects("XWiki.XWikiRights"))
+  #set($shareobj = $document.getObject('EESCCode.CollaborativeDocumentClass'))
+  #set($rightobjs = $document.getObjects('XWiki.XWikiRights'))
+  #set($documentshare = $shareobj.getProperty('scope').value)
   #set($documentusers = "")
   #set($documentgroups = "")
-  #if($rightobjs.size() &lt;= 0)
-    #set($documentshare = 'public')
-  #elseif($rightobjs.size() == 1)
-    #set($documentshare = 'private')
-  #elseif($rightobjs.size() == 2)
-    #set($documentshare = 'public')
-  #elseif($rightobjs.size() == 3)
-    #set($documentshare = 'shared')
-    #set($documentusers = $rightobjs.get(1).getProperty("users").value)
-    #set($documentgroups = $rightobjs.get(2).getProperty("groups").value)
-  #else
-    #set($documentshare = 'public')
+  #if($documentshare.equals('shared'))
+    #foreach($rightobj in $rightobjs)
+      #set($user = $rightobj.getProperty('users').value)
+      #set($group = $rightobj.getProperty('groups').value)
+      #if($user &amp;&amp; !$user.equals(''))
+        #if(!$user.equals($document.creator))
+          #set($documentusers = "${documentusers}${user},")
+        #end
+      #elseif($group &amp;&amp; !$group.equals(''))
+        #set($documentgroups = "${documentgroups}${group},")
+      #end
+    #end
   #end
   ## If variables have been given as arguments ($rights, $users and $groups), then replace the previous values
   #if($rights)
     #set($documentshare = $rights)
   #end
-  #if($users)
+  #if($users &amp;&amp; !$users.equals(''))
     #set($documentusers = '')
     #set($sep = '')
     #foreach($user in $users)
@@ -481,7 +483,7 @@
       #set($sep = ',')
     #end
   #end
-  #if($groups)
+  #if($groups &amp;&amp; !$groups.equals(''))
     #set($documentgroups = '')
     #set($sep = '')
     #foreach($group in $groups)
