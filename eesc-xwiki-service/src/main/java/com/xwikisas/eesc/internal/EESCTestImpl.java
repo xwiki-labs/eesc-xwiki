@@ -153,4 +153,26 @@ public class EESCTestImpl implements EESC, Initializable
 
     }
 
+    @Override
+    public List<Group> getAllGroups()
+    {
+        List<Group> groupList = new ArrayList<Group>();
+        List<String> alreadyAdded = new ArrayList<String>();
+        for (Object o : properties.keySet()) {
+            String key = (String) o;
+            if (key.startsWith("group.")) {
+                String groupId = key.split("\\.")[1];
+                if (!alreadyAdded.contains(groupId)) {
+                    alreadyAdded.add(groupId);
+                    String groupName = getGroupName(groupId);
+                    GroupType groupType = getGroupType(groupId);
+                    Group group = new Group(groupId, groupName, groupType);
+                    groupList.add(group);
+                }
+            }
+
+        }
+        return groupList;
+    }
+
 }

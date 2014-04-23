@@ -49,6 +49,11 @@ public class EESCScriptService implements ScriptService, Initializable
         return eesc.isMember(userId, groupId);
     }
 
+    public List<Group> getAllGroups()
+    {
+        return eesc.getAllGroups();
+    }
+
     @Override
     public void initialize() throws InitializationException
     {

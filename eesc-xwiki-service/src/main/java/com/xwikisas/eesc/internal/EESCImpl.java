@@ -46,4 +46,11 @@ public class EESCImpl implements EESC
         return false;
     }
 
+    @Override
+    public List<Group> getAllGroups()
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

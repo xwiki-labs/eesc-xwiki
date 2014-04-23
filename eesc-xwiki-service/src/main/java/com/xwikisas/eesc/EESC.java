@@ -16,5 +16,7 @@ public interface EESC
     List<Group> getGroupsForUser(String userId);
 
     boolean isMember(String userId, String groupId);
+    
+    List<Group> getAllGroups();
 
 }
