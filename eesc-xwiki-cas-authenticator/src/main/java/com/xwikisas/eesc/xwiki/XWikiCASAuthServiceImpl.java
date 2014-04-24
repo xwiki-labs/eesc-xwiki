@@ -32,7 +32,8 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
 {
     private static final Logger LOGGER = LoggerFactory.getLogger(XWikiCASAuthServiceImpl.class);
 
-    private static final String NO_CAS_COOKIE = "NO_CAS";
+    private static final String NO_CAS_USERNAME_COOKIE = "NO_CAS_USERNAME";
+    private static final String NO_CAS_PASSWORD_COOKIE = "NO_CAS_PASSWORD";
 
     private static final String ENT_USERID = "ENT_USERID";
 
@@ -77,9 +78,10 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
          * This is a mechanism to bypass CAS authentication and switch back to standard one. Useful for initializing and
          * administering the wiki.  You should have the password for the Admin account in your cookie
          */
-        Cookie noCasCookie = context.getRequest().getCookie(NO_CAS_COOKIE);
-        if (noCasCookie != null) {
-            return super.authenticate("Admin", noCasCookie.getValue(), context);
+        Cookie noCasUsernameCookie = context.getRequest().getCookie(NO_CAS_USERNAME_COOKIE);
+        Cookie noCasPasswordCookie = context.getRequest().getCookie(NO_CAS_PASSWORD_COOKIE);
+        if (noCasUsernameCookie != null && noCasPasswordCookie != null) {
+            return super.authenticate(noCasUsernameCookie.getValue(), noCasPasswordCookie.getValue(), context);
         }
 
         String userId = (String) request.getSession().getAttribute(ENT_USERID);
