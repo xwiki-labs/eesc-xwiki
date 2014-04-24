@@ -31,8 +31,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1398335033000</creationDate>
-  <date>1398340291000</date>
-  <contentUpdateDate>1398340273000</contentUpdateDate>
+  <date>1398354118000</date>
+  <contentUpdateDate>1398354118000</contentUpdateDate>
   <version>1.1</version>
   <title>${services.localization.render('eesc.DocumentCreate.title')}</title>
   <defaultTemplate/>
@@ -318,6 +318,12 @@
 #macro(checkFields $spaceName $documentName $rights $users $groups)
   #set($errors = [])
   ## Check that the space is not a forbidden space
+  #if($spaceName.equals(''))
+    #set($discard = $errors.add('EMPTY_SPACE'))
+  #end
+  #if($documentName.equals(''))
+    #set($discard = $errors.add('EMPTY_DOCUMENT'))
+  #end
   #if($eescForbiddenSpaces.contains($spaceName))
     #set($discard = $errors.add('FORBIDDEN_SPACE'))
   #end
@@ -366,7 +372,7 @@
   #set($sep = '&amp;')
   #set($querystring = "${querystring}${sep}objectPolicy=updateOrCreate")
   ## Title of the document
-  #set($querystring = "${querystring}${sep}title=${documentName}")
+  #set($querystring = "${querystring}${sep}title=[${spaceName}] ${documentName}")
   ## Scope of the document
   #set($querystring = "${querystring}${sep}EESCCode.CollaborativeDocumentClass_0_scope=${rights}")
   ## Creator of the document
@@ -455,10 +461,15 @@
           &lt;/span&gt;
         &lt;/dt&gt;
         &lt;dd&gt;
-          &lt;input type="text" name="spacename" #if(${spaceName} &amp;&amp; !${spaceName.isEmpty()} &amp;&amp; !${eescForbiddenSpaces.contains($spaceName)}) value="${spaceName}" class="suggestSpaces" #else value="${services.localization.render('eesc.DocumentCreate.hint.foldername')}" class="suggestSpaces withTip" autofocus #end /&gt;
+          &lt;input type="text" name="spacename" #if(${spaceName} &amp;&amp; !${spaceName.isEmpty()} &amp;&amp; !${eescForbiddenSpaces.contains($spaceName)}) value="${spaceName}" class="suggestSpaces" #{else}value="Dossier" class="suggestSpaces" #{end} /&gt;
+          #if($errors.contains('EMPTY_SPACE'))
+            &lt;div class="box errormessage"&gt;
+              $services.localization.render('eesc.DocumentCreate.error.space.empty')
+            &lt;/div&gt;
+          #end
           #if($errors.contains('FORBIDDEN_SPACE'))
             &lt;div class="box errormessage"&gt;
-              $services.localization.render('eesc.DocumentCreate.error.space')
+              $services.localization.render('eesc.DocumentCreate.error.space.forbidden')
             &lt;/div&gt;
           #end
         &lt;/dd&gt;
@@ -468,10 +479,15 @@
           &lt;/label&gt;
         &lt;/dt&gt;
         &lt;dd&gt;
-          &lt;input type="text" name="documentname" #if(${documentName} &amp;&amp; !${documentName.isEmpty()}) value="${documentName}" #else value="${services.localization.render('eesc.DocumentCreate.hint.documentname')}" class="withTip" #if($spaceName) autofocus #end #end /&gt;
+          &lt;input type="text" name="documentname" #if(${documentName} &amp;&amp; !${documentName.isEmpty()}) value="${documentName}" #{else}value="${services.localization.render('eesc.DocumentCreate.hint.documentname')}" class="withTip" autofocus #{end} /&gt;
+          #if($errors.contains('EMPTY_DOCUMENT'))
+            &lt;div class="box errormessage"&gt;
+              $services.localization.render('eesc.DocumentCreate.error.document.empty')
+            &lt;/div&gt;
+          #end
           #if($errors.contains('DOCUMENT_EXISTS'))
             &lt;div class="box errormessage"&gt;
-              $services.localization.render('eesc.DocumentCreate.error.document')
+              $services.localization.render('eesc.DocumentCreate.error.document.exists')
             &lt;/div&gt;
           #end
         &lt;/dd&gt;
