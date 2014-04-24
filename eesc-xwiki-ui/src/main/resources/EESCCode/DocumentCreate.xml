@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1397831587000</creationDate>
-  <date>1398260713000</date>
-  <contentUpdateDate>1398260712000</contentUpdateDate>
+  <creationDate>1398335033000</creationDate>
+  <date>1398340291000</date>
+  <contentUpdateDate>1398340273000</contentUpdateDate>
   <version>1.1</version>
   <title>${services.localization.render('eesc.DocumentCreate.title')}</title>
   <defaultTemplate/>
@@ -455,7 +455,7 @@
           &lt;/span&gt;
         &lt;/dt&gt;
         &lt;dd&gt;
-          &lt;input type="text" name="spacename" #if(${spaceName} &amp;&amp; !${spaceName.isEmpty()}) value="${spaceName}" class="suggestSpaces" #else value="${services.localization.render('eesc.DocumentCreate.hint.foldername')}" class="suggestSpaces withTip" autofocus #end /&gt;
+          &lt;input type="text" name="spacename" #if(${spaceName} &amp;&amp; !${spaceName.isEmpty()} &amp;&amp; !${eescForbiddenSpaces.contains($spaceName)}) value="${spaceName}" class="suggestSpaces" #else value="${services.localization.render('eesc.DocumentCreate.hint.foldername')}" class="suggestSpaces withTip" autofocus #end /&gt;
           #if($errors.contains('FORBIDDEN_SPACE'))
             &lt;div class="box errormessage"&gt;
               $services.localization.render('eesc.DocumentCreate.error.space')
