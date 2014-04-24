@@ -49,53 +49,59 @@
       <artifactId>eesc-xwiki-cas-authenticator</artifactId>
       <version>${project.version}</version>
     </dependency>
-  <dependency>
-    <groupId>org.xwiki.platform</groupId>
-    <artifactId>xwiki-platform-legacy-oldcore</artifactId>
-    <version>${xwiki.version}</version>
-    <classifier>objectpolicy</classifier>
-  </dependency>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-legacy-oldcore</artifactId>
+      <version>${xwiki.version}</version>
+      <classifier>objectpolicy</classifier>
+      <exclusions>
+        <exclusion>  <!-- Don't drag all the dependencies otherwise it will put xwiki-platform-oldcore in the final package. We just need this single jar. -->
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
-		<!-- Don't check for legacy dependency usages since we depend on oldcore for the patch -->
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-enforcer-plugin</artifactId>
-			<executions>
-				<execution>
-					<id>enforce-no-legacy-dependencies</id>
-					<configuration>
-						<skip>true</skip>
-					</configuration>
-				</execution>
-			</executions>
-		</plugin>
-		<plugin>
-			<artifactId>maven-war-plugin</artifactId>
-			<configuration>
-				<!-- We exclude the oldcore in the overlay expansion so that we have a /target/xwiki-... directory ready to be 
-				  used as a webapp -->
-				<overlays>
-					<overlay>
-						<groupId>org.xwiki.enterprise</groupId>
-						<artifactId>xwiki-enterprise-web</artifactId>
-						<excludes>
-							<exclude>WEB-INF/lib/xwiki-platform-legacy-oldcore-*.jar</exclude>
-						</excludes>
-					</overlay>
-				</overlays>
-			</configuration>
-		</plugin>
-	</plugins>
-</build>
+      <!-- Don't check for legacy dependency usages since we depend on oldcore for the patch -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-no-legacy-dependencies</id>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <!-- We exclude the oldcore in the overlay expansion so that we have a /target/xwiki-... directory ready to be 
+          used as a webapp -->
+          <overlays>
+            <overlay>
+              <groupId>org.xwiki.enterprise</groupId>
+              <artifactId>xwiki-enterprise-web</artifactId>
+              <excludes>
+                <exclude>WEB-INF/lib/xwiki-platform-legacy-oldcore-*.jar</exclude>
+              </excludes>
+            </overlay>
+          </overlays>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
-<repositories>
-	<repository>
-		<id>local-repo</id>
-		<url>file://${basedir}/patched-jars</url>
-	</repository>
-</repositories>
+  <repositories>
+    <repository>
+      <id>local-repo</id>
+      <url>file://${basedir}/patched-jars</url>
+    </repository>
+  </repositories>
 
 </project>
