@@ -1,6 +1,7 @@
 package com.xwikisas.eesc.xwiki;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ import com.xpn.xwiki.user.api.XWikiUser;
 import com.xpn.xwiki.user.impl.xwiki.XWikiAuthServiceImpl;
 import com.xpn.xwiki.web.Utils;
 import com.xwikisas.eesc.EESC;
+import com.xwikisas.eesc.Group;
 import com.xwikisas.eesc.User;
 
 /**
@@ -33,6 +35,7 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
     private static final Logger LOGGER = LoggerFactory.getLogger(XWikiCASAuthServiceImpl.class);
 
     private static final String NO_CAS_USERNAME_COOKIE = "NO_CAS_USERNAME";
+
     private static final String NO_CAS_PASSWORD_COOKIE = "NO_CAS_PASSWORD";
 
     private static final String ENT_USERID = "ENT_USERID";
@@ -76,7 +79,7 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
 
         /*
          * This is a mechanism to bypass CAS authentication and switch back to standard one. Useful for initializing and
-         * administering the wiki.  You should have the password for the Admin account in your cookie
+         * administering the wiki. You should have the password for the Admin account in your cookie
          */
         Cookie noCasUsernameCookie = context.getRequest().getCookie(NO_CAS_USERNAME_COOKIE);
         Cookie noCasPasswordCookie = context.getRequest().getCookie(NO_CAS_PASSWORD_COOKIE);
@@ -129,6 +132,7 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
 
         // Add the user to the ENT groups
         addUserToGroup(user, "ENTAllGroup", context);
+        addUserToGroups(user, context);
         switch (user.getStatus()) {
             case TEACHER:
                 addUserToGroup(user, "ENTTeacher", context);
@@ -153,7 +157,7 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
         return true;
     }
 
-    private boolean addUserToGroup(User user, String groupName, XWikiContext context) throws XWikiException
+    private void addUserToGroup(User user, String groupName, XWikiContext context) throws XWikiException
     {
         DocumentReference groupDocRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, groupName);
         XWikiDocument groupDoc = context.getWiki().getDocument(groupDocRef, context);
@@ -168,6 +172,14 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
             groupDoc.setHidden(true);
             context.getWiki().saveDocument(groupDoc, context);
         }
-        return true;
+    }
+
+    private void addUserToGroups(User user, XWikiContext context) throws XWikiException
+    {
+        List<Group> groups = eesc.getGroupsForUser(user.getId());
+        for(Group group : groups) {
+            String groupName = String.format("g%s", group.getId());
+            addUserToGroup(user, groupName, context);
+        }
     }
 }
