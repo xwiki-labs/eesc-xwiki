@@ -31,8 +31,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1398335032000</creationDate>
-  <date>1398335032000</date>
-  <contentUpdateDate>1398335032000</contentUpdateDate>
+  <date>1398422899000</date>
+  <contentUpdateDate>1398422899000</contentUpdateDate>
   <version>1.1</version>
   <title>${services.localization.render('eesc.DocumentShare.title')}</title>
   <defaultTemplate/>
@@ -111,12 +111,16 @@
   #set($discard = $document.removeObjects('XWiki.XWikiRights'))
   ## Rights of the creator
   #set($object = $document.newObject('XWiki.XWikiRights'))
-  #set($discard = $object.set('users', $doc.creator))
+  #set($discard = $object.set('users', $document.creator))
+  #set($discard = $object.set('groups', ''))
   #set($discard = $object.set('levels', 'view,edit,delete,creator'))
+  #set($discard = $object.set('allow', 'true'))
   #if($rights.equals('public'))
     #set($object = $document.newObject('XWiki.XWikiRights'))
+    #set($discard = $object.set('users', ''))
     #set($discard = $object.set('groups', 'XWiki.ENTAllGroup'))
     #set($discard = $object.set('levels', 'view,edit'))
+    #set($discard = $object.set('allow', 'true'))
   #elseif($rights.equals('shared'))
     ## Rights for the users
     #foreach($username in $users)
@@ -124,7 +128,9 @@
       #if($user.getObjectNumbers('XWiki.XWikiUsers') == 1)
         #set($object = $document.newObject('XWiki.XWikiRights'))
         #set($discard = $object.set('users', $username))
+        #set($discard = $object.set('groups', ''))
         #set($discard = $object.set('levels', 'view,edit'))
+        #set($discard = $object.set('allow', 'true'))
       #end
     #end
     ## Rights for the groups
@@ -132,8 +138,10 @@
       #set($group = $xwiki.getDocument($services.model.resolveDocument($groupname)))
       #if($group.getObjectNumbers('XWiki.XWikiGroups') == 1)
         #set($object = $document.newObject('XWiki.XWikiRights'))
+        #set($discard = $object.set('users', ''))
         #set($discard = $object.set('groups', $groupname))
         #set($discard = $object.set('levels', 'view,edit'))
+        #set($discard = $object.set('allow', 'true'))
       #end
     #end
   #end
