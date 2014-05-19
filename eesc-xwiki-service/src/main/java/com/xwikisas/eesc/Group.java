@@ -15,6 +15,13 @@ public class Group
         type = groupType;
     }
 
+    public Group(String groupId, String groupName, String groupType)
+    {
+        id = groupId;
+        name = groupName;
+        type = GroupType.valueOf(groupType);
+    }
+
     public String getId()
     {
         return id;

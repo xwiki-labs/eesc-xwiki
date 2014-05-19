@@ -23,6 +23,7 @@ import com.xpn.xwiki.user.impl.xwiki.XWikiAuthServiceImpl;
 import com.xpn.xwiki.web.Utils;
 import com.xwikisas.eesc.EESC;
 import com.xwikisas.eesc.Group;
+import com.xwikisas.eesc.GroupType;
 import com.xwikisas.eesc.User;
 
 /**
@@ -123,43 +124,28 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
         userDoc.setHidden(true);
 
         User user = eesc.getUser(userWikiName);
+        List<Group> groups = eesc.getGroupsForUser(userWikiName);
+
         userObj.set("first_name", user.getName(), context);
         userObj.set("last_name", "", context);
         context.getWiki().saveDocument(userDoc, context);
 
         // Add the user to the authorized users of XWiki (adding in XWikiAllGroup)
-        addUserToGroup(user, "XWikiAllGroup", context);
+        Group xwikiAllGroup = new Group("XWikiAllGroup", "Tout le monde", "PUBLIC");
+        addUserToGroup(user, xwikiAllGroup, context);
 
-        // Add the user to the ENT groups
-        addUserToGroup(user, "ENTAllGroup", context);
-        addUserToGroups(user, context);
-        switch (user.getStatus()) {
-            case TEACHER:
-                addUserToGroup(user, "ENTTeacher", context);
-                break;
-            case STUDENT:
-                addUserToGroup(user, "ENTStudent", context);
-                break;
-            case PARENT:
-                addUserToGroup(user, "ENTParent", context);
-                break;
-            case LOCAL_ADMIN:
-                addUserToGroup(user, "ENTLocalAdmin", context);
-                break;
-            case STAFF:
-                addUserToGroup(user, "ENTStaff", context);
-                break;
-            case GUEST:
-                addUserToGroup(user, "ENTGuest", context);
-                break;
+        // Add the user to the groups he's in
+        for (Group group : groups) {
+            addUserToGroup(user, group, context);
         }
 
         return true;
     }
 
-    private void addUserToGroup(User user, String groupName, XWikiContext context) throws XWikiException
+    private void addUserToGroup(User user, Group group, XWikiContext context) throws XWikiException
     {
-        DocumentReference groupDocRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, groupName);
+        DocumentReference groupDocRef =
+            new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, group.getId());
         XWikiDocument groupDoc = context.getWiki().getDocument(groupDocRef, context);
         DocumentReference groupObjRef =
             new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiGroups");
@@ -170,16 +156,8 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
             groupObj = groupDoc.newXObject(groupObjRef, context);
             groupObj.set("member", userPageName, context);
             groupDoc.setHidden(true);
+            groupDoc.setTitle(group.getName());
             context.getWiki().saveDocument(groupDoc, context);
-        }
-    }
-
-    private void addUserToGroups(User user, XWikiContext context) throws XWikiException
-    {
-        List<Group> groups = eesc.getGroupsForUser(user.getId());
-        for(Group group : groups) {
-            String groupName = String.format("g%s", group.getId());
-            addUserToGroup(user, groupName, context);
         }
     }
 }
