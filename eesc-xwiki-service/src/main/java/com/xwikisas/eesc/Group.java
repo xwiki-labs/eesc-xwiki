@@ -19,7 +19,7 @@ public class Group
     {
         id = groupId;
         name = groupName;
-        type = GroupType.valueOf(groupType);
+        type = GroupType.forName(groupType);
     }
 
     public String getId()

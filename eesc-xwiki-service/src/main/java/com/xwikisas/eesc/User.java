@@ -15,6 +15,15 @@ public class User
         status = userStatus;
     }
 
+    public User(String userId, String userName, String userStatus)
+    {
+        id = userId;
+        name = userName;
+        // TODO: Change to the userStatus
+        //status = UserStatus.forName(userStatus);
+        status = UserStatus.ADMIN;
+    }
+
     public String getId()
     {
         return id;
