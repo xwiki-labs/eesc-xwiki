@@ -5,7 +5,9 @@ public enum UserStatus
     STUDENT("student"),
     TEACHER("teacher"),
     PARENT("parent"),
-    ADMIN("admin");
+    LOCAL_ADMIN("admin"),
+    STAFF("staff"),
+    GUEST("guest");
 
     /** Name that is used as a descriptor of the property. */
     private final String name;

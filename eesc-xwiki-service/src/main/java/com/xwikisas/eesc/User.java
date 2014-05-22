@@ -19,9 +19,7 @@ public class User
     {
         id = userId;
         name = userName;
-        // TODO: Change to the userStatus
-        //status = UserStatus.forName(userStatus);
-        status = UserStatus.ADMIN;
+        status = UserStatus.forName(userStatus);
     }
 
     public String getId()
