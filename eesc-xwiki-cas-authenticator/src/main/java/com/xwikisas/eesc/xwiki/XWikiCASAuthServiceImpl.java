@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.securityfilter.realm.SimplePrincipal;
 import org.slf4j.Logger;
@@ -23,7 +24,6 @@ import com.xpn.xwiki.user.impl.xwiki.XWikiAuthServiceImpl;
 import com.xpn.xwiki.web.Utils;
 import com.xwikisas.eesc.EESC;
 import com.xwikisas.eesc.Group;
-import com.xwikisas.eesc.GroupType;
 import com.xwikisas.eesc.User;
 
 /**
@@ -39,7 +39,13 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
 
     private static final String NO_CAS_PASSWORD_COOKIE = "NO_CAS_PASSWORD";
 
+    private static final String ENT_TICKET = "ENT_TICKET";
+
     private static final String ENT_USERID = "ENT_USERID";
+
+    private static final String ENT_USERGROUPES = "ENT_USERGROUPES";
+
+    private static final String ENT_USERTYPE = "ENT_USERTYPE";
 
     private EESC eesc;
 
@@ -88,7 +94,11 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
             return super.authenticate(noCasUsernameCookie.getValue(), noCasPasswordCookie.getValue(), context);
         }
 
-        String userId = (String) request.getSession().getAttribute(ENT_USERID);
+        HttpSession session = request.getSession();
+        String ticket = session.getAttribute(ENT_TICKET).toString();
+        String userId = session.getAttribute(ENT_USERID).toString();
+        String userGroupes = session.getAttribute(ENT_USERGROUPES).toString();
+        String userType = session.getAttribute(ENT_USERTYPE).toString();
         if (userId == null) {
             return super.authenticate(username, password, context);
         }
