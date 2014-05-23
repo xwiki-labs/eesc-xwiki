@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1398335033000</creationDate>
-  <date>1400254489000</date>
-  <contentUpdateDate>1398437067000</contentUpdateDate>
+  <creationDate>1400748597000</creationDate>
+  <date>1400857851000</date>
+  <contentUpdateDate>1400857851000</contentUpdateDate>
   <version>1.1</version>
   <title>${services.localization.render('eesc.DocumentCreate.title')}</title>
   <defaultTemplate/>
@@ -282,9 +282,6 @@
 #set($reqUsers = $request.getParameterValues('users'))
 #set($reqGroups = $request.getParameterValues('groups'))
 #set($reqErrors = $request.getParameterValues('errors'))
-## GLOBAL VARIABLES
-#set($userId = $xcontext.getUser().replace('XWiki.', ''))
-#set($user = $services.eesc.getUser($userId))
 ##############################################
 ##                CONTROLLER
 ##############################################

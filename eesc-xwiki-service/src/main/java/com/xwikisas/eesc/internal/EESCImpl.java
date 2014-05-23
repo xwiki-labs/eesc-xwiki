@@ -12,7 +12,6 @@ import org.xwiki.component.annotation.Component;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.xwikisas.eesc.EESC;
 import com.xwikisas.eesc.Group;
 import com.xwikisas.eesc.User;
@@ -61,15 +60,30 @@ public class EESCImpl implements EESC
     }
 
     @Override
-    public User getUser(String userId)
+    public String getUID(String casID)
     {
-        String getUserURL = String.format("%s/annuaire/user/%s", SERVICE_URL, userId);
+        String convertCasIdToUserIdURL = String.format("%s/annuaire/user/%s/login", SERVICE_URL, casID);
+        JsonElement json;
+        String userID;
+
+        json = askForJSON(convertCasIdToUserIdURL);
+        if (json == null) {
+            return null;
+        }
+        userID = json.getAsJsonObject().get("id").getAsString();
+        return userID;
+    }
+
+    @Override
+    public User getUser(String userID)
+    {
+        String getUserURL = String.format("%s/annuaire/user/%s", SERVICE_URL, userID);
         JsonElement json;
         User user;
         String id, nickname, status;
 
         json = askForJSON(getUserURL);
-        if(json == null) {
+        if (json == null) {
             return null;
         }
         id = json.getAsJsonObject().get("id").getAsString();
@@ -80,23 +94,23 @@ public class EESCImpl implements EESC
     }
 
     @Override
-    public Group getGroup(String groupId)
+    public Group getGroup(String groupID)
     {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public List<User> getUsersForGroup(String groupId)
+    public List<User> getUsersForGroup(String groupID)
     {
-        String getUsersForGroupURL = String.format("%s/annuaire/group/%s/users", SERVICE_URL, groupId);
+        String getUsersForGroupURL = String.format("%s/annuaire/group/%s/users", SERVICE_URL, groupID);
         JsonElement json;
         List<User> userList = new ArrayList<User>();
         User user;
         String id, nickname, status;
 
         json = askForJSON(getUsersForGroupURL);
-        if(json == null) {
+        if (json == null) {
             return userList;
         }
         for (JsonElement jsonUser : json.getAsJsonArray()) {
@@ -110,16 +124,16 @@ public class EESCImpl implements EESC
     }
 
     @Override
-    public List<Group> getGroupsForUser(String userId)
+    public List<Group> getGroupsForUser(String userID)
     {
-        String getGroupsForUserURL = String.format("%s/annuaire/user/%s/groups", SERVICE_URL, userId);
+        String getGroupsForUserURL = String.format("%s/annuaire/user/%s/groups", SERVICE_URL, userID);
         JsonElement json;
         List<Group> groupList = new ArrayList<Group>();
         Group group;
         String id, name, type;
 
         json = askForJSON(getGroupsForUserURL);
-        if(json == null) {
+        if (json == null) {
             return groupList;
         }
         for (JsonElement jsonGroup : json.getAsJsonArray()) {
@@ -133,14 +147,14 @@ public class EESCImpl implements EESC
     }
 
     @Override
-    public boolean isMember(String userId, String groupId)
+    public boolean isMember(String userID, String groupID)
     {
-        String isMemberURL = String.format("%s/annuaire/group/%s/user/%s", SERVICE_URL, groupId, userId);
+        String isMemberURL = String.format("%s/annuaire/group/%s/user/%s", SERVICE_URL, groupID, userID);
         JsonElement json;
         String id, nickname, status;
 
         json = askForJSON(isMemberURL);
-        if(json == null) {
+        if (json == null) {
             return false;
         }
         id = json.getAsJsonObject().get("id").getAsString();

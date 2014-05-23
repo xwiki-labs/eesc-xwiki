@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1398335032000</creationDate>
-  <date>1398437045000</date>
-  <contentUpdateDate>1398436788000</contentUpdateDate>
+  <creationDate>1400748596000</creationDate>
+  <date>1400857615000</date>
+  <contentUpdateDate>1400857615000</contentUpdateDate>
   <version>1.1</version>
   <title>Accueil</title>
   <defaultTemplate/>
@@ -365,8 +365,7 @@
 ##                 GLOBALS
 ##############################################
 ## GLOBAL VARIABLES
-#set($userId = $xcontext.getUser().replace('xwiki:', '').replace('XWiki.', ''))
-#set($user = $services.eesc.getUser($userId))
+#set($userId = $xcontext.getUserReference().name)
 #set($groupsForUser = $services.eesc.getGroupsForUser($userId))
 ##############################################
 ##                 LIST DOCUMENTS

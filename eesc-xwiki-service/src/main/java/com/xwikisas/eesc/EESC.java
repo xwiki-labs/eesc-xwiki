@@ -7,6 +7,8 @@ import org.xwiki.component.annotation.Role;
 @Role
 public interface EESC
 {
+    String getUID(String casID);
+
     User getUser(String userId);
 
     Group getGroup(String groupId);
@@ -16,7 +18,7 @@ public interface EESC
     List<Group> getGroupsForUser(String userId);
 
     boolean isMember(String userId, String groupId);
-    
+
     List<Group> getAllGroups();
 
 }

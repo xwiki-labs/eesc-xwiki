@@ -51,7 +51,7 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
 
     public XWikiCASAuthServiceImpl() throws ComponentLookupException
     {
-        eesc = Utils.getComponentManager().getInstance(EESC.class, "test");
+        eesc = Utils.getComponentManager().getInstance(EESC.class);
     }
 
     @Override
@@ -103,38 +103,39 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
             return super.authenticate(username, password, context);
         }
 
-        String userWikiName = context.getWiki().clearName(userId, true, true, context);
+        String casID = context.getWiki().clearName(userId, true, true, context);
+        String userID = eesc.getUID(casID);
 
         DistributionManager distributionManager = Utils.getComponent(DistributionManager.class);
         DistributionManager.DistributionState state = distributionManager.getFarmDistributionState();
 
         if (!DistributionManager.DistributionState.NEW.equals(state)) {
             /* If the user doesn't exist, create it. We do this only if the main wiki has been setup */
-            XWikiDocument userdoc =
-                context.getWiki().getDocument(
-                    new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userWikiName), context);
+            userID = eesc.getUID(casID);
+            XWikiDocument userdoc = 
+                context.getWiki().getDocument(new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userID),
+                    context);
             if (userdoc.isNew()) {
-                LOGGER.info("Creating user " + userWikiName);
-                context.getWiki().createEmptyUser(userWikiName, "edit", context);
-                initUser(userWikiName, context);
+                LOGGER.info("Creating user " + userID);
+                context.getWiki().createEmptyUser(userID, "edit", context);
+                initUser(userID, context);
 
             }
         }
 
-        return new SimplePrincipal("xwiki:XWiki." + userWikiName);
+        return new SimplePrincipal("xwiki:XWiki." + userID);
     }
 
-    private boolean initUser(String userWikiName, XWikiContext context) throws XWikiException
+    private boolean initUser(String userID, XWikiContext context) throws XWikiException
     {
-        DocumentReference userDocRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userWikiName);
+        User user = eesc.getUser(userID);
+        List<Group> groups = eesc.getGroupsForUser(userID);
+        DocumentReference userDocRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userID);
         XWikiDocument userDoc = context.getWiki().getDocument(userDocRef, context);
         DocumentReference userObjRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiUsers");
         BaseObject userObj = userDoc.getXObject(userObjRef);
 
         userDoc.setHidden(true);
-
-        User user = eesc.getUser(userWikiName);
-        List<Group> groups = eesc.getGroupsForUser(userWikiName);
 
         userObj.set("first_name", user.getName(), context);
         userObj.set("last_name", "", context);

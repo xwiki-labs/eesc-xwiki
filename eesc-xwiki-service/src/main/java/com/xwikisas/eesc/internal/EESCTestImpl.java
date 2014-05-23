@@ -28,15 +28,15 @@ public class EESCTestImpl implements EESC, Initializable
 
     private Properties properties;
 
-    private String getUserName(String userId)
+    private String getUserName(String userID)
     {
-        String userKey = String.format("user.%s", userId);
+        String userKey = String.format("user.%s", userID);
         return properties.getProperty(userKey);
     }
 
-    private UserStatus getUserStatus(String userId)
+    private UserStatus getUserStatus(String userID)
     {
-        String userKey = String.format("user.%s.status", userId);
+        String userKey = String.format("user.%s.status", userID);
         String property = properties.getProperty(userKey);
         UserStatus userStatus = null;
         if (property != null) {
@@ -46,9 +46,9 @@ public class EESCTestImpl implements EESC, Initializable
 
     }
 
-    private String getGroupName(String groupId)
+    private String getGroupName(String groupID)
     {
-        String groupKey = String.format("group.%s", groupId);
+        String groupKey = String.format("group.%s", groupID);
         return properties.getProperty(groupKey);
     }
 
@@ -65,39 +65,45 @@ public class EESCTestImpl implements EESC, Initializable
     }
 
     @Override
-    public User getUser(String userId)
+    public String getUID(String casID)
+    {
+        return casID;
+    }
+
+    @Override
+    public User getUser(String userID)
     {
         User user = null;
-        if (userId != null) {
-            String userName = getUserName(userId);
-            UserStatus userStatus = getUserStatus(userId);
+        if (userID != null) {
+            String userName = getUserName(userID);
+            UserStatus userStatus = getUserStatus(userID);
             if (userName != null && userStatus != null) {
-                user = new User(userId, userName, userStatus);
+                user = new User(userID, userName, userStatus);
             }
         }
         return user;
     }
 
     @Override
-    public Group getGroup(String groupId)
+    public Group getGroup(String groupID)
     {
         Group group = null;
-        if (groupId != null) {
-            String groupName = getGroupName(groupId);
-            GroupType groupType = getGroupType(groupId);
+        if (groupID != null) {
+            String groupName = getGroupName(groupID);
+            GroupType groupType = getGroupType(groupID);
             if (groupName != null && groupType != null) {
-                group = new Group(groupId, groupName, groupType);
+                group = new Group(groupID, groupName, groupType);
             }
         }
         return group;
     }
 
     @Override
-    public List<User> getUsersForGroup(String groupId)
+    public List<User> getUsersForGroup(String groupID)
     {
-        String prefix = String.format("group.%s.user.", groupId);
+        String prefix = String.format("group.%s.user.", groupID);
         List<User> userList = new ArrayList<User>();
-        if (groupId != null) {
+        if (groupID != null) {
             for (Object o : properties.keySet()) {
                 String key = (String) o;
 
@@ -114,13 +120,13 @@ public class EESCTestImpl implements EESC, Initializable
     }
 
     @Override
-    public List<Group> getGroupsForUser(String userId)
+    public List<Group> getGroupsForUser(String userID)
     {
         List<Group> groupList = new ArrayList<Group>();
-        if (userId != null) {
+        if (userID != null) {
             for (Object o : properties.keySet()) {
                 String key = (String) o;
-                if (key.startsWith("group.") && key.endsWith(userId)) {
+                if (key.startsWith("group.") && key.endsWith(userID)) {
                     String groupId = key.split("\\.")[1];
                     String groupName = getGroupName(groupId);
                     GroupType groupType = getGroupType(groupId);
@@ -133,9 +139,9 @@ public class EESCTestImpl implements EESC, Initializable
     }
 
     @Override
-    public boolean isMember(String userId, String groupId)
+    public boolean isMember(String userID, String groupID)
     {
-        return properties.getProperty(String.format("group.%s.%s", groupId, userId)) != null;
+        return properties.getProperty(String.format("group.%s.%s", groupID, userID)) != null;
     }
 
     @Override
@@ -174,5 +180,4 @@ public class EESCTestImpl implements EESC, Initializable
         }
         return groupList;
     }
-
 }

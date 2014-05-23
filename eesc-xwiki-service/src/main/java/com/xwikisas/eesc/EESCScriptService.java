@@ -24,29 +24,33 @@ public class EESCScriptService implements ScriptService, Initializable
 
     EESC eesc;
 
-    public User getUser(String userId)
+    public String getUID(String casID)
     {
-        return eesc.getUser(userId);
+        return eesc.getUID(casID);
+    }
+    public User getUser(String userID)
+    {
+        return eesc.getUser(userID);
     }
 
-    public Group getGroup(String groupId)
+    public Group getGroup(String groupID)
     {
-        return eesc.getGroup(groupId);
+        return eesc.getGroup(groupID);
     }
 
-    public List<User> getUsersForGroup(String groupId)
+    public List<User> getUsersForGroup(String groupID)
     {
-        return eesc.getUsersForGroup(groupId);
+        return eesc.getUsersForGroup(groupID);
     }
 
-    public List<Group> getGroupsForUser(String userId)
+    public List<Group> getGroupsForUser(String userID)
     {
-        return eesc.getGroupsForUser(userId);
+        return eesc.getGroupsForUser(userID);
     }
 
-    public boolean isMember(String userId, String groupId)
+    public boolean isMember(String userID, String groupID)
     {
-        return eesc.isMember(userId, groupId);
+        return eesc.isMember(userID, groupID);
     }
 
     public List<Group> getAllGroups()
