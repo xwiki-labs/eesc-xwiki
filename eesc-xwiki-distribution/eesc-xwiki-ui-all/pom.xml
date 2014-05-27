@@ -47,7 +47,7 @@
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-mainwiki-all</artifactId>
-      <version>${xwiki.version}</version>
+      <version>${enterprise.version}</version>
       <type>xar</type>
       <scope>provided</scope>
     </dependency>
@@ -68,7 +68,7 @@
             <configuration>
               <groupId>org.xwiki.enterprise</groupId>
               <artifactId>xwiki-enterprise-ui-mainwiki-all</artifactId>
-              <version>${xwiki.version}</version>
+              <version>${enterprise.version}</version>
               <type>xar</type>
               <outputDirectory>${project.build.outputDirectory}</outputDirectory>
               <includeDependencies>true</includeDependencies>

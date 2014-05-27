@@ -39,13 +39,13 @@
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-oldcore</artifactId>
-      <version>${xwiki.version}</version>
+      <version>${platform.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.xwiki.platform</groupId>
       <artifactId>xwiki-platform-extension-distribution</artifactId>
-      <version>${xwiki.version}</version>
+      <version>${platform.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
