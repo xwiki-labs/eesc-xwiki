@@ -12,6 +12,8 @@ import org.xwiki.component.phase.InitializationException;
 import org.xwiki.configuration.ConfigurationSource;
 import org.xwiki.script.service.ScriptService;
 
+import com.xwikisas.eesc.internal.EESCImpl;
+
 @Component
 @Named("eesc")
 public class EESCScriptService implements ScriptService, Initializable
@@ -28,6 +30,7 @@ public class EESCScriptService implements ScriptService, Initializable
     {
         return eesc.getUID(casID);
     }
+
     public User getUser(String userID)
     {
         return eesc.getUser(userID);
@@ -62,11 +65,15 @@ public class EESCScriptService implements ScriptService, Initializable
     public void initialize() throws InitializationException
     {
         String eescService = configurationSource.getProperty("eesc.service");
+        String eescWebservice = configurationSource.getProperty("eesc.webservice.url");
         try {
             if (eescService != null) {
                 eesc = componentManager.getInstance(EESC.class, eescService);
             } else {
                 eesc = componentManager.getInstance(EESC.class);
+                if (eescWebservice != null) {
+                    ((EESCImpl) eesc).setServiceURL(eescWebservice);
+                }
             }
         } catch (Exception e) {
             throw new InitializationException("Error initializing EESC Script Service", e);

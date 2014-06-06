@@ -21,7 +21,11 @@ public class EESCImpl implements EESC
 {
     private Gson gson = new Gson();
 
-    private String SERVICE_URL = "https://cg93.monent.fr/interop";
+    private String webserviceURL = "https://demo.monent.fr/interop";
+    
+    public void setServiceURL(String wsURL) {
+        this.webserviceURL = wsURL;
+    }
 
     private JsonElement askForJSON(String url)
     {
@@ -62,7 +66,7 @@ public class EESCImpl implements EESC
     @Override
     public String getUID(String casID)
     {
-        String convertCasIdToUserIdURL = String.format("%s/annuaire/user/%s/login", SERVICE_URL, casID);
+        String convertCasIdToUserIdURL = String.format("%s/annuaire/user/%s/login", webserviceURL, casID);
         JsonElement json;
         String userID;
 
@@ -77,7 +81,7 @@ public class EESCImpl implements EESC
     @Override
     public User getUser(String userID)
     {
-        String getUserURL = String.format("%s/annuaire/user/%s", SERVICE_URL, userID);
+        String getUserURL = String.format("%s/annuaire/user/%s", webserviceURL, userID);
         JsonElement json;
         User user;
         String id, nickname, status;
@@ -103,7 +107,7 @@ public class EESCImpl implements EESC
     @Override
     public List<User> getUsersForGroup(String groupID)
     {
-        String getUsersForGroupURL = String.format("%s/annuaire/group/%s/users", SERVICE_URL, groupID);
+        String getUsersForGroupURL = String.format("%s/annuaire/group/%s/users", webserviceURL, groupID);
         JsonElement json;
         List<User> userList = new ArrayList<User>();
         User user;
@@ -126,7 +130,7 @@ public class EESCImpl implements EESC
     @Override
     public List<Group> getGroupsForUser(String userID)
     {
-        String getGroupsForUserURL = String.format("%s/annuaire/user/%s/groups", SERVICE_URL, userID);
+        String getGroupsForUserURL = String.format("%s/annuaire/user/%s/groups", webserviceURL, userID);
         JsonElement json;
         List<Group> groupList = new ArrayList<Group>();
         Group group;
@@ -149,7 +153,7 @@ public class EESCImpl implements EESC
     @Override
     public boolean isMember(String userID, String groupID)
     {
-        String isMemberURL = String.format("%s/annuaire/group/%s/user/%s", SERVICE_URL, groupID, userID);
+        String isMemberURL = String.format("%s/annuaire/group/%s/user/%s", webserviceURL, groupID, userID);
         JsonElement json;
         String id, nickname, status;
 

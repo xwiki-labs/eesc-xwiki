@@ -111,7 +111,6 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
 
         if (!DistributionManager.DistributionState.NEW.equals(state)) {
             /* If the user doesn't exist, create it. We do this only if the main wiki has been setup */
-            userID = eesc.getUID(casID);
             XWikiDocument userdoc = 
                 context.getWiki().getDocument(new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userID),
                     context);
