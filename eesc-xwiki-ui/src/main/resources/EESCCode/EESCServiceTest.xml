@@ -155,7 +155,7 @@
       <allow>1</allow>
     </property>
     <property>
-      <groups>XWiki.ENTAllGroup</groups>
+      <groups>XWiki.XWikiAllGroup</groups>
     </property>
     <property>
       <levels>view,edit</levels>

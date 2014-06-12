@@ -375,7 +375,7 @@
 #set($query_where_share = "doc.fullName = oshare.name and oshare.className = 'EESCCode.CollaborativeDocumentClass' and doc.fullName &lt;&gt; 'EESCCode.CollaborativeDocumentTemplate'")
 #set($query_where_right = "doc.fullName = oright.name and oright.className = 'XWiki.XWikiRights'")
 #set($query_where_users = "pusers.id.id = oright.id and pusers.id.name = 'users' and pusers.value = '${xcontext.user}'")
-#set($query_where_groups_values = "pgroups.value = 'XWiki.ENTAllGroup'")
+#set($query_where_groups_values = "pgroups.value = 'XWiki.XWikiAllGroup'")
 #set($sep = ' or ')
 #foreach($g in $groupsForUser)
   ## All groups has been prefixed with 'XWiki.g' (for example, group '00123' is 'XWiki.g00123')

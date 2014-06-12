@@ -99,7 +99,7 @@
   #if($scope.equals('public'))
     ## Add all users with ENTAllGroup
     &lt;input type="hidden" id="XWiki.XWikiRights_1_users" name="XWiki.XWikiRights_1_users" value="" /&gt;
-    &lt;input type="hidden" id="XWiki.XWikiRights_1_groups" name="XWiki.XWikiRights_1_groups" value="XWiki.ENTAllGroup" /&gt;
+    &lt;input type="hidden" id="XWiki.XWikiRights_1_groups" name="XWiki.XWikiRights_1_groups" value="XWiki.XWikiAllGroup" /&gt;
     &lt;input type="hidden" id="XWiki.XWikiRights_1_levels" name="XWiki.XWikiRights_1_levels" value="view,edit" /&gt;
     &lt;input type="hidden" id="XWiki.XWikiRights_1_allow" name="XWiki.XWikiRights_1_allow" value="true" /&gt;
   #elseif($scope.equals('shared'))
