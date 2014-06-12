@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1400748586000</creationDate>
-  <date>1400748586000</date>
-  <contentUpdateDate>1400748586000</contentUpdateDate>
+  <creationDate>1402587970000</creationDate>
+  <date>1402590090000</date>
+  <contentUpdateDate>1402587970000</contentUpdateDate>
   <version>1.1</version>
   <title>XWiki Preferences</title>
   <defaultTemplate/>
@@ -2718,19 +2718,19 @@ Your account on ${wikiname} has been successfully activated. You can now login a
       <showRightPanels>1</showRightPanels>
     </property>
     <property>
-      <showannotations>1</showannotations>
+      <showannotations>0</showannotations>
     </property>
     <property>
-      <showattachments/>
+      <showattachments>0</showattachments>
     </property>
     <property>
       <showcomments>0</showcomments>
     </property>
     <property>
-      <showhistory/>
+      <showhistory>1</showhistory>
     </property>
     <property>
-      <showinformation/>
+      <showinformation>0</showinformation>
     </property>
     <property>
       <skin>XWiki.DefaultSkin</skin>
