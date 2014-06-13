@@ -378,8 +378,8 @@
 #set($query_where_groups_values = "pgroups.value = 'XWiki.XWikiAllGroup'")
 #set($sep = ' or ')
 #foreach($g in $groupsForUser)
-  ## All groups has been prefixed with 'XWiki.g' (for example, group '00123' is 'XWiki.g00123')
-  #set($query_where_groups_values = "${query_where_groups_values}${sep}pgroups.value = 'XWiki.g${g.getId()}'")
+  ## All groups has been prefixed with 'XWiki.' (for example, group '00123' is 'XWiki.00123')
+  #set($query_where_groups_values = "${query_where_groups_values}${sep}pgroups.value = 'XWiki.${g.getId()}'")
 #end
 ## For XWiki.Admin, '${query_where_groups_values}' is empty so it will result in the following
 ## $query_where_groups =&gt; "pgroups.id.id = oright.id and pgroups.id.name = 'groups'"
