@@ -37,10 +37,15 @@
   <name>EESC - XWiki - Parent POM</name>
   <description>XWiki integration for project EESC</description>
 
+  <properties>
+	  <application-task.version>2.2-SNAPSHOT</application-task.version>
+  </properties>
+
   <modules>
     <module>eesc-xwiki-cas-authenticator</module>
     <module>eesc-xwiki-distribution</module>
-    <module>eesc-xwiki-ui</module>
+    <module>eesc-xwiki-ui-ecr</module>
+    <module>eesc-xwiki-ui-prj</module>
     <module>eesc-xwiki-web</module>
     <module>eesc-xwiki-service</module>
   </modules>

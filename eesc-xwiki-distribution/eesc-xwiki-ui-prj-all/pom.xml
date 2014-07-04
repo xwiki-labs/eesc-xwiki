@@ -31,7 +31,7 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>eesc-xwiki-ui-all</artifactId>
+  <artifactId>eesc-xwiki-ui-prj-all</artifactId>
   <packaging>xar</packaging>
 
   <name>EESC - XWiki - Distribution - UI All</name>
@@ -39,11 +39,18 @@
   <dependencies>
     <dependency>
       <groupId>com.xwikisas</groupId>
-      <artifactId>eesc-xwiki-ui</artifactId>
+      <artifactId>eesc-xwiki-ui-prj</artifactId>
       <version>${project.version}</version>
       <type>xar</type>
       <scope>provided</scope>
     </dependency>
+	<dependency>
+	  <groupId>org.xwiki.contrib</groupId>
+	  <artifactId>application-task</artifactId>
+	  <version>${application-task.version}</version>
+	  <type>xar</type>
+	  <scope>provided</scope>
+	</dependency>
     <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-mainwiki-all</artifactId>
@@ -80,15 +87,30 @@
             </configuration>
           </execution>
           <execution>
-            <id>unxar-eesc-xwiki-ui</id>
+            <id>unxar-eesc-xwiki-ui-prj</id>
             <phase>generate-resources</phase>
             <goals>
               <goal>unxar</goal>
             </goals>
             <configuration>
               <groupId>com.xwikisas</groupId>
-              <artifactId>eesc-xwiki-ui</artifactId>
+              <artifactId>eesc-xwiki-ui-prj</artifactId>
               <version>${project.version}</version>
+              <type>xar</type>
+              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+              <includeDependencies>true</includeDependencies>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unxar-application-task</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unxar</goal>
+            </goals>
+            <configuration>
+              <groupId>org.xwiki.contrib</groupId>
+              <artifactId>application-task</artifactId>
+              <version>${application-task.version}</version>
               <type>xar</type>
               <outputDirectory>${project.build.outputDirectory}</outputDirectory>
               <includeDependencies>true</includeDependencies>

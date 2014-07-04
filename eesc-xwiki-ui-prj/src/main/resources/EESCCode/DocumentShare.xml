@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc>
+  <web>EESCCode</web>
+  <name>DocumentShare</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1400748597000</creationDate>
+  <date>1400857958000</date>
+  <contentUpdateDate>1400857908000</contentUpdateDate>
+  <version>1.1</version>
+  <title>${services.localization.render('eesc.DocumentShare.title')}</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <content>{{include reference="EESCCode.ShareMacro" /}}
+
+{{velocity}}
+#*
+ * EESC share a document
+ * -----
+ *
+ * This page propose to share an existing document.
+ *
+ * Author: Fabio MANCINELLI &lt;fabio.mancinelli@xwiki.com&gt;
+ *         Jean SIMARD &lt;jean.simard@xwiki.com&gt;
+ *#
+##############################################
+##                 GLOBALS
+##############################################
+## HTTP REQUEST PARAMETERS
+#set($reqStep = $request.getParameter('step'))
+#if($request.getParameter('cancel'))
+  #set($reqStep = 'cancel')
+#end
+#set($reqReferer = $request.getParameter('referer'))
+#if(!$reqReferer)
+  #set($reqReferer = $request.getHeader('referer'))
+#end
+#set($reqSpaceName = $request.getParameter('spacename'))
+#set($reqDocumentName = $request.getParameter('documentname'))
+#set($reqScope = $request.getParameter('scope'))
+#set($reqUsers = $request.getParameterValues('users'))
+#set($reqGroups = $request.getParameterValues('groups'))
+##############################################
+##                CONTROLLER
+##############################################
+#controller()
+#macro(controller)
+  #if($reqStep.equals('cancel'))
+    #stepCancel($reqReferer)
+  #elseif($reqStep.equals('form') &amp;&amp; $reqSpaceName &amp;&amp; $reqDocumentName)
+    #stepForm($reqSpaceName)
+  #elseif($reqStep.equals('share') &amp;&amp; $reqSpaceName &amp;&amp; $reqDocumentName)
+    #stepShare($reqSpaceName, $reqDocumentName, $reqScope, $reqUsers, $reqGroups)
+  #else
+    #displayError()
+  #end
+#end
+##############################################
+##               ADD DATA
+##############################################
+#*
+ * Share the document
+ * -----
+ *
+ * Given the HTTP POST request, create the document with the rights that apply.
+ *
+ * @param $spaceName The name of the folder to create
+ * @param $documentName The name of the document to create
+ * @param $scope The type of restriction of the document ('public', 'shared' or 'private')
+ * @param $users The list of authorized users if it apply (if $scope is 'shared')
+ * @param $groups The list of authorized users if it apply (if $scope is 'shared')
+ *#
+#macro(stepShare, $spaceName, $documentName, $scope, $users, $groups)
+  #set($documentref = $services.model.createDocumentReference(${xcontext.mainWikiName}, $spaceName, $documentName))
+  #set($document = $xwiki.getDocument($documentref))
+  #set($shareobj = $document.getObject('EESCCode.CollaborativeDocumentClass'))
+  #set($discard = $shareobj.set('scope', $scope))
+  #set($discard = $document.removeObjects('XWiki.XWikiRights'))
+  ## Rights of the creator
+  #set($object = $document.newObject('XWiki.XWikiRights'))
+  #set($discard = $object.set('users', $document.creator))
+  #set($discard = $object.set('groups', ''))
+  #set($discard = $object.set('levels', 'view,edit,delete,creator'))
+  #set($discard = $object.set('allow', 'true'))
+  #if($scope.equals('public'))
+    #set($object = $document.newObject('XWiki.XWikiRights'))
+    #set($discard = $object.set('users', ''))
+    #set($discard = $object.set('groups', 'XWiki.XWikiAllGroup'))
+    #set($discard = $object.set('levels', 'view,edit'))
+    #set($discard = $object.set('allow', 'true'))
+  #elseif($scope.equals('shared'))
+    ## Rights for the users
+    #foreach($username in $users)
+      #set($user = $xwiki.getDocument($services.model.resolveDocument($username)))
+      #if($user.getObjectNumbers('XWiki.XWikiUsers') &gt;= 1)
+        #set($object = $document.newObject('XWiki.XWikiRights'))
+        #set($discard = $object.set('users', $username))
+        #set($discard = $object.set('groups', ''))
+        #set($discard = $object.set('levels', 'view,edit'))
+        #set($discard = $object.set('allow', 'true'))
+      #end
+    #end
+    ## Rights for the groups
+    #foreach($groupname in $groups)
+      #set($group = $xwiki.getDocument($services.model.resolveDocument($groupname)))
+      #if($group.getObjectNumbers('XWiki.XWikiGroups') &gt;= 1)
+        #set($object = $document.newObject('XWiki.XWikiRights'))
+        #set($discard = $object.set('users', ''))
+        #set($discard = $object.set('groups', $groupname))
+        #set($discard = $object.set('levels', 'view,edit'))
+        #set($discard = $object.set('allow', 'true'))
+      #end
+    #end
+  #end
+  #set($discard = $document.save())
+  #set($discard = $response.sendRedirect($xwiki.getURL($documentref, 'view', '')))
+#end
+##############################################
+##                  VIEW
+##############################################
+#*
+ * Redirect to the referer
+ * -----
+ *
+ * Redirect the user to the page from where it was coming from.
+ *
+ * @param $referer The URL to redirect
+ *#
+#macro(stepCancel, $referer)
+  #set($discard = $response.sendRedirect($referer))
+#end
+#*
+ * Display error
+ * -----
+ *
+ * Display an error when the HTTP request is incomplete.
+ *#
+#macro(displayError)
+  {{error}}
+    ${services.localization.render('eesc.DocumentShare.error')}
+  {{/error}}
+#end
+#*
+ * Display the form
+ * -----
+ *
+ * Display the form to the user
+ *
+ * @param $spaceName The optional space name that may have been given
+ *#
+#macro(stepForm, $spaceName)
+  #set($documentref = $services.model.resolveDocument("${reqSpaceName}.${reqDocumentName}"))
+  #set($documentlink = "&lt;span class=""wikilink""&gt;&lt;a href=""${xwiki.getURL($documentref)}""&gt;${reqDocumentName}&lt;/a&gt;&lt;/span&gt;")
+  #set($message = ${services.localization.render('eesc.DocumentShare.message', ["${documentlink}", "${reqSpaceName}"])})
+
+  {{html clean='false'}}
+    &lt;form class="xform" method="POST" action="${xwiki.getURL($services.model.resolveDocument('EESCCode.DocumentShare'))}"&gt;
+      &lt;input type="hidden" name="step" value="share" /&gt;
+      &lt;input type="hidden" name="referer" value="${reqReferer}" /&gt;
+      &lt;input type="hidden" name="spacename" value="${reqSpaceName}" /&gt;
+      &lt;input type="hidden" name="documentname" value="${reqDocumentName}" /&gt;
+      &lt;dl&gt;
+        &lt;dt&gt;
+          &lt;label for="shareWith"&gt;
+            $message
+          &lt;/label&gt;
+        &lt;/dt&gt;
+        &lt;dd&gt;
+          #htmlsharedoc($reqSpaceName, $reqDocumentName)
+        &lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;div class="bottombuttons"&gt;
+        &lt;div class="buttons"&gt;
+          &lt;span class="buttonwrapper"&gt;
+            &lt;input type="submit" name="share" value="${services.localization.render('eesc.DocumentShare.bottombuttons.share')}" class="button" /&gt;
+          &lt;/span&gt;
+          &lt;span class="buttonwrapper"&gt;
+            &lt;input type="submit" name="cancel" value="${services.localization.render('eesc.DocumentShare.bottombuttons.cancel')}" class="button" /&gt;
+          &lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+  {{/html}}
+
+#end
+{{/velocity}}</content>
+</xwikidoc>

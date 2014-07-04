@@ -31,7 +31,7 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>eesc-xwiki-ui</artifactId>
+  <artifactId>eesc-xwiki-ui-prj</artifactId>
   <packaging>xar</packaging>
 
   <name>EESC - XWiki - UI</name>

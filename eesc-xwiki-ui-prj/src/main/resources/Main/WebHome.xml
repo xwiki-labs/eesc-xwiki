@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc>
+  <web>Main</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent/>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1400748596000</creationDate>
+  <date>1400857615000</date>
+  <contentUpdateDate>1400857615000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Accueil</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>true</hidden>
+  <object>
+    <class>
+      <name>XWiki.EditModeClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <defaultEditMode>
+        <disabled>0</disabled>
+        <name>defaultEditMode</name>
+        <number>1</number>
+        <prettyName>Default Edit Mode</prettyName>
+        <size>15</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </defaultEditMode>
+    </class>
+    <name>Main.WebHome</name>
+    <number>0</number>
+    <className>XWiki.EditModeClass</className>
+    <guid>c170a0a8-cc17-41cd-aa1e-6f6faf1d9f28</guid>
+    <property>
+      <defaultEditMode>edit</defaultEditMode>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>Main.WebHome</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>45a367fb-3643-4325-a56d-604f214bf5ba</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>.menu-vertical .xDropdown-toggle:after {
+  content: "▸";
+  float: left;
+}</code>
+    </property>
+    <property>
+      <name>Menu</name>
+    </property>
+    <property>
+      <parse/>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>Main.WebHome</name>
+    <number>1</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>e73e36f8-806c-454c-9f20-2845776fef5a</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>.meta-minorEdit {
+  display: none !important;
+}</code>
+    </property>
+    <property>
+      <name>Hide minor edit</name>
+    </property>
+    <property>
+      <parse/>
+    </property>
+    <property>
+      <use>always</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>Main.WebHome</name>
+    <number>2</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>66c0bcbb-a8e9-49b1-a3cb-1130383d8f02</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>.xwikidatatable tr th:nth-child(1),.xwikidatatable tr td:nth-child(1),.xwikidatatable tr th:nth-child(2),.xwikidatatable tr td:nth-child(2) {
+  display: none;
+}</code>
+    </property>
+    <property>
+      <name>Hide revisions radio buttons</name>
+    </property>
+    <property>
+      <parse/>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <content>{{velocity}}
+#*
+ * Main webhome
+ *  -----------
+ *
+ * This sheet presents all the spaces that a user can access.  This includes his own personal space and all of the spaces linked to the group he is in.
+ *
+ * Author: Jean SIMARD (jean.simard@xwiki.com)
+ *#
+##############################################
+##                 GLOBALS
+##############################################
+## GLOBAL VARIABLES
+#set($userId = $xcontext.getUserReference().name)
+#set($groupsForUser = $services.eesc.getGroupsForUser($userId))
+##############################################
+##                 LIST DOCUMENTS
+##############################################
+#set($query_select = "distinct doc.fullName")
+#set($query_from = "XWikiDocument doc, BaseObject as oshare, BaseObject as oright, LargeStringProperty as pusers, LargeStringProperty as pgroups")
+#set($query_where_share = "doc.fullName = oshare.name and oshare.className = 'EESCCode.CollaborativeDocumentClass' and doc.fullName &lt;&gt; 'EESCCode.CollaborativeDocumentTemplate'")
+#set($query_where_right = "doc.fullName = oright.name and oright.className = 'XWiki.XWikiRights'")
+#set($query_where_users = "pusers.id.id = oright.id and pusers.id.name = 'users' and pusers.value = '${xcontext.user}'")
+#set($query_where_groups_values = "pgroups.value = 'XWiki.XWikiAllGroup'")
+#set($sep = ' or ')
+#foreach($g in $groupsForUser)
+  ## All groups has been prefixed with 'XWiki.' (for example, group '00123' is 'XWiki.00123')
+  #set($query_where_groups_values = "${query_where_groups_values}${sep}pgroups.value = 'XWiki.${g.getId()}'")
+#end
+## For XWiki.Admin, '${query_where_groups_values}' is empty so it will result in the following
+## $query_where_groups =&gt; "pgroups.id.id = oright.id and pgroups.id.name = 'groups'"
+## which will list every document with this property (no matter what value is in it); hence, all collaborative documents will be listed.
+#set($query_where_groups = "pgroups.id.id = oright.id and pgroups.id.name = 'groups'#if(${query_where_groups_values}!='') and ( ${query_where_groups_values} )#{end}")
+#set($query_where = "${query_where_share} and ${query_where_right} and ( ( ${query_where_users} ) or ( ${query_where_groups} ) )")
+#set($query = "select ${query_select} from ${query_from} where ${query_where}")
+#set($results = $services.query.hql($query).addFilter('hidden').addFilter('unique').execute())
+#set($viewabledocs = [])
+## Filter documents the user has access to
+#foreach($pagename in $results)
+  #if($xwiki.checkAccess($pagename, 'view'))
+    #set($discard = $viewabledocs.add($pagename))
+  #end
+#end
+#set($lastspacename = '')
+#if(!$viewabledocs.isEmpty())
+  {{menu type="vertical collapsible open"}}## Add/remove 'open' to have the menu expanded/folded by default
+    #foreach($pagename in $viewabledocs)
+      #set($pagenameelements = $pagename.split('\.'))
+      #set($spacename = $pagenameelements.get(0))
+      #set($documentname = $pagenameelements.get(1))
+      #if(!$spacename.equals($lastspacename))
+        #if($foreach.count != 1)
+          * ----
+        #end
+        * image:icon:folder ${spacename}
+        #set($lastspacename = $spacename)
+      #end
+      ** [[image:icon:page ${documentname}&gt;&gt;${pagename}]]
+    #end
+    * ----
+  {{/menu}}
+#else
+  {{info}}
+    $services.localization.render('eesc.Documentshare.nodocument')
+  {{/info}}
+#end
+
+{{/velocity}}</content>
+</xwikidoc>

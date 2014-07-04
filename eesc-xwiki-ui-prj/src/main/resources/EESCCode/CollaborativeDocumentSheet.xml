@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc>
+  <web>EESCCode</web>
+  <name>CollaborativeDocumentSheet</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>EESCCode.CollaborativeDocumentClass</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1400748597000</creationDate>
+  <date>1400748597000</date>
+  <contentUpdateDate>1400748597000</contentUpdateDate>
+  <version>1.1</version>
+  <title>#if($doc.name.equals('CollaborativeDocumentSheet'))CollaborativeDocument Sheet#{else}$services.display.title($doc, {'displayerHint': 'default'})#end</title>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.SheetDescriptorClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <action>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>action</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>Action</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </action>
+    </class>
+    <name>EESCCode.CollaborativeDocumentSheet</name>
+    <number>0</number>
+    <className>XWiki.SheetDescriptorClass</className>
+    <guid>d8284a7c-8e6e-4110-a365-aeff65992bda</guid>
+    <property>
+      <action>edit</action>
+    </property>
+  </object>
+  <content>{{velocity}}
+
+{{html}}
+#if(!$doc.name.equals('CollaborativeDocumentSheet'))
+  ## Insert the WYSIWYG editor
+  $xwiki.getTextArea($tdoc.content)
+  #wysiwyg_editProperty($tdoc, 'content', true)
+  #####
+  #set($template = $request.getParameter('template'))
+  #set($parent = $request.getParameter('parent'))
+  #set($scope = $request.getParameter('scope'))
+  #set($users = $request.getParameterValues('user'))
+  #set($groups = $request.getParameterValues('group'))
+  &lt;input type="hidden" id="template" name="template" value="${template}" /&gt;
+  &lt;input type="hidden" id="parent" name="parent" value="${parent}" /&gt;
+  &lt;input type="hidden" id="objectPolicy" name="objectPolicy" value="updateOrCreate" /&gt;
+  &lt;input type="hidden" id="title" name="title" value="[${doc.space}] ${doc.name}" /&gt;
+  ## Creator of the document
+  &lt;input type="hidden" id="XWiki.XWikiRights_0_users" name="XWiki.XWikiRights_0_users" value="${xcontext.user}" /&gt;
+  &lt;input type="hidden" id="XWiki.XWikiRights_0_groups" name="XWiki.XWikiRights_0_groups" value="" /&gt;
+  &lt;input type="hidden" id="XWiki.XWikiRights_0_levels" name="XWiki.XWikiRights_0_levels" value="view,edit,delete,creator" /&gt;
+  &lt;input type="hidden" id="XWiki.XWikiRights_0_allow" name="XWiki.XWikiRights_0_allow" value="true" /&gt;
+  #set($objectid = 1)
+  #if($scope.equals('public'))
+    ## Add all users with ENTAllGroup
+    &lt;input type="hidden" id="XWiki.XWikiRights_1_users" name="XWiki.XWikiRights_1_users" value="" /&gt;
+    &lt;input type="hidden" id="XWiki.XWikiRights_1_groups" name="XWiki.XWikiRights_1_groups" value="XWiki.XWikiAllGroup" /&gt;
+    &lt;input type="hidden" id="XWiki.XWikiRights_1_levels" name="XWiki.XWikiRights_1_levels" value="view,edit" /&gt;
+    &lt;input type="hidden" id="XWiki.XWikiRights_1_allow" name="XWiki.XWikiRights_1_allow" value="true" /&gt;
+  #elseif($scope.equals('shared'))
+  ## Add authorized users
+    #foreach($username in $users)
+      #set($user = $xwiki.getDocument($services.model.resolveDocument($username)))
+      #if($user.getObjectNumbers('XWiki.XWikiUsers') &gt;= 1)
+        #set($prefix = "XWiki.XWikiRights_${objectid}_")
+        &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="${username}" /&gt;
+        &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="" /&gt;
+        &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="view,edit" /&gt;
+        &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" /&gt;
+        #set($objectid = $objectid + 1)
+      #end
+    #end
+    ## Add authorized groups
+    #foreach($groupname in $groups)
+      #set($groupref = $services.model.resolveDocument($groupname))
+      #set($group = $xwiki.getDocument($groupref))
+      #if($group.getObjectNumbers('XWiki.XWikiGroups') &gt;= 1)
+        #set($prefix = "XWiki.XWikiRights_${objectid}_")
+        &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="" /&gt;
+        &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="${groupname}" /&gt;
+        &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="view,edit" /&gt;
+        &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" /&gt;
+        #set($objectid = $objectid + 1)
+      #end
+    #end
+  #end
+#end
+{{/html}}
+
+{{/velocity}}</content>
+</xwikidoc>
