@@ -95,10 +95,14 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
         }
 
         HttpSession session = request.getSession();
-        String ticket = session.getAttribute(ENT_TICKET).toString();
-        String userId = session.getAttribute(ENT_USERID).toString();
-        String userGroupes = session.getAttribute(ENT_USERGROUPES).toString();
-        String userType = session.getAttribute(ENT_USERTYPE).toString();
+        Object ticketSession = session.getAttribute(ENT_TICKET);
+        String ticket = null, userId = null, userGroupes = null, userType = null;
+        if (ticketSession != null) {
+            ticket = session.getAttribute(ENT_TICKET).toString();
+            userId = session.getAttribute(ENT_USERID).toString();
+            userGroupes = session.getAttribute(ENT_USERGROUPES).toString();
+            userType = session.getAttribute(ENT_USERTYPE).toString();
+        }
         if (userId == null) {
             return super.authenticate(username, password, context);
         }
@@ -111,9 +115,9 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
 
         if (!DistributionManager.DistributionState.NEW.equals(state)) {
             /* If the user doesn't exist, create it. We do this only if the main wiki has been setup */
-            XWikiDocument userdoc = 
-                context.getWiki().getDocument(new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userID),
-                    context);
+            XWikiDocument userdoc =
+                context.getWiki().getDocument(
+                    new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userID), context);
             if (userdoc.isNew()) {
                 LOGGER.info("Creating user " + userID);
                 context.getWiki().createEmptyUser(userID, "edit", context);
