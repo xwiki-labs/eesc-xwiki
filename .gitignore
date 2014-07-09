@@ -25,3 +25,5 @@ nbproject
 *.log
 *~
 .*.swp
+eesc-deploy.conf
+eesc-service.conf

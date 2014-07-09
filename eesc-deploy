@@ -1,0 +1,317 @@
+#!/bin/bash
+source function.sh
+
+FROM=
+FROM_DEFAULT="https://github.com/fmancinelli/eesc-xwiki.git"
+TO=
+TO_DEFAULT="/opt/eesc-xwiki"
+TOMCAT=
+TOMCAT_DEFAULT="http://apache.mirrors.multidist.eu/tomcat/tomcat-7/v7.0.54/bin/apache-tomcat-7.0.54.tar.gz"
+SERVICE=
+DEFAULT_SERVICE="ECR"
+BUILD=
+DEFAULT_BUILD=1
+
+# Errors code
+ERR_UNKNOWN_ERROR=1
+ERR_UNKNOWN_ARG=2
+ERR_TO_EXIST=3
+ERR_CONF=4
+ERR_UNKNOWN_SERVICE=5
+ERR_TOMCAT=6
+ERR_BUILD=7
+
+LOG_FILE="${0}.log"
+LOG_LEVEL="info"
+
+function parse_arguments() {
+	NEXT_ARG=""
+	for ARG in $*
+	do
+		case $ARG in
+			"-c"|"--conf"|"--configuration-file")
+				NEXT_ARG="conf"
+				;;
+			"-f"|"--from")
+				NEXT_ARG="from"
+				;;
+			"-t"|"--to")
+				NEXT_ARG="to"
+				;;
+			"-a"|"--apache-tomcat"|"--tomcat")
+				NEXT_ARG="tomcat"
+				;;
+			"-s"|"--service")
+				NEXT_ARG="service"
+				;;
+			"-b"|"--build")
+				BUILD=1
+				;;
+			"-nb"|"--no-build")
+				BUILD=0
+				;;
+			*)
+				if [ -n "$NEXT_ARG" -a "$NEXT_ARG" = "conf" ]
+				then
+					parse_configuration_file $ARG
+				elif [ -n "$NEXT_ARG" -a "$NEXT_ARG" = "from" ]
+				then
+					FROM=$ARG
+				elif [ -n "$NEXT_ARG" -a "$NEXT_ARG" = "to" ]
+				then
+					TO=$ARG
+				elif [ -n "$NEXT_ARG" -a "$NEXT_ARG" = "tomcat" ]
+				then
+					TOMCAT=$ARG
+				elif [ -n "$NEXT_ARG" -a "$NEXT_ARG" = "service" ]
+				then
+					case $ARG in
+						"ecr"|"ECR")
+							SERVICE="ECR"
+							;;
+						"prj"|"PRJ")
+							SERVICE="PRJ"
+							;;
+						*)
+							log_error "Unknown service" $ERR_UNKNOWN_SERVICE
+							;;
+					esac
+				else
+					log_error "Unknown argument" $ERR_UNKNOWN_ARG
+				fi
+				NEXT_ARG=""
+				;;
+		esac
+	done
+}
+
+function check() {
+	if [ $# -ge 1 ]
+	then
+		for ARG in $*
+		do
+			case $ARG in
+				"to")
+					if [ $BUILD -eq 1 -a -d "$TO" -o -f "$TO" ]
+					then
+						log_error "\`$TO' already exists" $ERR_TO_EXISTS
+					fi
+					;;
+				"tomcat")
+					if [ "$TOMCAT" != "http*" -a ! -f "$TOMCAT" ]
+					then
+						log_error "Cannot find the Apache Tomcat archive" $ERR_TOMCAT
+					fi
+					;;
+				"service")
+					if [ "$SERVICE" != "ECR" -a "$SERVICE" != "PRJ" ]
+					then
+						log_error "Unkown service" $ERR_UNKNOWN_SERVICE
+					fi
+					;;
+				"build")
+					if [ $BUILD -ne 0 -a $BUILD -ne 1 ]
+					then
+						log_error "Build flag no set" $ERR_BUILD
+					fi
+					;;
+			esac
+		done
+	fi
+}
+
+function ask_user() {
+	if [ -z "$FROM" ]
+	then
+		FROM=$FROM_DEFAULT
+		echo -n "Give the git repository of EESC project [$FROM]: "
+		read TMP
+		if [ -n "$TMP" ]
+		then
+			FROM=$TMP
+		fi
+	fi
+	check "from"
+
+	if [ -z "$TO" ]
+	then
+		TO=$TO_DEFAULT
+		echo -n "Where do you want to deploy [$TO]: "
+		read TMP
+		if [ -n "$TMP" ]
+		then
+			TO=$TMP
+		fi
+	fi
+	check "to"
+
+	if [ -z "$TOMCAT" ]
+	then
+		TOMCAT=$TOMCAT_DEFAULT
+		echo -n "Where is the archive of Tomcat (if you don't have it, it will be downloaded): "
+		read TMP
+		if [ -n "$TMP" ]
+		then
+			TOMCAT=$TMP
+		fi
+	fi
+	check "tomcat"
+
+	if [ -z "$BUILD" ]
+	then
+		BUILD=$BUILD_DEFAULT
+		echo -n "Do you want to build the project (0 for no, 1 for yes) [$BUILD]: "
+		read TMP
+		if [ -n "$TMP" ]
+		then
+			BUILD=$TMP
+		fi
+	fi
+	check "tomcat"
+}
+function build() {
+	if [ $BUILD -eq 1 ]
+	then
+		log_info "Downloading project"
+		cd $TO
+		git clone $FROM > $LOG_FILE 2>&1
+		log_debug $LOG_FILE
+		log_info "Compiling project"
+		cd $REPO_PATH
+		mvn clean install > $LOG_FILE 2>&1
+		log_debug $LOG_FILE
+		cd $TO
+	elif [ -d "$TO/eesc-xwiki" ]
+	then
+		log_info "The project will not be built"
+	else
+		log_error "The builded project doesn't exist (try BUILD=1 in configuration)"
+	fi
+}
+
+function deploy_tomcat() {
+	cd $TO
+	if [ "$TOMCAT" = "http*" ]
+	then
+		log_info "---> Downloading Tomcat"
+		wget $TOMCAT
+		TOMCAT="$TO/$( basename $TOMCAT )"
+	fi
+	log_info "---> Uncompressing Tomcat"
+	tar xvzf $TOMCAT > $LOG_FILE 2>&1
+	log_debug $LOG_FILE
+	log_info "---> Configuring Tomcat"
+	ln --force --symbolic $TOMCAT_DIRNAME $TOMCAT_PATH
+	sed "
+	$ s/\<start\>/jpda &/g
+	/# Better OS\/400/ a\
+	export CATALINA_OPTS='-Xmx1024M -XX:MaxPermSize=256m -Dxwiki.data.dir=$TO/xwiki.data'\n
+	" $TOMCAT_PATH/bin/startup.sh > $XWIKI_START
+	chmod a+x $XWIKI_START
+	rm -Rf $XWIKI_PATH $XWIKI_DATA_PATH
+	mkdir -p $XWIKI_PATH $XWIKI_DATA_PATH
+	ln --force --symbolic ../../xwiki $TOMCAT_PATH/webapps/xwiki
+}
+
+function deploy_xwiki() {
+	log_info "---> Uncompressing XWiki"
+	cd $XWIKI_PATH
+	unzip $REPO_PATH/eesc-xwiki-distribution/eesc-xwiki-web-hsqldb/target/eesc-xwiki-web-hsqldb-1.0-SNAPSHOT.war > $LOG_FILE 2>&1
+	log_debug
+	log_info "---> Configuring XWiki"
+	sed -i '
+	s+PUT_HERE_THE_CAS_AUTHENTICATION_SERVER_URL+https://demo.monent.fr/connexion/+g
+	' $XWIKI_WEBXML_FILE
+	cp $XWIKI_WEBXML_FILE $XWIKI_WEBXML_CAS_FILE
+	sed -n '
+	/<filter-mapping>/,/<\/filter-mapping>/ {
+		/<filter-mapping>/h;
+		/<filter-mapping>/!H;
+		/<\/filter-mapping>/ {
+			g
+			/\<[Cc][Aa][Ss]\>/s/<filter-mapping>/<!--filter-mapping>/g
+			/\<[Cc][Aa][Ss]\>/s/<\/filter-mapping>/<\/filter-mapping-->/g
+			p
+		}
+		d
+	}
+	p
+	' $XWIKI_WEBXML_FILE > $XWIKI_WEBXML_NOCAS_FILE
+	sed -i '
+	$ a\
+	eesc.webservice.url=https://demo.monent.fr/interop
+	' $XWIKI_PATH/WEB-INF/xwiki.properties
+}
+
+function upload_xar() {
+	log_info "---> Starting XWiki"
+	start_xwiki 0 # NO_CAS
+	# cp $XWIKI_WEBXML_NOCAS_FILE $XWIKI_WEBXML_FILE
+	# sh $XWIKI_START > $LOG_FILE 2>&1
+	# log_debug $LOG_FILE
+	# sleep 15
+	log_info "---> Uploading XAR"
+	if [ $SERVICE = "ECR" ]
+	then
+		XAR_FILE="$REPO_PATH/eesc-xwiki-distribution/eesc-xwiki-ui-ecr-all/target/eesc-xwiki-ui-ecr-all.xar"
+	elif [ $SERVICE = "PRJ" ]
+	then
+		XAR_FILE="$REPO_PATH/eesc-xwiki-distribution/eesc-xwiki-ui-prj-all/target/eesc-xwiki-ui-prj-all.xar"
+	fi
+	curl \
+		--verbose \
+		--request POST \
+		--user superadmin:system \
+		--header "Content-type: application/octet-stream" \
+		--data-binary "@$XAR_FILE" \
+		http://localhost:8080/xwiki/rest/wikis/xwiki/ > $LOG_FILE 2>&1
+	log_debug $LOG_FILE
+
+	log_info "---> Stopping XWiki"
+	stop_xwiki
+	# sh $XWIKI_STOP > $LOG_FILE 2>&1
+	# log_debug $LOG_FILE
+}
+
+#################
+##### START #####
+#################
+# Check for a configuration file
+if [ -f "${0}.conf" ]
+then
+	parse_configuration_file "${0}.conf"
+	log_info "${0}.conf found and parsed"
+fi
+# Parse arguments which have been used to launch this script
+parse_arguments $*
+# Ask user for missing configuration parameters
+ask_user
+# Check the given configuration
+check "from" "to" "tomcat" "service" "build"
+
+# Init some variables for the deployment
+REPO_PATH="$TO/$( basename $FROM | sed 's/\.git$//g' )"
+TOMCAT_DIRNAME=$( basename $TOMCAT | sed 's/\.tar\.gz$//g' )
+TOMCAT_PATH="$TO/tomcat"
+XWIKI_PATH="$TO/xwiki"
+XWIKI_DATA_PATH="$TO/xwiki.data"
+XWIKI_START="$TOMCAT_PATH/bin/startup_xwiki.sh"
+XWIKI_STOP="$TOMCAT_PATH/bin/shutdown.sh"
+XWIKI_WEBXML_FILE=$XWIKI_PATH/WEB-INF/web.xml
+XWIKI_WEBXML_CAS_FILE=$XWIKI_PATH/WEB-INF/web.cas.xml
+XWIKI_WEBXML_NOCAS_FILE=$XWIKI_PATH/WEB-INF/web.nocas.xml
+
+mkdir -p $TO
+
+# Build the project (git clone, maven)
+log_info "Building the project"
+build
+# Deploy Tomcat instance
+log_info "Deploying Tomcat"
+deploy_tomcat
+# Deploy XWiki instance
+log_info "Deploying XWiki"
+deploy_xwiki
+# Uploading XAR distribution to XWiki
+log_info "Uploading XAR distribution to XWiki"
+upload_xar

@@ -1,0 +1,76 @@
+#!/bin/bash
+source function.sh
+
+FROM=
+FROM_DEFAULT="https://github.com/fmancinelli/eesc-xwiki.git"
+TO=
+TO_DEFAULT="/opt/eesc-xwiki"
+TOMCAT=
+TOMCAT_DEFAULT="http://apache.mirrors.multidist.eu/tomcat/tomcat-7/v7.0.54/bin/apache-tomcat-7.0.54.tar.gz"
+SERVICE=
+DEFAULT_SERVICE="ECR"
+BUILD=
+DEFAULT_BUILD=1
+
+# Errors code
+ERR_UNKNOWN_ERROR=1
+
+LOG_FILE="${0}.log"
+LOG_LEVEL="info"
+
+function parse_arguments() {
+	NEXT_ARG=""
+	for ARG in $*
+	do
+		case $ARG in
+			"-c"|"--cas")
+				CAS=1
+				;;
+			"-nc"|"--no-cas")
+				CAS=0
+				;;
+			"start")
+				ACTION="start"
+				;;
+			"stop")
+				ACTION="stop"
+				;;
+			"restart")
+				ACTION="restart"
+				;;
+		esac
+	done
+}
+
+#################
+##### START #####
+#################
+# Check for a configuration file
+if [ -f "${0}.conf" ]
+then
+	parse_configuration_file "${0}.conf"
+	log_info "${0}.conf found and parsed"
+fi
+# Parse arguments which have been used to launch this script
+parse_arguments $*
+
+TOMCAT_PATH="$TO/tomcat"
+XWIKI_PATH="$TO/xwiki"
+XWIKI_DATA_PATH="$TO/xwiki.data"
+XWIKI_START="$TOMCAT_PATH/bin/startup_xwiki.sh"
+XWIKI_STOP="$TOMCAT_PATH/bin/shutdown.sh"
+XWIKI_WEBXML_FILE=$XWIKI_PATH/WEB-INF/web.xml
+XWIKI_WEBXML_CAS_FILE=$XWIKI_PATH/WEB-INF/web.cas.xml
+XWIKI_WEBXML_NOCAS_FILE=$XWIKI_PATH/WEB-INF/web.nocas.xml
+
+case $ACTION in
+	"start")
+		start_xwiki $CAS
+		;;
+	"stop")
+		stop_xwiki
+		;;
+	"restart")
+		restart_xwiki $CAS
+		;;
+esac
