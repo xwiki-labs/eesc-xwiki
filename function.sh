@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Errors code
+ERR_UNKNOWN_ERROR=1
+ERR_UNKNOWN_ARG=2
+ERR_TO_EXIST=3
+ERR_CONF=4
+ERR_UNKNOWN_SERVICE=5
+ERR_TOMCAT=6
+ERR_BUILD=7
+ERR_XWIKI_IS_ON=8
+
 # Possible log levels: error, warning, info, debug
 function mylog() {
 	LOCAL_LOG_SCRIPT="$0"
@@ -70,6 +80,12 @@ function parse_configuration_file() {
 }
 
 function start_xwiki() {
+	curl http://localhost:8080/xwiki/bin/view/Main/WebHome > /dev/null 2>&1
+	ERROR_CODE=$?
+	if [ $ERROR_CODE -eq 0 ]
+	then
+		log_error "XWiki is already running" $ERR_XWIKI_IS_ON
+	fi
 	log_info "Starting XWiki"
 	if [ $# -eq 1 ]
 	then

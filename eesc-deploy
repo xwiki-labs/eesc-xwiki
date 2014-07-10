@@ -12,15 +12,6 @@ DEFAULT_SERVICE="ECR"
 BUILD=
 DEFAULT_BUILD=1
 
-# Errors code
-ERR_UNKNOWN_ERROR=1
-ERR_UNKNOWN_ARG=2
-ERR_TO_EXIST=3
-ERR_CONF=4
-ERR_UNKNOWN_SERVICE=5
-ERR_TOMCAT=6
-ERR_BUILD=7
-
 LOG_FILE="${0}.log"
 LOG_LEVEL="info"
 
@@ -185,7 +176,7 @@ function build() {
 	then
 		log_info "The project will not be built"
 	else
-		log_error "The builded project doesn't exist (try BUILD=1 in configuration)"
+		log_error "The builded project doesn't exist (try BUILD=1 in configuration)" $ERR_BUILD
 	fi
 }
 
