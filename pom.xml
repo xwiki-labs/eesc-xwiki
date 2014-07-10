@@ -39,6 +39,7 @@
 
   <properties>
 	  <application-task.version>2.2-SNAPSHOT</application-task.version>
+	  <application-project.version>1.0</application-project.version>
   </properties>
 
   <modules>
