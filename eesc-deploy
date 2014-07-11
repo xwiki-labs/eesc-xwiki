@@ -189,14 +189,14 @@ function deploy_tomcat() {
 	cd $TO
 	if [ "$TOMCAT" = "http*" ]
 	then
-		log_info "---> Downloading Tomcat"
+		log_info "Downloading Tomcat"
 		wget $TOMCAT
 		TOMCAT="$TO/$( basename $TOMCAT )"
 	fi
-	log_info "---> Uncompressing Tomcat"
+	log_info "Uncompressing Tomcat"
 	tar xvzf $TOMCAT > $LOG_FILE 2>&1
 	log_debug $LOG_FILE
-	log_info "---> Configuring Tomcat"
+	log_info "Configuring Tomcat"
 	ln --force --symbolic $TOMCAT_DIRNAME $TOMCAT_PATH
 	sed "
 	$ s/\<start\>/jpda &/g
@@ -210,11 +210,11 @@ function deploy_tomcat() {
 }
 
 function deploy_xwiki() {
-	log_info "---> Uncompressing XWiki"
+	log_info "Uncompressing XWiki"
 	cd $XWIKI_PATH
 	unzip $REPO_PATH/eesc-xwiki-distribution/eesc-xwiki-web-hsqldb/target/eesc-xwiki-web-hsqldb-1.0-SNAPSHOT.war > $LOG_FILE 2>&1
 	log_debug
-	log_info "---> Configuring XWiki"
+	log_info "Configuring XWiki"
 	sed -i '
 	s+PUT_HERE_THE_CAS_AUTHENTICATION_SERVER_URL+https://demo.monent.fr/connexion/+g
 	' $XWIKI_WEBXML_FILE
@@ -240,13 +240,13 @@ function deploy_xwiki() {
 }
 
 function upload_xar() {
-	log_info "---> Starting XWiki"
-	start_xwiki 0 # NO_CAS
+	log_info "Starting XWiki"
+	restart_xwiki 0 # NO_CAS
 	# cp $XWIKI_WEBXML_NOCAS_FILE $XWIKI_WEBXML_FILE
 	# sh $XWIKI_START > $LOG_FILE 2>&1
 	# log_debug $LOG_FILE
 	# sleep 15
-	log_info "---> Uploading XAR"
+	log_info "Uploading XAR"
 	if [ $SERVICE = "ECR" ]
 	then
 		XAR_FILE="$REPO_PATH/eesc-xwiki-distribution/eesc-xwiki-ui-ecr-all/target/eesc-xwiki-ui-ecr-all.xar"
@@ -263,7 +263,7 @@ function upload_xar() {
 		http://localhost:8080/xwiki/rest/wikis/xwiki/ > $LOG_FILE 2>&1
 	log_debug $LOG_FILE
 
-	log_info "---> Stopping XWiki"
+	log_info "Stopping XWiki"
 	stop_xwiki
 	# sh $XWIKI_STOP > $LOG_FILE 2>&1
 	# log_debug $LOG_FILE
