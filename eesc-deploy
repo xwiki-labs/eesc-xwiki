@@ -85,7 +85,7 @@ function check() {
 				"to")
 					if [ $BUILD -eq 1 -a -d "$TO" -o -f "$TO" ]
 					then
-						log_error "\`$TO' already exists" $ERR_TO_EXISTS
+						log_warning "\`$TO' already exists"
 					fi
 					;;
 				"tomcat")
@@ -163,10 +163,15 @@ function ask_user() {
 function build() {
 	if [ $BUILD -eq 1 ]
 	then
-		log_info "Downloading project"
 		cd $TO
-		git clone $FROM > $LOG_FILE 2>&1
-		log_debug $LOG_FILE
+		if [ \! -d $REPO_PATH ]
+		then
+			log_info "Downloading project"
+			git clone $FROM > $LOG_FILE 2>&1
+			log_debug $LOG_FILE
+		else
+			log_info "Project already downloaded"
+		fi
 		log_info "Compiling project"
 		cd $REPO_PATH
 		mvn clean install > $LOG_FILE 2>&1
