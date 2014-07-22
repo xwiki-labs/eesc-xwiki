@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <uberwar>
   <wars>
-    <war>com.xwikisas:eesc-xwiki-web-base</war>
+    <war>com.xwikisas:eesc-xwiki-web-base-prj</war>
     <war>com.xwikisas:eesc-xwiki-web-cas</war>
   </wars>
 </uberwar>

@@ -1,0 +1,67 @@
+###
+### Header for EESC
+###
+### Provide functional buttons (create, edit, share, delete)
+###
+<style type="text/css">
+.eesc-headercreate {
+  float: right;
+}
+.buttonwrapper form {
+  display: inline-block;
+}
+.eesc-create {
+  background-color: #00BA00 !important;
+  background-image: linear-gradient(to bottom, #80ED80 0%, #00BA00 66%) !important;
+}
+.eesc-create:hover {
+  background-color: #00BA00 !important;
+  background-image: linear-gradient(to top, #80ED80 0%, #00BA00 66%) !important;
+}
+.eesc-delete {
+  background-color: #BA0000 !important;
+  background-image: linear-gradient(to bottom, #ED8080 0%, #BA0000 66%) !important;
+}
+.eesc-delete:hover {
+  background-color: #BA0000 !important;
+  background-image: linear-gradient(to top, #ED8080 0%, #BA0000 66%) !important;
+}
+</style>
+<div class="buttons">
+  <span class="eesc-headerdocument">
+  #set($documentref = $services.model.resolveDocument($doc.fullName))
+  #set($documentshareref = $services.model.resolveDocument('EESCCode.DocumentShare'))
+  #set($documentcreateref = $services.model.resolveDocument('EESCCode.DocumentCreate'))
+  #if(!$doc.isHidden() && $hasEdit)
+    <span class="buttonwrapper">
+      <form method="GET" action="$xwiki.getURL($documentref, 'edit', '')">
+        <input type="submit" class="button" value="$services.localization.render('eesc.template.eescheader.document.edit')" /> 
+      </form>
+    </span>
+    #if($doc.hasAccessLevel("delete"))
+      <span class="buttonwrapper">
+        <form method="GET" action="$xwiki.getURL($documentshareref, 'view', '')">
+		  <input type="hidden" name="step" value="form" />
+		  <input type="hidden" name="spacename" value="${doc.space}" />
+		  <input type="hidden" name="documentname" value="${doc.name}" />
+          <input type="submit" class="button" value="$services.localization.render('eesc.template.eescheader.document.share')" /> 
+        </form>
+      </span>
+      <span class="buttonwrapper">
+        <form method="GET" action="$xwiki.getURL($documentref, 'delete', '')">
+          <input type="submit" class="button eesc-delete" value="$services.localization.render('eesc.template.eescheader.document.delete')" /> 
+        </form>
+      </span>
+    #end
+  #end
+    </span>
+    <span class="eesc-headercreate">
+      <span class="buttonwrapper">
+        <form method="GET" action="$xwiki.getURL($documentcreateref)">
+          <input type="hidden" name="step" value="form" />
+          <input type="hidden" name="spacename" value="${doc.getSpace()}" />
+          <input type="submit" class="button eesc-create" value="$services.localization.render('eesc.template.eescheader.create.document')" />
+        </form>
+      </span>
+    </span>
+</div>

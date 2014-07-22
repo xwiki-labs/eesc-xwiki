@@ -24,21 +24,46 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>com.xwikisas</groupId>
-    <artifactId>eesc-xwiki</artifactId>
+    <artifactId>eesc-xwiki-web</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <artifactId>eesc-xwiki-web</artifactId>
-  <packaging>pom</packaging>
 
-  <name>EESC - XWiki - Web - Parent POM</name>
+  <artifactId>eesc-xwiki-web-merged-prj</artifactId>
+  <packaging>uberwar</packaging>
 
-  <modules>
-    <module>eesc-xwiki-web-base-ecr</module>
-    <module>eesc-xwiki-web-base-prj</module>
-    <module>eesc-xwiki-web-cas</module>
-    <module>eesc-xwiki-web-merged-ecr</module>
-    <module>eesc-xwiki-web-merged-prj</module>
-  </modules>
+  <name>EESC - XWiki - Web - PRJ(Merged)</name>
+  <description>The final merged web application for the EESC XWiki component with service PRJ</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.xwikisas</groupId>
+      <artifactId>eesc-xwiki-web-base-prj</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>com.xwikisas</groupId>
+      <artifactId>eesc-xwiki-web-cas</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Merge the standard XWiki Enterprise Web application with the one that contains CAS authentication filters -->
+      <plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <version>1.4.5</version>
+        <extensions>true</extensions>
+        <configuration>
+          <descriptor>src/assemble/merge.xml</descriptor>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

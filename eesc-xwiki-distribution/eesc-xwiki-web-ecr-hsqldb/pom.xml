@@ -31,11 +31,11 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>eesc-xwiki-web-hsqldb</artifactId>
+  <artifactId>eesc-xwiki-web-ecr-hsqldb</artifactId>
   <packaging>pom</packaging>
 
-  <name>EESC - XWiki - Distribution - Web (HSQLDB)</name>
-  <description>The web application for the EESC XWiki component configured for HSQLDB</description>
+  <name>EESC - XWiki - Distribution - Web - ECR(HSQLDB)</name>
+  <description>The web application for the EESC XWiki component configured for HSQLDB with service ECR</description>
 
   <properties>
     <hsqldb.version>2.2.9</hsqldb.version>
@@ -67,7 +67,7 @@
     </dependency>
     <dependency>
       <groupId>com.xwikisas</groupId>
-      <artifactId>eesc-xwiki-web-merged</artifactId>
+      <artifactId>eesc-xwiki-web-merged-ecr</artifactId>
       <version>${project.version}</version>
       <type>war</type>
     </dependency>

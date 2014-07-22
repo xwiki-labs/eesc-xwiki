@@ -31,43 +31,37 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>eesc-xwiki-web-base</artifactId>
-  <packaging>war</packaging>
+  <artifactId>eesc-xwiki-web-merged-ecr</artifactId>
+  <packaging>uberwar</packaging>
 
-  <name>EESC - XWiki - Web (Base)</name>
-  <description>The base unconfigured web application for the EESC XWiki component</description>
+  <name>EESC - XWiki - Web - ECR(Merged)</name>
+  <description>The final merged web application for the EESC XWiki component with service ECR</description>
 
   <dependencies>
     <dependency>
-      <groupId>org.xwiki.enterprise</groupId>
-      <artifactId>xwiki-enterprise-web</artifactId>
-      <version>${enterprise.version}</version>
+      <groupId>com.xwikisas</groupId>
+      <artifactId>eesc-xwiki-web-base-ecr</artifactId>
+      <version>${project.version}</version>
       <type>war</type>
     </dependency>
     <dependency>
       <groupId>com.xwikisas</groupId>
-      <artifactId>eesc-xwiki-cas-authenticator</artifactId>
+      <artifactId>eesc-xwiki-web-cas</artifactId>
       <version>${project.version}</version>
+      <type>war</type>
     </dependency>
   </dependencies>
 
   <build>
     <plugins>
-      <!-- Don't check for legacy dependency usages since we depend on oldcore for the patch -->
+      <!-- Merge the standard XWiki Enterprise Web application with the one that contains CAS authentication filters -->
       <plugin>
-        <artifactId>maven-war-plugin</artifactId>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <version>1.4.5</version>
+        <extensions>true</extensions>
         <configuration>
-          <!-- We exclude the oldcore in the overlay expansion so that we have a /target/xwiki-... directory ready to be 
-          used as a webapp -->
-          <overlays>
-            <overlay>
-              <groupId>org.xwiki.enterprise</groupId>
-              <artifactId>xwiki-enterprise-web</artifactId>
-              <excludes>
-                <exclude>WEB-INF/lib/xwiki-platform-legacy-oldcore-${platform.version}.jar</exclude>
-              </excludes>
-            </overlay>
-          </overlays>
+          <descriptor>src/assemble/merge.xml</descriptor>
         </configuration>
       </plugin>
     </plugins>

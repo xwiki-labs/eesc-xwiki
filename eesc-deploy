@@ -227,7 +227,14 @@ function deploy_tomcat() {
 function deploy_xwiki() {
 	log_info "Uncompressing XWiki"
 	cd $XWIKI_PATH
-	unzip $REPO_PATH/eesc-xwiki-distribution/eesc-xwiki-web-hsqldb/target/eesc-xwiki-web-hsqldb-1.0-SNAPSHOT.war > $LOG_FILE 2>&1
+	if [ $SERVICE = "ECR" ]
+	then
+		WAR_FILE="$REPO_PATH/eesc-xwiki-distribution/eesc-xwiki-web-ecr-hsqldb/target/eesc-xwiki-web-ecr-hsqldb-1.0-SNAPSHOT.war"
+	elif [ $SERVICE = "PRJ" ]
+	then
+		WAR_FILE="$REPO_PATH/eesc-xwiki-distribution/eesc-xwiki-web-prj-hsqldb/target/eesc-xwiki-web-prj-hsqldb-1.0-SNAPSHOT.war"
+	fi
+	unzip $WAR_FILE
 	log_debug
 	log_info "Configuring XWiki"
 	sed -i '

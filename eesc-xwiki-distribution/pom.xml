@@ -36,7 +36,8 @@
   <description>The EESC XWiki component artifacts ready to be deployed</description>
 
   <modules>
-    <module>eesc-xwiki-web-hsqldb</module>
+    <module>eesc-xwiki-web-ecr-hsqldb</module>
+    <module>eesc-xwiki-web-prj-hsqldb</module>
     <module>eesc-xwiki-ui-ecr-all</module>
     <module>eesc-xwiki-ui-prj-all</module>
   </modules>
