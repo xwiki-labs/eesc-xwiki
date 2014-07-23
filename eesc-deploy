@@ -183,6 +183,9 @@ function build() {
 		then
 			log_info "Downloading project"
 			git clone $FROM > $LOG_FILE 2>&1
+			cd $REPO_PATH
+			git submodule init
+			git submodule update
 			log_debug $LOG_FILE
 		else
 			log_info "Project already downloaded"
