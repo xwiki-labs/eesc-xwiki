@@ -29,27 +29,26 @@
 </style>
 <div class="buttons">
   <span class="eesc-headerdocument">
-  #set($documentref = $services.model.resolveDocument($doc.fullName))
-  #set($documentshareref = $services.model.resolveDocument('EESCCode.DocumentShare'))
-  #set($documentcreateref = $services.model.resolveDocument('EESCCode.DocumentCreate'))
+  #set($projectref = $services.model.resolveDocument($doc.fullName))
+  #set($projectshareref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'ProjectShare'))
+  #set($projectcreateref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'ProjectCreate'))
   #if(!$doc.isHidden() && $hasEdit)
     <span class="buttonwrapper">
-      <form method="GET" action="$xwiki.getURL($documentref, 'edit', '')">
-        <input type="submit" class="button" value="$services.localization.render('eesc.template.eescheader.document.edit')" /> 
+      <form method="GET" action="${xwiki.getURL($projectref, 'edit', '')}">
+        <input type="submit" class="button" value="${services.localization.render('eesc.template.eescheader.project.edit')}" /> 
       </form>
     </span>
     #if($doc.hasAccessLevel("delete"))
       <span class="buttonwrapper">
-        <form method="GET" action="$xwiki.getURL($documentshareref, 'view', '')">
+        <form method="GET" action="${xwiki.getURL($projectshareref, 'view', '')}">
 		  <input type="hidden" name="step" value="form" />
-		  <input type="hidden" name="spacename" value="${doc.space}" />
-		  <input type="hidden" name="documentname" value="${doc.name}" />
-          <input type="submit" class="button" value="$services.localization.render('eesc.template.eescheader.document.share')" /> 
+		  <input type="hidden" name="projectname" value="Projects.${doc.name}" />
+          <input type="submit" class="button" value="${services.localization.render('eesc.template.eescheader.project.share')}" /> 
         </form>
       </span>
       <span class="buttonwrapper">
-        <form method="GET" action="$xwiki.getURL($documentref, 'delete', '')">
-          <input type="submit" class="button eesc-delete" value="$services.localization.render('eesc.template.eescheader.document.delete')" /> 
+        <form method="GET" action="${xwiki.getURL($projectref, 'delete', '')}">
+          <input type="submit" class="button eesc-delete" value="${services.localization.render('eesc.template.eescheader.project.delete')}" /> 
         </form>
       </span>
     #end
@@ -57,10 +56,10 @@
     </span>
     <span class="eesc-headercreate">
       <span class="buttonwrapper">
-        <form method="GET" action="$xwiki.getURL($documentcreateref)">
+        <form method="GET" action="${xwiki.getURL($projectcreateref)}">
           <input type="hidden" name="step" value="form" />
-          <input type="hidden" name="spacename" value="${doc.getSpace()}" />
-          <input type="submit" class="button eesc-create" value="$services.localization.render('eesc.template.eescheader.create.document')" />
+          <input type="hidden" name="referer" value="${doc.fullName}" />
+          <input type="submit" class="button eesc-create" value="${services.localization.render('eesc.template.eescheader.create.project')}" />
         </form>
       </span>
     </span>

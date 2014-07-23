@@ -21,7 +21,7 @@
 
 <xwikidoc>
   <web>Collections</web>
-  <name>EESCCode</name>
+  <name>TaskManager</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -30,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1406126980000</creationDate>
-  <date>1406128583000</date>
-  <contentUpdateDate>1406128583000</contentUpdateDate>
+  <creationDate>1406128313000</creationDate>
+  <date>1406128598000</date>
+  <contentUpdateDate>1406128598000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -65,10 +65,10 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </type>
     </class>
-    <name>Collections.EESCCode</name>
+    <name>Collections.TaskManager</name>
     <number>0</number>
     <className>Collections.CollectionClass</className>
-    <guid>4136327e-99b2-40ae-803f-dc1266cfe205</guid>
+    <guid>387f1144-669b-41e1-acd4-11d196978f3b</guid>
     <property>
       <type>query</type>
     </property>
@@ -105,13 +105,13 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </type>
     </class>
-    <name>Collections.EESCCode</name>
+    <name>Collections.TaskManager</name>
     <number>0</number>
     <className>Collections.QueryCollectionClass</className>
-    <guid>e48381d8-7b78-49bb-bbd1-8b461b8d1308</guid>
+    <guid>5e738e3d-9a21-4501-aeb2-562a259d8d41</guid>
     <property>
       <type>xwql</type>
     </property>
   </object>
-  <content>where doc.fullName = 'Collections.EESCCode' or doc.fullName = 'Collections.ProjectsCode' or doc.fullName = 'Collections.TaskManager' or doc.space = 'EESCCode' or doc.fullName = 'Main.WebHome' or doc.fullName = 'ProjectsCode.ProjectConfig' or doc.fullName = 'ProjectsCode.ProjectTaskManagerKanbanSheet' or doc.fullName = 'XWiki.XWikiUserSheet' or doc.fullName = 'XWiki.XWikiPreferences' order by doc.name</content>
+  <content>where doc.space = 'TaskManager' order by doc.name</content>
 </xwikidoc>

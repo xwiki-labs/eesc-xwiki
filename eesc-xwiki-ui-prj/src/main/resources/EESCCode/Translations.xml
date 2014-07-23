@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1405091843000</creationDate>
-  <date>1406120805000</date>
-  <contentUpdateDate>1406120805000</contentUpdateDate>
+  <creationDate>1406126980000</creationDate>
+  <date>1406127575000</date>
+  <contentUpdateDate>1406127573000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -78,6 +77,11 @@
     </property>
   </object>
   <content>eesc.task.template.title=Nouvelle tâche
+eesc.template.eescheader.project.edit=Modifier
+eesc.template.eescheader.project.share=Partager
+eesc.template.eescheader.project.delete=Supprimer
+eesc.template.eescheader.create.project=Nouveau projet
+
 platform.appwithinminutes.appHomePageDeleteEntriesLabel=Supprimer toutes les entrées
 eesc.home.assignedto=assignée à
 eesc.home.noassigned=non-assignée
