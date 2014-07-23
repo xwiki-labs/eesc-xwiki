@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -21,7 +22,7 @@
 
 <xwikidoc>
   <web>EESCCode</web>
-  <name>DocumentCreate</name>
+  <name>ProjectCreate</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
@@ -30,11 +31,11 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1400748597000</creationDate>
-  <date>1400857851000</date>
-  <contentUpdateDate>1400857851000</contentUpdateDate>
+  <creationDate>1405954268000</creationDate>
+  <date>1406116027000</date>
+  <contentUpdateDate>1406116027000</contentUpdateDate>
   <version>1.1</version>
-  <title>${services.localization.render('eesc.DocumentCreate.title')}</title>
+  <title>${services.localization.render('eesc.ProjectCreate.title')}</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -113,10 +114,10 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>EESCCode.DocumentCreate</name>
+    <name>EESCCode.ProjectCreate</name>
     <number>0</number>
     <className>XWiki.JavaScriptExtension</className>
-    <guid>dc807236-f129-4809-a3da-3fa508cb10bf</guid>
+    <guid>adbdf702-73d9-48e0-a42d-c7ed789110bb</guid>
     <property>
       <cache>long</cache>
     </property>
@@ -221,10 +222,10 @@
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
-    <name>EESCCode.DocumentCreate</name>
+    <name>EESCCode.ProjectCreate</name>
     <number>0</number>
     <className>XWiki.StyleSheetExtension</className>
-    <guid>c674b33d-3c0e-4842-b044-54fc0b336d69</guid>
+    <guid>e99b1902-3c98-4b3e-86cb-05dbb71e880c</guid>
     <property>
       <cache>long</cache>
     </property>
@@ -250,10 +251,10 @@
 
 {{velocity}}
 #*
- * EESC create a document
+ * EESC create a project
  * -----
  *
- * This page propose the creation of a new shared document.
+ * This page propose the creation of a new project.
  *
  * Author: Fabio MANCINELLI &lt;fabio.mancinelli@xwiki.com&gt;
  *         Jean SIMARD &lt;jean.simard@xwiki.com&gt;
@@ -273,11 +274,10 @@
 #if($reqReferer.contains('?'))
   #set($reqReferer = $reqReferer.split('\?').get(0))
 #end
-#set($reqSpaceName = $request.getParameter('spacename'))
-#set($reqDocumentName = $request.getParameter('documentname'))
-#set($reqRights = $request.getParameter('scope'))
-#if(!$reqRights || $reqRights.equals(''))
-  #set($reqRights = 'public')
+#set($reqProjectName = $request.getParameter('projectname'))
+#set($reqScope = $request.getParameter('scope'))
+#if(!$reqScope || $reqScope.equals(''))
+  #set($reqScope = 'public')
 #end
 #set($reqUsers = $request.getParameterValues('users'))
 #set($reqGroups = $request.getParameterValues('groups'))
@@ -290,9 +290,9 @@
   #if($reqStep.equals('cancel'))
     #stepCancel($reqReferer)
   #elseif($reqStep.equals('form'))
-    #stepForm($reqReferer, $reqSpaceName, $reqDocumentName, $reqRights, $reqUsers, $reqGroups, $reqErrors)
+    #stepForm($reqReferer, $reqProjectName, $reqScope, $reqUsers, $reqGroups, $reqErrors)
   #elseif($reqStep.equals('create'))
-    #stepCreate($reqSpaceName, $reqDocumentName, $reqRights, $reqUsers, $reqGroups)
+    #stepCreate($reqProjectName, $reqScope, $reqUsers, $reqGroups)
   #else
     #displayError()
   #end
@@ -306,37 +306,29 @@
  *
  * Check that the fields are correct for the creation.
  *
- * @param $spaceName The name of the folder to create
- * @param $documentName The name of the document to create
- * @param $scope The type of restriction of the document ('public', 'shared' or 'private')
+ * @param $projectName The name of the project to create
+ * @param $scope The type of restriction of the project ('public', 'shared' or 'private')
  * @param $users The list of authorized users if it apply (if $scope is 'shared')
  * @param $groups The list of authorized users if it apply (if $scope is 'shared')
  *#
-#macro(checkFields $spaceName $documentName $scope $users $groups)
+#macro(checkFields $projectName $scope $users $groups)
   #set($errors = [])
-  ## Check that the space is not a forbidden space
-  #if($spaceName.equals(''))
-    #set($discard = $errors.add('EMPTY_SPACE'))
+  ## Check that the project has a name
+  #if($projectName.equals(''))
+    #set($discard = $errors.add('EMPTY_PROJECTNAME'))
   #end
-  #if($documentName.equals(''))
-    #set($discard = $errors.add('EMPTY_DOCUMENT'))
-  #end
-  #if($eescForbiddenSpaces.contains($spaceName))
-    #set($discard = $errors.add('FORBIDDEN_SPACE'))
-  #end
-  ## Check if the document already exists (only document with a XWiki.XWikiRights)
-  #set($documenttocreateref = $services.model.createDocumentReference(${xcontext.mainWikiName}, $spaceName, $documentName))
-  #if($xwiki.exists($documenttocreateref))
-    #if(!$errors.contains('FORBIDDEN_SPACE') &amp;&amp; $xwiki.getDocument($documenttocreateref).getObjects('XWiki.XWikiRights').size() != 0)
-      #set($discard = $errors.add('DOCUMENT_EXISTS'))
+  ## Check if the project already exists (only projects with a XWiki.XWikiRights)
+  #set($projecttocreateref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectName))
+  #if($xwiki.exists($projecttocreateref))
+    #if($xwiki.getDocument($projecttocreateref).getObjects('ProjectsCode.ProjectsCodeClass').size() != 0)
+      #set($discard = $errors.add('PROJECT_EXISTS'))
     #end
   #end
   #if(!$errors.isEmpty())
     #set($querystring = "referer=${reqReferer}")
     #set($sep = '&amp;')
     #set($querystring = "${querystring}${sep}step=form")
-    #set($querystring = "${querystring}${sep}spacename=${spaceName}")
-    #set($querystring = "${querystring}${sep}documentname=${documentName}")
+    #set($querystring = "${querystring}${sep}projectname=${projectName}")
     #set($querystring = "${querystring}${sep}scope=${scope}")
     #foreach($user in $users)
       #set($querystring = "${querystring}${sep}users=${user}")
@@ -347,36 +339,42 @@
     #foreach($error in $errors)
       #set($querystring = "${querystring}${sep}errors=${error}")
     #end
-    #set($documentcreateref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'EESCCode', 'DocumentCreate'))
-    #set($discard = $response.sendRedirect($xwiki.getURL($documentcreateref, 'view', $querystring)))
+    #set($projectcreateref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'EESCCode', 'ProjectCreate'))
+    #set($discard = $response.sendRedirect($xwiki.getURL($projectcreateref, 'view', $querystring)))
   #end
 #end
 #*
- * Create the document
+ * Create the project
  * -----
  *
- * Given the HTTP POST request, create the document with the rights that apply.
+ * Given the HTTP POST request, create the project with the rights that apply.
  *
- * @param $spaceName The name of the folder to create
- * @param $documentName The name of the document to create
- * @param $scope The type of restriction of the document ('public', 'shared' or 'private')
+ * @param $projectName The name of the project to create
+ * @param $scope The type of restriction of the project ('public', 'shared' or 'private')
  * @param $users The list of authorized users if it apply (if $scope is 'shared')
  * @param $groups The list of authorized users if it apply (if $scope is 'shared')
  *#
-#macro(stepCreate $spaceName $documentName $scope $users $groups)
-  #checkFields($spaceName, $documentName, $scope, $users, $groups)
-  #set($querystring = "template=EESCCode.CollaborativeDocumentTemplate")
+#macro(stepCreate $projectName $scope $users $groups)
+  #checkFields($projectName, $scope, $users, $groups)
+  #set($querystring = "template=EESCCode.ProjectsCodeTemplate")
   #set($sep = '&amp;')
+  #set($querystring = "${querystring}${sep}sheet=EESCCode.ProjectsCodeSheet")
   #set($querystring = "${querystring}${sep}parent=Main.WebHome")
+  #set($querystring = "${querystring}${sep}title=${projectName}")
+  #set($querystring = "${querystring}${sep}ProjectsCode.ProjectsCodeClass_0_projectLeader=${xwiki.user.user}")
   #set($querystring = "${querystring}${sep}scope=${scope}")
   #foreach($user in $users)
-    #set($querystring = "${querystring}${sep}user=${user}")
+    #if($user &amp;&amp; !$user.isEmpty())
+      #set($querystring = "${querystring}${sep}user=${user}")
+    #end
   #end
   #foreach($group in $groups)
-    #set($querystring = "${querystring}${sep}group=${group}")
+    #if($group &amp;&amp; !$group.isEmpty())
+      #set($querystring = "${querystring}${sep}group=${group}")
+    #end
   #end
-  #set($documentref = $services.model.createDocumentReference(${xcontext.mainWikiName}, $spaceName, $documentName))
-  #set($discard = $response.sendRedirect($xwiki.getURL($documentref, 'edit', $querystring)))
+  #set($projectref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectName))
+  #set($discard = $response.sendRedirect($xwiki.getURL($projectref, 'edit', $querystring)))
 #end
 ##############################################
 ##                  VIEW
@@ -400,85 +398,66 @@
  *#
 #macro(displayError)
   {{error}}
-    ${services.localization.render('eesc.DocumentCreate.error')}
+    ${services.localization.render('eesc.ProjectCreate.error')}
   {{/error}}
 #end
 #*
  * Display the form
  * -----
  *
- * Display the form to the user to name the folder and the document name.
+ * Display the form to the user to name the project.
  *
  * @param $referer The URL of the previous page
- * @param $spaceName The name of the folder to create
- * @param $documentName The name of the document to create
- * @param $scope The type of restriction of the document ('public', 'shared' or 'private')
+ * @param $projectName The name of the project to create
+ * @param $scope The type of restriction of the project ('public', 'shared' or 'private')
  * @param $users The list of authorized users if it apply (if $scope is 'shared')
  * @param $groups The list of authorized users if it apply (if $scope is 'shared')
  * @param $errors The list of possible errors
  *#
-#macro(stepForm $referer $spaceName $documentName $scope $users $groups $errors)
+#macro(stepForm $referer $projectName $scope $users $groups $errors)
 
   {{html clean='false'}}
-    &lt;form class="xform" method="GET" action="${xwiki.getURL($services.model.createDocumentReference(${xcontext.mainWikiName}, 'EESCCode', 'DocumentCreate'))}"&gt;
+    &lt;form class="xform" method="GET" action="${xwiki.getURL($services.model.createDocumentReference(${xcontext.mainWikiName}, 'EESCCode', 'ProjectCreate'))}"&gt;
       &lt;input type="hidden" name="step" value="create" /&gt;
       &lt;input type="hidden" name="referer" value="${referer}" /&gt;
       &lt;dl&gt;
         &lt;dt&gt;
-          &lt;label for="spacename"&gt;
-            ${services.localization.render('eesc.DocumentCreate.label.foldername')}
+          &lt;label for="projectname"&gt;
+            ${services.localization.render('eesc.ProjectCreate.label.projectname')}
           &lt;/label&gt;
           &lt;span class="xHint"&gt;
-            ${services.localization.render('eesc.DocumentCreate.hint.folders')}
+            ${services.localization.render('eesc.ProjectCreate.hint.projects')}
           &lt;/span&gt;
         &lt;/dt&gt;
         &lt;dd&gt;
-          &lt;input type="text" name="spacename" #if(${spaceName} &amp;&amp; !${spaceName.isEmpty()} &amp;&amp; !${eescForbiddenSpaces.contains($spaceName)}) value="${spaceName}" class="suggestSpaces" #{else}value="Dossier" class="suggestSpaces" #{end} /&gt;
-          #if($errors.contains('EMPTY_SPACE'))
+          &lt;input type="text" name="projectname" #if(${projectName} &amp;&amp; !${projectName.isEmpty()})value="${projectName}" #{else}value="${services.localization.render('eesc.ProjectCreate.label.projectname')}" class="withTip"#{end} /&gt;
+          #if($errors.contains('EMPTY_PROJECTNAME'))
             &lt;div class="box errormessage"&gt;
-              $services.localization.render('eesc.DocumentCreate.error.space.empty')
+              $services.localization.render('eesc.ProjectCreate.error.project.empty')
             &lt;/div&gt;
           #end
-          #if($errors.contains('FORBIDDEN_SPACE'))
+          #if($errors.contains('PROJECT_EXISTS'))
             &lt;div class="box errormessage"&gt;
-              $services.localization.render('eesc.DocumentCreate.error.space.forbidden')
-            &lt;/div&gt;
-          #end
-        &lt;/dd&gt;
-        &lt;dt&gt;
-          &lt;label for="documentname"&gt;
-            ${services.localization.render('eesc.DocumentCreate.label.documentname')}
-          &lt;/label&gt;
-        &lt;/dt&gt;
-        &lt;dd&gt;
-          &lt;input type="text" name="documentname" #if(${documentName} &amp;&amp; !${documentName.isEmpty()}) value="${documentName}" #{else}value="${services.localization.render('eesc.DocumentCreate.hint.documentname')}" class="withTip" autofocus #{end} /&gt;
-          #if($errors.contains('EMPTY_DOCUMENT'))
-            &lt;div class="box errormessage"&gt;
-              $services.localization.render('eesc.DocumentCreate.error.document.empty')
-            &lt;/div&gt;
-          #end
-          #if($errors.contains('DOCUMENT_EXISTS'))
-            &lt;div class="box errormessage"&gt;
-              $services.localization.render('eesc.DocumentCreate.error.document.exists')
+              $services.localization.render('eesc.DocumentCreate.error.project.exists')
             &lt;/div&gt;
           #end
         &lt;/dd&gt;
         &lt;dt&gt;
           &lt;label for="shareWith"&gt;
-            ${services.localization.render('eesc.DocumentCreate.label.sharewith')}
+            ${services.localization.render('eesc.ProjectCreate.label.sharewith')}
           &lt;/label&gt;
         &lt;/dt&gt;
         &lt;dd&gt;
-          #htmlsharedoc($spaceName, $documentName, $scope, $users, $groups)
+          #htmlshareproject($projectName, $scope, $users, $groups, 'edit')
         &lt;/dd&gt;
       &lt;/dl&gt;
       &lt;div class="bottombuttons"&gt;
         &lt;div class="buttons"&gt;
           &lt;span class="buttonwrapper"&gt;
-            &lt;input type="submit" name="create" value="${services.localization.render('eesc.DocumentCreate.bottombuttons.create')}" class="button" /&gt;
+            &lt;input type="submit" name="create" value="${services.localization.render('eesc.ProjectCreate.bottombuttons.create')}" class="button" /&gt;
           &lt;/span&gt;
           &lt;span class="buttonwrapper"&gt;
-            &lt;input type="submit" name="cancel" value="${services.localization.render('eesc.DocumentCreate.bottombuttons.cancel')}" class="button" /&gt;
+            &lt;input type="submit" name="cancel" value="${services.localization.render('eesc.ProjectCreate.bottombuttons.cancel')}" class="button" /&gt;
           &lt;/span&gt;
         &lt;/div&gt;
       &lt;/div&gt;

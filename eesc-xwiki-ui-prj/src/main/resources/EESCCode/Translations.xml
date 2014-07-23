@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -30,9 +31,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1400748596000</creationDate>
-  <date>1400748596000</date>
-  <contentUpdateDate>1400748596000</contentUpdateDate>
+  <creationDate>1405091843000</creationDate>
+  <date>1406120805000</date>
+  <contentUpdateDate>1406120805000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -76,40 +77,31 @@
       <scope>GLOBAL</scope>
     </property>
   </object>
-  <content># Templates
-eesc.template.eescheader.create.document=Nouveau document
-eesc.template.eescheader.document.delete=Supprimer
-eesc.template.eescheader.document.edit=Modifier
-eesc.template.eescheader.document.share=Partager
+  <content>eesc.task.template.title=Nouvelle tâche
+platform.appwithinminutes.appHomePageDeleteEntriesLabel=Supprimer toutes les entrées
+eesc.home.assignedto=assignée à
+eesc.home.noassigned=non-assignée
+eesc.home.noproject=Vous n'avez pas de projet.
+eesc.ProjectCreate.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
+eesc.ProjectCreate.label.projectname=Nom du projet
+eesc.ProjectCreate.hint.projects=Entrer le nom du projet que vous souhaitez créer.
+eesc.ProjectCreate.label.sharewith=Partagé avec
+eesc.ProjectCreate.share.public=Public
+eesc.ProjectCreate.share.shared=Partagé
+eesc.ProjectCreate.share.private=Privé
+eesc.ProjectCreate.bottombuttons.create=Créer le projet
+eesc.ProjectCreate.bottombuttons.cancel=Annuler
+eesc.ProjectCreate.title=Créer un nouveau projet
+eesc.ProjectCreate.error.project.empty=Vous devez donner un nom à votre projet.
+eesc.ProjectCreate.error.project.exists=Un projet avec ce nom existe déjà.
+eesc.ProjectCreate.hint.users=Commencer à taper les premiers caractères pour afficher les utilisateurs.
+eesc.ProjectCreate.hint.groups=Commencer à taper les premiers caractères pour afficher les groupes.
 
-# New document template
-eesc.CollaborativeDocumentTemplate.title=Nouveau document
+eesc.ProjectShare.bottombuttons.share=Partager le projet
+eesc.ProjectShare.bottombuttons.cancel=Annuler
+eesc.ProjectShare.title=Partager le projet
+eesc.ProjectShare.message=Comment souhaitez-vous partager le projet {0} ?
+eesc.ProjectShare.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
 
-# Create document
-eesc.DocumentCreate.bottombuttons.create=Créer le document
-eesc.DocumentCreate.bottombuttons.cancel=Annuler
-eesc.DocumentCreate.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
-eesc.DocumentCreate.error.document.empty=Vous devez entrer un nom pour le document.
-eesc.DocumentCreate.error.document.exists=Ce document existe déjà.
-eesc.DocumentCreate.error.space.empty=Vous devez entrer un nom pour le dossier.
-eesc.DocumentCreate.error.space.forbidden=Vous avez utilisé utilisé un nom de dossier réservé, veuillez en essayer un autre.
-eesc.DocumentCreate.hint.users=Commencer à taper les premiers caractères pour afficher les utilisateurs.
-eesc.DocumentCreate.hint.folders=Commencer à taper les premiers caractères pour afficher les suggestions des dossiers existants.
-eesc.DocumentCreate.hint.documentname=Entrez le nom du document...
-eesc.DocumentCreate.hint.foldername=Entrez le nom du dossier...
-eesc.DocumentCreate.label.foldername=Nom du dossier
-eesc.DocumentCreate.label.documentname=Nom du document
-eesc.DocumentCreate.label.sharewith=Partagé avec
-eesc.DocumentCreate.share.public=Public
-eesc.DocumentCreate.share.shared=Partagé
-eesc.DocumentCreate.share.private=Privé
-eesc.DocumentCreate.title=Créer un nouveau document
-
-# Share a document
-eesc.DocumentShare.bottombuttons.share=Partager le document
-eesc.DocumentShare.bottombuttons.cancel=Annuler
-eesc.DocumentShare.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
-eesc.DocumentShare.message=Comment souhaitez vous partager le document {0} du dossier {1} ?
-eesc.DocumentShare.title=Partager un document
-eesc.Documentshare.nodocument=Vous n'avez aucun document accessible.</content>
+eesc.CollaborativeProjectTemplate.title=Nouveau projet</content>
 </xwikidoc>

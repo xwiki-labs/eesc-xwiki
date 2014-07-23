@@ -1,0 +1,549 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc>
+  <web>EESCCode</web>
+  <name>ProjectsCodeTemplate</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>ProjectsCodeClass</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1405959311000</creationDate>
+  <date>1406121361000</date>
+  <contentUpdateDate>1406121356000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <object>
+    <class>
+      <name>EESCCode.CollaborativeProjectClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <scope>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>scope</name>
+        <number>1</number>
+        <picker>0</picker>
+        <prettyName>Scope</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <values>public|shared|private</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </scope>
+    </class>
+    <name>EESCCode.ProjectsCodeTemplate</name>
+    <number>0</number>
+    <className>EESCCode.CollaborativeProjectClass</className>
+    <guid>846d5c5f-a1f0-40e8-abb0-ace4f6fc35f9</guid>
+    <property>
+      <scope>public</scope>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>ProjectsCode.ProjectsCodeClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <currentVersion>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>currentVersion</name>
+        <number>2</number>
+        <picker>0</picker>
+        <prettyName>Current Version</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </currentVersion>
+      <description>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <editor>Text</editor>
+        <name>description</name>
+        <number>5</number>
+        <picker>0</picker>
+        <prettyName>Short Description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <details>
+        <customDisplay>{{include reference="AppWithinMinutes.Content"/}}</customDisplay>
+        <disabled>0</disabled>
+        <name>details</name>
+        <number>24</number>
+        <prettyName>Details</prettyName>
+        <script/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.ComputedFieldClass</classType>
+      </details>
+      <issueApplicationURL>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>issueApplicationURL</name>
+        <number>15</number>
+        <picker>0</picker>
+        <prettyName>Issue Application URL</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </issueApplicationURL>
+      <member_designer>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>member_designer</name>
+        <number>10</number>
+        <picker>0</picker>
+        <prettyName>Designers</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>6</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <usesList>1</usesList>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </member_designer>
+      <member_dev>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>member_dev</name>
+        <number>9</number>
+        <picker>0</picker>
+        <prettyName>Developers</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>6</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <usesList>1</usesList>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </member_dev>
+      <member_infra>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>member_infra</name>
+        <number>11</number>
+        <picker>0</picker>
+        <prettyName>Infrastructure engineers</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>6</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <usesList>1</usesList>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </member_infra>
+      <member_other>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>member_other</name>
+        <number>13</number>
+        <picker>0</picker>
+        <prettyName>Other members</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>6</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <usesList>1</usesList>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </member_other>
+      <member_pm>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>member_pm</name>
+        <number>8</number>
+        <picker>0</picker>
+        <prettyName>Project Managers</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>6</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <usesList>1</usesList>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </member_pm>
+      <member_test>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>member_test</name>
+        <number>12</number>
+        <picker>0</picker>
+        <prettyName>Testers</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>6</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <usesList>1</usesList>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </member_test>
+      <platformContract>
+        <cache>0</cache>
+        <classname/>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <idField/>
+        <multiSelect>0</multiSelect>
+        <name>platformContract</name>
+        <number>14</number>
+        <picker>0</picker>
+        <prettyName>Platform Contract</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>1</size>
+        <sort>none</sort>
+        <sql/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <valueField/>
+        <classType>com.xpn.xwiki.objects.classes.DBListClass</classType>
+      </platformContract>
+      <productBranch>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>productBranch</name>
+        <number>19</number>
+        <picker>0</picker>
+        <prettyName>Product Branch</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </productBranch>
+      <productCustomizationIssues>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>productCustomizationIssues</name>
+        <number>22</number>
+        <picker>0</picker>
+        <prettyName>Product Customization Issues</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </productCustomizationIssues>
+      <productCustomizations>
+        <customDisplay/>
+        <defaultValue/>
+        <disabled>0</disabled>
+        <displayFormType>checkbox</displayFormType>
+        <displayType/>
+        <name>productCustomizations</name>
+        <number>18</number>
+        <prettyName>Product Customizations</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </productCustomizations>
+      <productIssues>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>productIssues</name>
+        <number>21</number>
+        <picker>0</picker>
+        <prettyName>Product issues</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </productIssues>
+      <productVersion>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>productVersion</name>
+        <number>17</number>
+        <picker>0</picker>
+        <prettyName>Product Version</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </productVersion>
+      <productVersionControlURLs>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <editor>Text</editor>
+        <name>productVersionControlURLs</name>
+        <number>20</number>
+        <picker>0</picker>
+        <prettyName>Product Version Control URLs</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </productVersionControlURLs>
+      <productWorkedaroundIssues>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>productWorkedaroundIssues</name>
+        <number>23</number>
+        <picker>0</picker>
+        <prettyName>Product Workedaround Issues</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </productWorkedaroundIssues>
+      <projectLeader>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>projectLeader</name>
+        <number>7</number>
+        <picker>0</picker>
+        <prettyName>Project Leader</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>6</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <usesList>1</usesList>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </projectLeader>
+      <riskLevel>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>riskLevel</name>
+        <number>4</number>
+        <picker>0</picker>
+        <prettyName>Risk Level</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <values>unknown|low|medium|high</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </riskLevel>
+      <status>
+        <cache>0</cache>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>status</name>
+        <number>3</number>
+        <picker>0</picker>
+        <prettyName>Status</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <sort>none</sort>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <values>potential|inprogress|waiting|closed|abandonned</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </status>
+      <title1>
+        <customDisplay>{{include reference="AppWithinMinutes.Title"/}}</customDisplay>
+        <disabled>0</disabled>
+        <name>title1</name>
+        <number>1</number>
+        <prettyName>Project Name</prettyName>
+        <script/>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.ComputedFieldClass</classType>
+      </title1>
+      <versionControlURL>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <name>versionControlURL</name>
+        <number>16</number>
+        <picker>0</picker>
+        <prettyName>Version Control URL</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </versionControlURL>
+    </class>
+    <name>EESCCode.ProjectsCodeTemplate</name>
+    <number>0</number>
+    <className>ProjectsCode.ProjectsCodeClass</className>
+    <guid>1eb8c1c2-5d4f-4182-a3bb-9f54e7965fdc</guid>
+    <property>
+      <currentVersion/>
+    </property>
+    <property>
+      <description/>
+    </property>
+    <property>
+      <issueApplicationURL/>
+    </property>
+    <property>
+      <member_designer/>
+    </property>
+    <property>
+      <member_dev/>
+    </property>
+    <property>
+      <member_infra/>
+    </property>
+    <property>
+      <member_other/>
+    </property>
+    <property>
+      <member_pm/>
+    </property>
+    <property>
+      <member_test/>
+    </property>
+    <property>
+      <platformContract/>
+    </property>
+    <property>
+      <productBranch/>
+    </property>
+    <property>
+      <productCustomizationIssues/>
+    </property>
+    <property>
+      <productCustomizations>0</productCustomizations>
+    </property>
+    <property>
+      <productIssues/>
+    </property>
+    <property>
+      <productVersion/>
+    </property>
+    <property>
+      <productVersionControlURLs/>
+    </property>
+    <property>
+      <productWorkedaroundIssues/>
+    </property>
+    <property>
+      <projectLeader/>
+    </property>
+    <property>
+      <riskLevel>unknown</riskLevel>
+    </property>
+    <property>
+      <status>potential</status>
+    </property>
+    <property>
+      <versionControlURL/>
+    </property>
+  </object>
+  <content/>
+</xwikidoc>
