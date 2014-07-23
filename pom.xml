@@ -43,6 +43,7 @@
   </properties>
 
   <modules>
+    <module>eesc-xwiki-applications</module>
     <module>eesc-xwiki-cas-authenticator</module>
     <module>eesc-xwiki-distribution</module>
     <module>eesc-xwiki-ui-ecr</module>
