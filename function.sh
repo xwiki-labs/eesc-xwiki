@@ -61,11 +61,14 @@ function log_error() {
 	mylog "error" "$1" $2
 }
 function log_debug() {
-	if [ $# -eq 1 ]
+	mylog "debug" "$1"
+}
+function to_log() {
+	if [ $LOG_LEVEL = "debug" ]
 	then
-		mylog "debug" "$1"
+		tee --append $LOG_FILE
 	else
-		mylog "debug" "$LOG_FILE"
+		tee --append $LOG_FILE > /dev/null 2>&1
 	fi
 }
 
@@ -125,5 +128,5 @@ function stop_xwiki() {
 
 function restart_xwiki() {
 	stop_xwiki
-	start_xwiki $CAS
+	start_xwiki $1
 }
