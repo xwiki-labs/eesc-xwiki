@@ -82,6 +82,7 @@ eesc.template.eescheader.project.edit=Modifier
 eesc.template.eescheader.project.share=Partager
 eesc.template.eescheader.project.delete=Supprimer
 eesc.template.eescheader.create.project=Nouveau projet
+eesc.template.eescheader.create.task=Nouvelle tâche
 
 platform.appwithinminutes.appHomePageDeleteEntriesLabel=Supprimer toutes les entrées
 eesc.home.assignedto=assignée à
