@@ -3,6 +3,27 @@
 ###
 ### Provide functional buttons (create, edit, share, delete)
 ###
+#set($isTask = false)
+#set($task = $doc.getObject('TaskManager.TaskManagerClass'))
+#if($!task)
+  #set($isTask = true)
+#end
+#set($isProject = false)
+#set($project = $doc.getObject('ProjectsCode.ProjectsCodeClass'))
+#if($!project)
+  #set($isProject = true)
+#end
+#set($hasProject = false)
+#set($query = "from doc.object('ProjectsCode.ProjectsCodeClass') as project where doc.fullName not like '%Template'")
+#if($services.query.xwql($query).execute().size() > 0)
+  #set($hasProject = true)
+#end
+#set($documentref = $services.model.resolveDocument($doc.fullName))
+#set($projectshareref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'ProjectShare'))
+#set($projectcreateref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'ProjectCreate'))
+#set($tasktemplateref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'ProjectsCode', 'TaskManagerTemplate'))
+#set($newtaskname = "$xwiki.getUniquePageName('TaskManager',$services.localization.render('eesc.home.task'))")
+#set($newtaskref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'TaskManager',$newtaskname))
 <style type="text/css">
 .eesc-headercreate {
   float: right;
@@ -37,22 +58,6 @@
 </style>
 <div class="buttons">
   <span class="eesc-headerdocument">
-  #set($isTask = false)
-  #set($isProject = false)
-  #set($task = $doc.getObject('TaskManager.TaskManagerClass'))
-  #set($project = $doc.getObject('ProjectsCode.ProjectsCodeClass'))
-  #if($!task)
-    #set($isTask = true)
-  #end
-  #if($!project)
-    #set($isProject = true)
-  #end
-  #set($documentref = $services.model.resolveDocument($doc.fullName))
-  #set($projectshareref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'ProjectShare'))
-  #set($projectcreateref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'ProjectCreate'))
-  #set($tasktemplateref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'ProjectsCode', 'TaskManagerTemplate'))
-  #set($newtaskname = "$xwiki.getUniquePageName('TaskManager',$services.localization.render('eesc.home.task'))")
-  #set($newtaskref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'TaskManager',$newtaskname))
   #if(!$doc.isHidden() && $hasEdit)
     <span class="buttonwrapper">
       <form method="GET" action="${xwiki.getURL($documentref, 'edit', '')}">
@@ -85,6 +90,7 @@
           <input type="submit" class="button eesc-create project" value="${services.localization.render('eesc.template.eescheader.create.project')}" />
         </form>
       </span>
+      #if($hasProject)
       <span class="buttonwrapper">
         <form method="GET" action="${xwiki.getURL($newtaskref,'edit')}">
           <input type="hidden" name="template" value="${tasktemplateref}" />
@@ -97,5 +103,6 @@
           <input type="submit" class="button eesc-create task" value="${services.localization.render('eesc.template.eescheader.create.task')}" />
         </form>
       </span>
+      #end
     </span>
 </div>

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1406126980000</creationDate>
-  <date>1406127575000</date>
-  <contentUpdateDate>1406127573000</contentUpdateDate>
+  <creationDate>1407223525000</creationDate>
+  <date>1407242231000</date>
+  <contentUpdateDate>1407242140000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -85,9 +84,11 @@ eesc.template.eescheader.create.project=Nouveau projet
 eesc.template.eescheader.create.task=Nouvelle tâche
 
 platform.appwithinminutes.appHomePageDeleteEntriesLabel=Supprimer toutes les entrées
+
 eesc.home.assignedto=assignée à
 eesc.home.noassigned=non-assignée
 eesc.home.noproject=Vous n'avez pas de projet.
+eesc.home.task=Tâche
 eesc.ProjectCreate.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
 eesc.ProjectCreate.label.projectname=Nom du projet
 eesc.ProjectCreate.hint.projects=Entrer le nom du projet que vous souhaitez créer.
