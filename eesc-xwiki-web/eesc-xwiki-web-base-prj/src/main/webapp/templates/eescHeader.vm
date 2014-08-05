@@ -69,7 +69,7 @@
         <span class="buttonwrapper">
           <form method="GET" action="${xwiki.getURL($projectshareref, 'view', '')}">
             <input type="hidden" name="step" value="form" />
-            <input type="hidden" name="projectname" value="Projects.${doc.name}" />
+            <input type="hidden" name="projectname" value="${doc.name}" />
             <input type="submit" class="button" value="${services.localization.render('eesc.template.eescheader.project.share')}" /> 
           </form>
         </span>
