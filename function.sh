@@ -21,6 +21,7 @@ function mylog() {
 	LOCAL_LOG_MESSAGE="$2"
 	if [ $LOCAL_LOG_LEVEL = "debug" -a "$LOCAL_LOG_MESSAGE" = "$LOG_FILE" ]
 	then
+		echo "XXX LOCAL_LOG_MESSAGE<$LOCAL_LOG_MESSAGE> LOG_FILE<$LOG_FILE>"
 		LOCAL_LOG_MESSAGE="\n$( cat $LOG_FILE | sed 's/^/  > /g' )"
 	fi
 	if [ $LOCAL_LOG_LEVEL = "error" -a $# -eq 3 ]
@@ -43,7 +44,7 @@ function mylog() {
 	esac
 	if [ $LOCAL_LOG_VALUE -le $LOG_VALUE ]
 	then
-		echo -e "$LOCAL_LOG_SCRIPT: $LOCAL_LOG_LEVEL: $LOCAL_LOG_MESSAGE"
+		echo -e "$LOCAL_LOG_SCRIPT: $( echo "$LOCAL_LOG_LEVEL" | tr '[:lower:]' '[:upper:]' ): $LOCAL_LOG_MESSAGE"
 	fi
 	if [ $LOCAL_LOG_LEVEL = "error" ]
 	then
@@ -64,6 +65,8 @@ function log_debug() {
 	mylog "debug" "$1"
 }
 function to_log() {
+    DEBUG_HEAD=$( log_debug "" )
+	sed "s/^/$DEBUG_HEAD/g"
 	if [ $LOG_LEVEL = "debug" ]
 	then
 		tee --append $LOG_FILE
@@ -98,12 +101,11 @@ function start_xwiki() {
 			cp $XWIKI_WEBXML_NOCAS_FILE $XWIKI_WEBXML_FILE
 		fi
 	fi
-	sh $XWIKI_START > $LOG_FILE 2>&1
-	log_debug $LOG_FILE
+	sh $XWIKI_START 2>&1 | to_log
 	ERROR_CODE=1
 	while [ $ERROR_CODE -ne 0 ]
 	do
-		log_debug "Trying to connect to the server"
+		log_info "Trying to connect to the server"
 		sleep 1
 		curl http://localhost:8080/xwiki/bin/view/Main/WebHome > /dev/null 2>&1
 		ERROR_CODE=$?
@@ -113,12 +115,11 @@ function start_xwiki() {
 
 function stop_xwiki() {
 	log_info "Stopping XWiki"
-	sh $XWIKI_STOP > $LOG_FILE 2>&1
-	log_debug $LOG_FILE
+	sh $XWIKI_STOP 2>&1 | to_log
 	ERROR_CODE=0
 	while [ $ERROR_CODE -eq 0 ]
 	do
-		log_debug "Checking if XWiki is stopped"
+		log_info "Checking if XWiki is stopped"
 		sleep 1
 		ps aux | grep "java" | grep "$TO" > /dev/null 2>&1
 		ERROR_CODE=$?
