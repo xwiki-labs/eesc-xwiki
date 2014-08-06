@@ -277,7 +277,7 @@ function upload_xar() {
 		--user superadmin:system \
 		--header "Content-type: application/octet-stream" \
 		--data-binary "@$XAR_FILE" \
-		http://localhost:8080/xwiki/rest/wikis/xwiki/ 2>&1 | to_log
+		"http://localhost:8080/xwiki/rest/wikis/xwiki?backup=true&history=RESET" 2>&1 | to_log
 
 	log_info "Stopping XWiki"
 	stop_xwiki
