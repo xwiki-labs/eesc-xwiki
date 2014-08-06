@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1405954268000</creationDate>
-  <date>1407149074000</date>
-  <contentUpdateDate>1407149074000</contentUpdateDate>
+  <creationDate>1407314461000</creationDate>
+  <date>1407319939000</date>
+  <contentUpdateDate>1407319939000</contentUpdateDate>
   <version>1.1</version>
   <title>${services.localization.render('eesc.ProjectCreate.title')}</title>
   <defaultTemplate/>
@@ -361,7 +360,7 @@
   #set($querystring = "${querystring}${sep}sheet=EESCCode.ProjectsCodeSheet")
   #set($querystring = "${querystring}${sep}parent=Main.WebHome")
   #set($querystring = "${querystring}${sep}title=${projectName}")
-  #set($querystring = "${querystring}${sep}ProjectsCode.ProjectsCodeClass_0_projectLeader=${xwiki.user.user}")
+  #set($querystring = "${querystring}${sep}ProjectsCode.ProjectsCodeClass_0_projectLeader=${xcontext.userReference}")
   #set($querystring = "${querystring}${sep}scope=${scope}")
   #foreach($user in $users)
     #if($user &amp;&amp; !$user.isEmpty())

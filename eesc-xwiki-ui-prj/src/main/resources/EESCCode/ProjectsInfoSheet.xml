@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1406015489000</creationDate>
-  <date>1406044966000</date>
-  <contentUpdateDate>1406044962000</contentUpdateDate>
+  <creationDate>1407314460000</creationDate>
+  <date>1407320122000</date>
+  <contentUpdateDate>1407320119000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -149,6 +148,7 @@ priority=1</parameters>
   (((
     ; &lt;label for="ProjectsCode.ProjectsCodeClass_0_projectLeader"&gt;$escapetool.xml($doc.displayPrettyName('projectLeader', false, false))&lt;/label&gt;
     : $doc.display('projectLeader', 'view')
+      {{html clean="false"}}&lt;input type="hidden" name="ProjectsCode.ProjectsCodeClass_0_projectLeader" value="$!{request.getParameter('ProjectsCode.ProjectsCodeClass_0_projectLeader')}" /&gt;{{/html}}
   )))
   (% id="pInfo2" %)
   (((
