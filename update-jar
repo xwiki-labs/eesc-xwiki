@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# Trace what's being executed (useful for debug)
+# set -o xtrace
+# Exit on error
+# set -o errexit
+# Exit on unset variables
+# set -o nounset
+# Catch the error code of the program who crashed in piping commands
+# set -o pipefail
+
+source function.sh
+source eesc-deploy.conf
+
+declare -r __ROOT_PATH__="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+declare -r CAS_PATH="${__ROOT_PATH__}/eesc-xwiki-cas-authenticator"
+declare -r SERVICE_PATH="${__ROOT_PATH__}/eesc-xwiki-service"
+declare -r TOMCAT_PATH="$TO/tomcat"
+declare -r XWIKI_START="$TOMCAT_PATH/bin/startup_xwiki.sh"
+declare -r XWIKI_STOP="$TOMCAT_PATH/bin/shutdown.sh"
+
+if [ "$1" = "cas" ]
+then
+	declare -r MVN_PATH="${CAS_PATH}"
+elif [ "$1" = "service" ]
+then
+	declare -r MVN_PATH="${SERVICE_PATH}"
+else
+	log_error "Choose 'cas' or 'service' as an argument."
+	exit 1
+fi
+
+cd ${__ROOT_PATH__}
+stop_xwiki
+cd ${MVN_PATH}
+mvn clean install
+cp ${MVN_PATH}/target/*.jar $TO/xwiki/WEB-INF/lib/
+cd ${__ROOT_PATH__}
+start_xwiki
