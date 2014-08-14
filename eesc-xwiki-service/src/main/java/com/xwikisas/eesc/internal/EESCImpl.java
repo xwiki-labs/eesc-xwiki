@@ -3,6 +3,8 @@ package com.xwikisas.eesc.internal;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Singleton;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -17,6 +19,7 @@ import com.xwikisas.eesc.Group;
 import com.xwikisas.eesc.User;
 
 @Component
+@Singleton
 public class EESCImpl implements EESC
 {
     private Gson gson = new Gson();

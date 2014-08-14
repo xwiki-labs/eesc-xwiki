@@ -7,6 +7,7 @@ import java.util.Properties;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.inject.Singleton;
 
 import org.xwiki.component.annotation.Component;
 import org.xwiki.component.phase.Initializable;
@@ -21,6 +22,7 @@ import com.xwikisas.eesc.UserStatus;
 
 @Component
 @Named("test")
+@Singleton
 public class EESCTestImpl implements EESC, Initializable
 {
     @Inject
