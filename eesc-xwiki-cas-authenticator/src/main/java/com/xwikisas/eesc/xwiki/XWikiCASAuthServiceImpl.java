@@ -43,9 +43,9 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
 
     private static final String ENT_USERID = "ENT_USERID";
 
-    private static final String ENT_USERGROUPES = "ENT_USERGROUPES";
+    // private static final String ENT_USERGROUPES = "ENT_USERGROUPES";
 
-    private static final String ENT_USERTYPE = "ENT_USERTYPE";
+    // private static final String ENT_USERTYPE = "ENT_USERTYPE";
 
     private EESC eesc;
 
@@ -96,12 +96,16 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
 
         HttpSession session = request.getSession();
         Object ticketSession = session.getAttribute(ENT_TICKET);
-        String ticket = null, userId = null, userGroupes = null, userType = null;
+        String userId = null;
+        // Other available informations
+        // String ticket = null;
+        // String userGroups = null;
+        // String userType = null;
         if (ticketSession != null) {
-            ticket = session.getAttribute(ENT_TICKET).toString();
             userId = session.getAttribute(ENT_USERID).toString();
-            userGroupes = session.getAttribute(ENT_USERGROUPES).toString();
-            userType = session.getAttribute(ENT_USERTYPE).toString();
+            // ticket = session.getAttribute(ENT_TICKET).toString();
+            // userGroups = session.getAttribute(ENT_USERGROUPES).toString();
+            // userType = session.getAttribute(ENT_USERTYPE).toString();
         }
         if (userId == null) {
             return super.authenticate(username, password, context);
