@@ -119,6 +119,9 @@ file `tomcat/conf/server.xml` and find all the lines that describe a
 mind the value for AJP since it's needed for Apache configuration (see next
 step).
 
+The `<Server>` element have also a port.  You may change it if you run multiple
+instances of Tomcat.
+
 You should also add `URIEncoding="UTF-8"` to all the `<Connector>` elements.
 
 ## Working with Apache
