@@ -25,28 +25,17 @@ public class EESCImpl implements EESC
     private Gson gson = new Gson();
 
     private String webserviceURL = "https://demo.monent.fr/interop";
-    
-    public void setServiceURL(String wsURL) {
+
+    private int NUMBER_OF_TRY = 3;
+
+    public void setServiceURL(String wsURL)
+    {
         this.webserviceURL = wsURL;
     }
 
-    private JsonElement askForJSON(String url)
+    private JsonElement parseHttpResponse(CloseableHttpResponse httpResponse)
     {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet httpGet = new HttpGet(url);
-        CloseableHttpResponse httpResponse;
-        int statusCode;
-
-        httpGet.setHeader("Content-type", "application/json");
-
-        try {
-            httpResponse = httpClient.execute(httpGet);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-
-        statusCode = httpResponse.getStatusLine().getStatusCode();
+        int statusCode = httpResponse.getStatusLine().getStatusCode();
         if (statusCode == 200) {
             String jsonString;
             JsonElement json;
@@ -64,6 +53,33 @@ public class EESCImpl implements EESC
             return json;
         }
         return null;
+    }
+
+    private JsonElement askForJSON(String url)
+    {
+        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+        HttpGet httpGet = new HttpGet(url);
+        CloseableHttpResponse httpResponse;
+
+        httpGet.setHeader("Content-type", "application/json");
+
+        JsonElement json = null;
+        try {
+            // Try a few times before returning null
+            for (int i = 0; i < NUMBER_OF_TRY; i++) {
+                httpResponse = httpClient.execute(httpGet);
+                json = parseHttpResponse(httpResponse);
+                if (json != null) {
+                    break;
+                }
+                // Wait 0.5s before requesting once more
+                Thread.sleep(500);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return json;
     }
 
     @Override

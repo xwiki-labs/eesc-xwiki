@@ -113,6 +113,9 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
 
         String casID = context.getWiki().clearName(userId, true, true, context);
         String userID = eesc.getUID(casID);
+        if (userID == null) {
+            return super.authenticate(username, password, context);
+        }
 
         DistributionManager distributionManager = Utils.getComponent(DistributionManager.class);
         DistributionManager.DistributionState state = distributionManager.getFarmDistributionState();
@@ -125,22 +128,39 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
             if (userdoc.isNew()) {
                 LOGGER.info("Creating user " + userID);
                 context.getWiki().createEmptyUser(userID, "edit", context);
-                initUser(userID, context);
-
+                boolean error = initUser(userID, context);
+                if (error) {
+                    return super.authenticate(username, password, context);
+                }
             }
         }
-
         return new SimplePrincipal("xwiki:XWiki." + userID);
     }
 
     private boolean initUser(String userID, XWikiContext context) throws XWikiException
     {
-        User user = eesc.getUser(userID);
-        List<Group> groups = eesc.getGroupsForUser(userID);
-        DocumentReference userDocRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userID);
-        XWikiDocument userDoc = context.getWiki().getDocument(userDocRef, context);
-        DocumentReference userObjRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiUsers");
-        BaseObject userObj = userDoc.getXObject(userObjRef);
+        User user = null;
+        List<Group> groups = null;
+        DocumentReference userDocRef = null;
+        XWikiDocument userDoc = null;
+        DocumentReference userObjRef = null;
+        BaseObject userObj = null;
+
+        user = eesc.getUser(userID);
+        groups = eesc.getGroupsForUser(userID);
+        if (user == null || groups == null) {
+            return true;
+        }
+        userDocRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, userID);
+        userDoc = context.getWiki().getDocument(userDocRef, context);
+        if (userDoc == null) {
+            return true;
+        }
+        userObjRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiUsers");
+        userObj = userDoc.getXObject(userObjRef);
+        if (userObj == null) {
+            return true;
+        }
 
         userDoc.setHidden(true);
 
@@ -149,27 +169,36 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
         context.getWiki().saveDocument(userDoc, context);
 
         // Add the user to the authorized users of XWiki (adding in XWikiAllGroup)
-        Group xwikiAllGroup = new Group("XWikiAllGroup", "Tout le monde", "PUBLIC");
-        addUserToGroup(user, xwikiAllGroup, context);
+        Group xwikiAllGroup = new Group("XWikiAllGroup", "Tout le monde", "public");
+        boolean error = addUserToGroup(user, xwikiAllGroup, context);
+        if (error) {
+            return true;
+        }
 
         // Add the user to the groups he's in
         for (Group group : groups) {
             addUserToGroup(user, group, context);
         }
 
-        return true;
+        return false;
     }
 
-    private void addUserToGroup(User user, Group group, XWikiContext context) throws XWikiException
+    private boolean addUserToGroup(User user, Group group, XWikiContext context) throws XWikiException
     {
-        DocumentReference groupDocRef =
-            new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, group.getId());
-        XWikiDocument groupDoc = context.getWiki().getDocument(groupDocRef, context);
-        DocumentReference groupObjRef =
-            new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiGroups");
-        String userPageName = String.format("XWiki.%s", user.getId());
-        BaseObject groupObj = groupDoc.getXObject(groupObjRef, "member", userPageName);
+        DocumentReference groupDocRef = null;
+        XWikiDocument groupDoc = null;
+        DocumentReference groupObjRef = null;
+        String userPageName = null;
+        BaseObject groupObj = null;
 
+        groupDocRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, group.getId());
+        groupDoc = context.getWiki().getDocument(groupDocRef, context);
+        if (groupDoc == null) {
+            return true;
+        }
+        groupObjRef = new DocumentReference(context.getMainXWiki(), XWiki.SYSTEM_SPACE, "XWikiGroups");
+        userPageName = String.format("XWiki.%s", user.getId());
+        groupObj = groupDoc.getXObject(groupObjRef, "member", userPageName);
         if (groupObj == null) {
             groupObj = groupDoc.newXObject(groupObjRef, context);
             groupObj.set("member", userPageName, context);
@@ -177,5 +206,6 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
             groupDoc.setTitle(group.getName());
             context.getWiki().saveDocument(groupDoc, context);
         }
+        return false;
     }
 }
