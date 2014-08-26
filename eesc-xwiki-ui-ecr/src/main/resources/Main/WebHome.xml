@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1400748596000</creationDate>
-  <date>1400857615000</date>
-  <contentUpdateDate>1400857615000</contentUpdateDate>
+  <creationDate>1409045288000</creationDate>
+  <date>1409047562000</date>
+  <contentUpdateDate>1409047562000</contentUpdateDate>
   <version>1.1</version>
   <title>Accueil</title>
   <defaultTemplate/>
@@ -415,9 +414,15 @@
     * ----
   {{/menu}}
 #else
-  {{info}}
-    $services.localization.render('eesc.Documentshare.nodocument')
-  {{/info}}
+  #if($xcontext.getUserReference())
+    {{info}}
+      ${services.localization.render('eesc.WebHome.nodocument')}
+    {{/info}}
+  #else
+    {{error}}
+      ${services.localization.render('eesc.WebHome.unconnected')}
+    {{/error}}
+  #end
 #end
 
 {{/velocity}}</content>

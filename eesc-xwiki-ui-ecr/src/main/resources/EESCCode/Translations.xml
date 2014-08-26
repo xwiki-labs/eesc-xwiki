@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -31,9 +30,9 @@
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <creationDate>1400748596000</creationDate>
-  <date>1400748596000</date>
-  <contentUpdateDate>1400748596000</contentUpdateDate>
+  <creationDate>1409045288000</creationDate>
+  <date>1409047549000</date>
+  <contentUpdateDate>1409047549000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -86,6 +85,10 @@ eesc.template.eescheader.document.share=Partager
 # New document template
 eesc.CollaborativeDocumentTemplate.title=Nouveau document
 
+# WebHome
+eesc.WebHome.nodocument=Vous n'avez aucun document accessible.
+eesc.WebHome.unconnected=Vous n'êtes pas correctement authentifié. Essayer de recharger la page. Si le problème persiste, contactez votre responsable informatique.
+
 # Create document
 eesc.DocumentCreate.bottombuttons.create=Créer le document
 eesc.DocumentCreate.bottombuttons.cancel=Annuler
@@ -111,6 +114,5 @@ eesc.DocumentShare.bottombuttons.share=Partager le document
 eesc.DocumentShare.bottombuttons.cancel=Annuler
 eesc.DocumentShare.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
 eesc.DocumentShare.message=Comment souhaitez vous partager le document {0} du dossier {1} ?
-eesc.DocumentShare.title=Partager un document
-eesc.Documentshare.nodocument=Vous n'avez aucun document accessible.</content>
+eesc.DocumentShare.title=Partager un document</content>
 </xwikidoc>

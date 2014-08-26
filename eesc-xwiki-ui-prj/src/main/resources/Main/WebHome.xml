@@ -532,9 +532,15 @@
     #end
   {{/menu}}
 #else
-  {{info}}
-  ${services.localization.render('eesc.home.noproject')}
-  {{/info}}
+  #if($xcontext.getUserReference())
+    {{info}}
+      ${services.localization.render('eesc.home.noproject')}
+    {{/info}}
+  #else
+    {{error}}
+      ${services.localization.render('eesc.home.unconnected')}
+    {{/error}}
+  #end
 #end
 
 {{/velocity}}</content>
