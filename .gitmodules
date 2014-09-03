@@ -2,7 +2,7 @@
 	path = eesc-xwiki-applications/application-task
 	url = git@github.com:woshilapin/application-task.git
 	branch = eesc
-[submodule "eesc-xwiki-applications/application-project"]
-	path = eesc-xwiki-applications/application-project
-	url = git@github.com:woshilapin/application-project.git
+[submodule "eesc-xwiki-applications/application-project-management"]
+	path = eesc-xwiki-applications/application-project-management
+	url = git@github.com:woshilapin/application-project-management.git
 	branch = eesc

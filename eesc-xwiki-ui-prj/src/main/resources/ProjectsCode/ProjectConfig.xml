@@ -26,7 +26,7 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>WebHome</parent>
+  <parent>ProjectsCode.ProjectsConfigClass</parent>
   <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
   <customClass/>
@@ -61,9 +61,9 @@
         <idField/>
         <multiSelect>1</multiSelect>
         <name>activeTabs</name>
-        <number>2</number>
+        <number>1</number>
         <picker>1</picker>
-        <prettyName>activeTabs</prettyName>
+        <prettyName>Active Tabs</prettyName>
         <relationalStorage>1</relationalStorage>
         <separator>,</separator>
         <separators>,</separators>
@@ -76,6 +76,30 @@
         <valueField/>
         <classType>com.xpn.xwiki.objects.classes.DBListClass</classType>
       </activeTabs>
+      <defaultTab>
+        <cache>1</cache>
+        <classname/>
+        <customDisplay/>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <idField/>
+        <multiSelect>0</multiSelect>
+        <name>defaultTab</name>
+        <number>2</number>
+        <picker>1</picker>
+        <prettyName>Default Tab</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator> </separator>
+        <separators/>
+        <size>1</size>
+        <sort>none</sort>
+        <sql>select nameprop.value from BaseObject as obj, StringProperty as idprop, StringProperty as nameprop where obj.className='XWiki.UIExtensionClass' and obj.id=idprop.id.id and idprop.id.name='extensionPointId' and obj.id=nameprop.id.id and nameprop.id.name='name' and idprop.value='org.xwiki.contrib.project.tab' order by nameprop.value asc</sql>
+        <unmodifiable>0</unmodifiable>
+        <validationMessage/>
+        <validationRegExp/>
+        <valueField/>
+        <classType>com.xpn.xwiki.objects.classes.DBListClass</classType>
+      </defaultTab>
       <documentTags>
         <cache>0</cache>
         <classname/>
@@ -87,7 +111,7 @@
         <name>documentTags</name>
         <number>6</number>
         <picker>1</picker>
-        <prettyName>documentTags</prettyName>
+        <prettyName>Document Tags</prettyName>
         <relationalStorage>1</relationalStorage>
         <separator>,</separator>
         <separators>,</separators>
@@ -109,7 +133,7 @@
         <name>productVersionControlTool</name>
         <number>5</number>
         <picker>0</picker>
-        <prettyName>productVersionControlTool</prettyName>
+        <prettyName>Product Version Control Tool</prettyName>
         <relationalStorage>0</relationalStorage>
         <separator> </separator>
         <separators> ,|</separators>
@@ -132,7 +156,7 @@
         <name>taskTool</name>
         <number>3</number>
         <picker>0</picker>
-        <prettyName>taskTool</prettyName>
+        <prettyName>Task Tool</prettyName>
         <relationalStorage>0</relationalStorage>
         <separator> </separator>
         <separators/>
@@ -154,7 +178,7 @@
         <name>versionControlTool</name>
         <number>4</number>
         <picker>0</picker>
-        <prettyName>versionControlTool</prettyName>
+        <prettyName>Version Control Tool</prettyName>
         <relationalStorage>0</relationalStorage>
         <separator> </separator>
         <separators> ,|</separators>
@@ -176,6 +200,9 @@
         <value>eesc-info</value>
         <value>task</value>
       </activeTabs>
+    </property>
+    <property>
+      <defaultTab/>
     </property>
     <property>
       <documentTags/>

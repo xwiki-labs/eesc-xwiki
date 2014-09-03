@@ -449,7 +449,7 @@
         <unmodifiable>0</unmodifiable>
         <validationMessage/>
         <validationRegExp/>
-        <values>potential|inprogress|waiting|closed|abandonned</values>
+        <values>standby|inprogress|waiting|closed|abandonned</values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </status>
       <title1>
@@ -540,7 +540,7 @@
       <riskLevel>unknown</riskLevel>
     </property>
     <property>
-      <status>potential</status>
+      <status>waiting</status>
     </property>
     <property>
       <versionControlURL/>
@@ -576,6 +576,43 @@
     <guid>c7989095-8eba-4da2-af7b-280f66730ca6</guid>
     <property>
       <sheet>EESCCode.ProjectsCodeSheet</sheet>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>ProjectsCode.ProjectsCodeTemplate</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>51cc01db-dcb4-416a-a2f9-d274a85e41b6</guid>
+    <property>
+      <tags>
+        <value>project</value>
+      </tags>
     </property>
   </object>
   <content/>

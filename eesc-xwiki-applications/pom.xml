@@ -36,6 +36,6 @@
 
   <modules>
     <module>application-task</module>
-    <module>application-project</module>
+    <module>application-project-management</module>
   </modules>
 </project>
