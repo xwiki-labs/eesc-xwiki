@@ -216,7 +216,7 @@ function deploy_tomcat() {
 	sed "
 	$ s/\<start\>/jpda &/g
 	/# Better OS\/400/ a\
-	export CATALINA_OPTS='-Xmx1024M -XX:MaxPermSize=256m -Dxwiki.data.dir=$TO/xwiki.data'\n
+	export CATALINA_OPTS='-Xmx1024M -XX:MaxPermSize=256m'\n
 	" $TOMCAT_PATH/bin/startup.sh > $XWIKI_START
 	chmod a+x $XWIKI_START
 	rm -Rf $XWIKI_PATH $XWIKI_DATA_PATH
@@ -254,10 +254,12 @@ function deploy_xwiki() {
 	}
 	p
 	' $XWIKI_WEBXML_FILE > $XWIKI_WEBXML_NOCAS_FILE
-	sed -i '
+	sed -i "
 	$ a\
-	eesc.webservice.url=https://demo.monent.fr/interop
-	' $XWIKI_PATH/WEB-INF/xwiki.properties
+		eesc.webservice.url=https://demo.monent.fr/interop
+	$ a\
+		environment.permanentDirectory=$TO/xwiki.data
+	" $XWIKI_PATH/WEB-INF/xwiki.properties
 }
 
 function upload_xar() {
