@@ -57,16 +57,15 @@ public class EESCImpl implements EESC
 
     private JsonElement askForJSON(String url)
     {
-        CloseableHttpClient httpClient = HttpClientBuilder.create().build();
-        HttpGet httpGet = new HttpGet(url);
-        CloseableHttpResponse httpResponse;
-
-        httpGet.setHeader("Content-type", "application/json");
-
         JsonElement json = null;
         try {
             // Try a few times before returning null
             for (int i = 0; i < NUMBER_OF_TRY; i++) {
+                CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+                HttpGet httpGet = new HttpGet(url);
+                CloseableHttpResponse httpResponse;
+                httpGet.setHeader("Content-type", "application/json");
+                
                 httpResponse = httpClient.execute(httpGet);
                 json = parseHttpResponse(httpResponse);
                 if (json != null) {
