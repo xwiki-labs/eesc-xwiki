@@ -34,7 +34,7 @@
   <artifactId>eesc-xwiki-ui-ecr-all</artifactId>
   <packaging>xar</packaging>
 
-  <name>EESC - XWiki - Distribution - UI All</name>
+  <name>EESC - XWiki - Distribution - UI All - ECR</name>
 
   <dependencies>
     <dependency>

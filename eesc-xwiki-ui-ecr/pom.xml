@@ -34,6 +34,6 @@
   <artifactId>eesc-xwiki-ui-ecr</artifactId>
   <packaging>xar</packaging>
 
-  <name>EESC - XWiki - UI</name>
+  <name>EESC - XWiki - UI - ECR</name>
   <description>The UI for the EESC XWiki component</description>
 </project>

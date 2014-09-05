@@ -34,7 +34,7 @@
   <artifactId>eesc-xwiki-ui-prj-all</artifactId>
   <packaging>xar</packaging>
 
-  <name>EESC - XWiki - Distribution - UI All</name>
+  <name>EESC - XWiki - Distribution - UI All - PRJ</name>
 
   <dependencies>
     <dependency>
@@ -53,8 +53,8 @@
 	</dependency>
 	<dependency>
 	  <groupId>org.xwiki.contrib</groupId>
-	  <artifactId>xwiki-application-project</artifactId>
-	  <version>${application-project.version}</version>
+	  <artifactId>application-project-management-generic</artifactId>
+	  <version>${application-project-management-generic.version}</version>
 	  <type>xar</type>
 	  <scope>provided</scope>
 	</dependency>
@@ -112,15 +112,15 @@
             </configuration>
           </execution>
           <execution>
-            <id>unxar-application-project</id>
+            <id>unxar-application-project-management-generic</id>
             <phase>generate-resources</phase>
             <goals>
               <goal>unxar</goal>
             </goals>
             <configuration>
               <groupId>org.xwiki.contrib</groupId>
-              <artifactId>xwiki-application-project</artifactId>
-              <version>${application-project.version}</version>
+              <artifactId>application-project-management-generic</artifactId>
+              <version>${application-project-management-generic.version}</version>
               <type>xar</type>
               <outputDirectory>${project.build.outputDirectory}</outputDirectory>
               <includeDependencies>true</includeDependencies>

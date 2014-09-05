@@ -34,6 +34,6 @@
   <artifactId>eesc-xwiki-ui-prj</artifactId>
   <packaging>xar</packaging>
 
-  <name>EESC - XWiki - UI</name>
+  <name>EESC - XWiki - UI - PRJ</name>
   <description>The UI for the EESC XWiki component</description>
 </project>
