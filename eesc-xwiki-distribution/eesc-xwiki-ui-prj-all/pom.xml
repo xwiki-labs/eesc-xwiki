@@ -58,6 +58,13 @@
 	  <type>xar</type>
 	  <scope>provided</scope>
 	</dependency>
+	<dependency>
+	  <groupId>org.xwiki.contrib</groupId>
+	  <artifactId>application-project-management-taskmanager</artifactId>
+	  <version>${application-project-management-taskmanager.version}</version>
+	  <type>xar</type>
+	  <scope>provided</scope>
+	</dependency>
     <dependency>
       <groupId>com.xwikisas</groupId>
       <artifactId>eesc-xwiki-ui-prj</artifactId>
@@ -127,6 +134,21 @@
               <excludes>
                 <exclude>Projects/WebHome.xml</exclude>
               </excludes>
+            </configuration>
+          </execution>
+          <execution>
+            <id>unxar-application-project-management-taskmanager</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unxar</goal>
+            </goals>
+            <configuration>
+              <groupId>org.xwiki.contrib</groupId>
+              <artifactId>application-project-management-taskmanager</artifactId>
+              <version>${application-project-management-taskmanager.version}</version>
+              <type>xar</type>
+              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+              <includeDependencies>true</includeDependencies>
             </configuration>
           </execution>
 		  <!-- Must be at the end since it replace some of the previous
