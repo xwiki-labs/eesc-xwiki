@@ -100,7 +100,7 @@
  * @param $groups The list of authorized users if it apply (if $scope is 'shared')
  *#
 #macro(stepShare, $projectName, $scope, $users, $groups)
-  #set($projectref = $services.model.createDocumentReference(${xcontext.mainWikiName}, $spaceName, $projectName))
+  #set($projectref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectName))
   #set($project = $xwiki.getDocument($projectref))
   #set($shareobj = $project.getObject('EESCCode.CollaborativeProjectClass'))
   #set($discard = $shareobj.set('scope', $scope))
@@ -183,7 +183,7 @@
   #set($message = ${services.localization.render('eesc.ProjectShare.message', ["${projectlink}"])})
 
   {{html clean='false'}}
-    &lt;form class="xform" method="POST" action="${xwiki.getURL($services.model.resolveDocument('EESCCode.DocumentShare'))}"&gt;
+    &lt;form class="xform" method="POST" action="${xwiki.getURL($services.model.resolveDocument('EESCCode.ProjectShare'))}"&gt;
       &lt;input type="hidden" name="step" value="share" /&gt;
       &lt;input type="hidden" name="referer" value="${reqReferer}" /&gt;
       &lt;input type="hidden" name="projectname" value="${reqProjectName}" /&gt;

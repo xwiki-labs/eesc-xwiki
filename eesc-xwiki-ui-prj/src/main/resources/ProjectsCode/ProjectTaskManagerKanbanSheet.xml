@@ -91,7 +91,8 @@
     </property>
   </object>
   <content>{{velocity}}
-{{kanbanboard selection="project" project="${doc}" /}}
+#set($projectname = $services.model.resolveDocument("$doc"))
+{{kanbanboard selection="project" project="${projectname}" /}}
 {{/velocity}}
 </content>
 </xwikidoc>

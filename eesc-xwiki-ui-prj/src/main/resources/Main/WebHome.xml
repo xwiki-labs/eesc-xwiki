@@ -480,7 +480,7 @@
 ##############################################
 #set($query_select = "distinct doc.fullName")
 #set($query_from = "XWikiDocument doc, BaseObject as oshare, BaseObject as oright, LargeStringProperty as pusers, LargeStringProperty as pgroups")
-#set($query_where_share = "doc.fullName = oshare.name and oshare.className = 'ProjectsCode.ProjectsCodeClass' and doc.fullName not like '%Template'")
+#set($query_where_share = "doc.fullName = oshare.name and oshare.className = 'EESCCode.CollaborativeProjectClass' and doc.fullName not like '%Template'")
 #set($query_where_right = "doc.fullName = oright.name and oright.className = 'XWiki.XWikiRights'")
 #set($query_where_users = "pusers.id.id = oright.id and pusers.id.name = 'users' and pusers.value = '${xcontext.user}'")
 #set($query_where_groups_values = "pgroups.value = 'XWiki.XWikiAllGroup'")
