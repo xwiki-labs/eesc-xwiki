@@ -55,6 +55,12 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
+      <groupId>org.jasig.cas.client</groupId>
+      <artifactId>cas-client-core</artifactId>
+      <version>3.3.3</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
       <groupId>com.xwikisas</groupId>
       <artifactId>eesc-xwiki-service</artifactId>
       <version>${project.version}</version>
