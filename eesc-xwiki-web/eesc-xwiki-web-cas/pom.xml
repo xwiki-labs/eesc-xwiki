@@ -35,4 +35,36 @@
 
   <name>EESC - XWiki - Web (CAS)</name>
   <description>Web application containing CAS Authentication support for the XWiki EESC component</description>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-legacy-oldcore</artifactId>
+      <version>${platform.version}</version>
+      <type>jar</type>
+      <classifier>object-policy</classifier>
+    </dependency>
+  </dependencies>
+  <repositories>
+    <repository>
+      <id>m2-local</id>
+      <url>file://${basedir}/m2-local</url>
+    </repository>
+  </repositories>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-no-legacy-dependencies</id>
+            <configuration>
+              <skip>true</skip>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
