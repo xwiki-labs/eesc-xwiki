@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.xwiki.platform</groupId>
-  <artifactId>xwiki-platform-legacy-oldcore</artifactId>
+  <artifactId>xwiki-platform-oldcore</artifactId>
   <version>6.2</version>
   <description>POM was created from install:install-file</description>
 </project>
