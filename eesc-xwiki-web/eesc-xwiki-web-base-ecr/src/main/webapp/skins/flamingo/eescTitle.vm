@@ -1,0 +1,9 @@
+###
+### Title for EESC
+###
+<style type="text/css">
+.eesc-service-title {
+  color: gray;
+}
+</style>
+<h1 class="eesc-service-title">Service d'écriture collaborative</h1>

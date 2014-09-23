@@ -1,0 +1,46 @@
+#* 
+ * Voluntary left empty.
+ * This template is intended to be used by custom skin that want to override values from layoutvars.vm safely.
+ *  
+ * Some example of variables that can be overridden here :
+ * #set($displayContentMenu = false)
+ * #set($displayMainMenu = false)
+ * #set($displayDocExtra = false)
+ * #set($displayShortcuts = false)
+ *#
+ 
+#set($currentUser = $xwiki.user.user.toString())
+#set($adminDoc = $xwiki.getDocument('xwiki:XWiki.XWikiAdminGroup'))
+#set($adminObj = $adminDoc.getObject('XWiki.XWikiGroups', 'member', $currentUser.replace('xwiki:', '')))
+
+#if(!$adminObj)
+  #set($displayContentMenu = false)
+  #set($displayMainMenu = false)
+  ##set($displayDocExtra = false)
+  #set($displayShortcuts = false)
+#end
+
+#set($eescForbiddenSpaces = [])
+#set($discard = $eescForbiddenSpaces.add('AnnotationCode'))
+#set($discard = $eescForbiddenSpaces.add('AppWithinMinutes'))
+#set($discard = $eescForbiddenSpaces.add('Collections'))
+#set($discard = $eescForbiddenSpaces.add('ColorThemes'))
+#set($discard = $eescForbiddenSpaces.add('EESCCode'))
+#set($discard = $eescForbiddenSpaces.add('Import'))
+#set($discard = $eescForbiddenSpaces.add('Invitation'))
+#set($discard = $eescForbiddenSpaces.add('Main'))
+#set($discard = $eescForbiddenSpaces.add('Menu'))
+#set($discard = $eescForbiddenSpaces.add('Panels'))
+#set($discard = $eescForbiddenSpaces.add('Scheduler'))
+#set($discard = $eescForbiddenSpaces.add('Stats'))
+#set($discard = $eescForbiddenSpaces.add('SyntaxHighlighting'))
+#set($discard = $eescForbiddenSpaces.add('Watch'))
+#set($discard = $eescForbiddenSpaces.add('WatchAdmin'))
+#set($discard = $eescForbiddenSpaces.add('WatchCode'))
+#set($discard = $eescForbiddenSpaces.add('WatchSheets'))
+#set($discard = $eescForbiddenSpaces.add('WikiManager'))
+#set($discard = $eescForbiddenSpaces.add('XApp'))
+#set($discard = $eescForbiddenSpaces.add('XAppClasses'))
+#set($discard = $eescForbiddenSpaces.add('XAppSheets'))
+#set($discard = $eescForbiddenSpaces.add('XAppTemplates'))
+#set($discard = $eescForbiddenSpaces.add('XWiki'))

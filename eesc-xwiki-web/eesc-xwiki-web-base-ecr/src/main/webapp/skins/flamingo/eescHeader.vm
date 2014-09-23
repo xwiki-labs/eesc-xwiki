@@ -1,0 +1,41 @@
+###
+### Header for EESC
+###
+### Provide functional buttons (create, edit, share, delete)
+###
+<style type="text/css">
+.form-inline {
+  display: inline-block;
+}
+.text-right {
+  float: right;
+}
+</style>
+<span>
+  #set($documentref = $services.model.resolveDocument($doc.fullName))
+  #set($documentshareref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'DocumentShare'))
+  #set($documentcreateref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'DocumentCreate'))
+  #if(!$doc.isHidden() && $hasEdit)
+    <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'edit', '')}">
+      <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.document.edit')}" /> 
+    </form>
+    #if($doc.hasAccessLevel("delete"))
+      <form class="form-inline" method="GET" action="${xwiki.getURL($documentshareref, 'view', '')}">
+        <input type="hidden" name="step" value="form" />
+        <input type="hidden" name="spacename" value="${doc.space}" />
+        <input type="hidden" name="documentname" value="${doc.name}" />
+        <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.document.share')}" /> 
+      </form>
+      <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'delete', '')}">
+        <input type="submit" class="btn btn-danger" value="${services.localization.render('eesc.template.eescheader.document.delete')}" /> 
+      </form>
+    #end
+#end
+</span>
+<span class="text-right">
+  <form class="form-inline" method="GET" action="${xwiki.getURL($documentcreateref)}">
+    <input type="hidden" name="step" value="form" />
+    <input type="hidden" name="spacename" value="${doc.getSpace()}" />
+    <input type="submit" class="btn btn-success" value="${services.localization.render('eesc.template.eescheader.create.document')}" />
+  </form>
+</span>
