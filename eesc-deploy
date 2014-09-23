@@ -213,6 +213,8 @@ function deploy_tomcat() {
 	tar xvzf $TOMCAT 2>&1 | to_log
 	log_info "Configuring Tomcat"
 	ln --force --symbolic $TOMCAT_DIRNAME $TOMCAT_PATH
+	sed -i -e 's/^<Context>/<Context allowLinking="true">/g' $TOMCAT_PATH/conf/context.xml
+	sed -i -e 's/<Connector/<Connector URIEncoding="UTF-8"/g' $TOMCAT_PATH/conf/server.xml
 	sed "
 	$ s/\<start\>/jpda &/g
 	/# Better OS\/400/ a\
@@ -236,9 +238,6 @@ function deploy_xwiki() {
 	fi
 	unzip $WAR_FILE 2>&1 | to_log
 	log_info "Configuring XWiki"
-	sed -i '
-	s+PUT_HERE_THE_CAS_AUTHENTICATION_SERVER_URL+https://demo.monent.fr/connexion/+g
-	' $XWIKI_WEBXML_FILE
 	cp $XWIKI_WEBXML_FILE $XWIKI_WEBXML_CAS_FILE
 	sed -n '
 	/<filter-mapping>/,/<\/filter-mapping>/ {
