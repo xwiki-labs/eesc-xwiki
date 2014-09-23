@@ -32,8 +32,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1400748574000</creationDate>
-  <date>1400748574000</date>
-  <contentUpdateDate>1400748574000</contentUpdateDate>
+  <date>1411466875000</date>
+  <contentUpdateDate>1411466875000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('platform.core.profile.title', ["$!doc.getValue('first_name') $!doc.getValue('last_name')"])</title>
   <defaultTemplate/>
@@ -173,7 +173,7 @@ aqJnTa4EE0Iwwsohli6MYFH6sl+ylT6JYKxQ5hlIH4f/BgD7inc8EZgGUgAAAABJRU5ErkJggg==
         <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <values>currentPage|onDemand|always</values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
@@ -339,7 +339,7 @@ return XWiki;
         <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <values>currentPage|onDemand|always</values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>

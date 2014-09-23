@@ -138,7 +138,7 @@
         <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <values>currentPage|onDemand|always</values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
@@ -233,7 +233,7 @@
         <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <values>currentPage|onDemand|always</values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
@@ -327,7 +327,7 @@
         <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <values>currentPage|onDemand|always</values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
@@ -421,7 +421,7 @@
         <separators> ,|</separators>
         <size>1</size>
         <unmodifiable>0</unmodifiable>
-        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <values>currentPage|onDemand|always</values>
         <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
       </use>
     </class>
@@ -509,7 +509,7 @@
     #foreach($pagename in $viewableprojects)
       #set($pagenameelements = $pagename.split('\.'))
       #set($projectname = $xwiki.getDocument($services.model.resolveDocument($pagename)).display('title1'))
-      * [[image:icon:bricks **${projectname}**&gt;&gt;${pagename}]]
+      * [[$services.icon.render('inbox') **${projectname}**&gt;&gt;${pagename}]]
       #set($query = "select distinct doc.fullName, task.name, task.status, task.assignee, task.duedate from Document as doc, doc.object('TaskManager.TaskManagerClass') as task where task.project = '${pagename}' order by task.duedate")
       #set($results = $services.query.xwql($query).execute())
       #foreach($task in $results)
@@ -526,7 +526,7 @@
         #set($taskstatusstr = "[${services.localization.render($taskstatustranslatekey)}] ")
         #set($tasknamestr = "${taskname}")
         #set($taskassigneestr = " (#if($taskassigneeobj)${services.localization.render('eesc.home.assignedto')} ${taskassigneename}#{else}${services.localization.render('eesc.home.noassigned')}#{end})")
-        ** image:icon:brick (% class="status status-${taskstatus}" %)${taskstatusstr}[[${tasknamestr}${taskassigneestr}&gt;&gt;${taskpagename}]]
+        ** $services.icon.render('lightbulb') (% class="status status-${taskstatus}" %)${taskstatusstr}[[${tasknamestr}${taskassigneestr}&gt;&gt;${taskpagename}]]
       #end
       * ----
     #end
