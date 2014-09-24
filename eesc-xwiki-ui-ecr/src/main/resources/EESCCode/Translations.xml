@@ -77,7 +77,9 @@
       <scope>GLOBAL</scope>
     </property>
   </object>
-  <content># Templates
+  <content># Main title
+eesc.service.name=Service d'écriture collaborative
+# Templates
 eesc.template.eescheader.create.document=Nouveau document
 eesc.template.eescheader.document.delete=Supprimer
 eesc.template.eescheader.document.edit=Modifier

@@ -77,7 +77,10 @@
       <scope>GLOBAL</scope>
     </property>
   </object>
-  <content>eesc.task.template.title=Nouvelle tâche
+  <content># Main title
+eesc.service.name=Service de gestion de projets
+# Templates
+eesc.task.template.title=Nouvelle tâche
 eesc.template.eescheader.project.edit=Modifier
 eesc.template.eescheader.project.share=Partager
 eesc.template.eescheader.project.delete=Supprimer

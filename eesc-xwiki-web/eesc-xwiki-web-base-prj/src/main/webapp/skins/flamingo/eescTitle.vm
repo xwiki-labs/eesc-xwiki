@@ -6,7 +6,7 @@
   color: gray;
 }
 </style>
-<h1 class="eesc-service-title">Service de gestion de projets</h1>
+<h1 class="eesc-service-title">${services.localization.render('eesc.service.name')}</h1>
 #if($doc.parent && $doc.parent == '')
   <hr />
 #end
