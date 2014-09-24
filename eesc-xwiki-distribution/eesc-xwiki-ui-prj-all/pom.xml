@@ -97,6 +97,7 @@
                 <exclude>Blog/*</exclude>
                 <exclude>Dashboard/*</exclude>
                 <exclude>Sandbox/*</exclude>
+                <exclude>ProjectsCode/SkinExtension</exclude>
               </excludes>
             </configuration>
           </execution>
