@@ -103,6 +103,8 @@
               <includeDependencies>true</includeDependencies>
               <excludes>
                 <exclude>Projects/WebHome.xml</exclude>
+                <exclude>Projects/WebPreferences.xml</exclude>
+                <exclude>ProjectsCode/WebPreferences.xml</exclude>
                 <exclude>ProjectsCode/SkinExtension.xml</exclude>
               </excludes>
             </configuration>
