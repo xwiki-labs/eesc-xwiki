@@ -38,18 +38,16 @@
 
   <dependencies>
     <dependency>
-      <groupId>com.xwikisas</groupId>
-      <artifactId>eesc-xwiki-ui-ecr</artifactId>
-      <version>${project.version}</version>
-      <type>xar</type>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>org.xwiki.enterprise</groupId>
       <artifactId>xwiki-enterprise-ui-mainwiki-all</artifactId>
       <version>${enterprise.version}</version>
       <type>xar</type>
-      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.xwikisas</groupId>
+      <artifactId>eesc-xwiki-ui-ecr</artifactId>
+      <version>${project.version}</version>
+      <type>xar</type>
     </dependency>
   </dependencies>
 
@@ -79,6 +77,23 @@
               </excludes>
             </configuration>
           </execution>
+          <execution>
+            <id>unxar-xwiki-platform-menu-ui</id>
+            <phase>generate-resources</phase>
+            <goals>
+              <goal>unxar</goal>
+            </goals>
+            <configuration>
+              <groupId>org.xwiki.platform</groupId>
+              <artifactId>xwiki-platform-menu-ui</artifactId>
+              <version>${platform.version}</version>
+              <type>xar</type>
+              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
+              <includeDependencies>true</includeDependencies>
+            </configuration>
+          </execution>
+		  <!-- Must be at the end since it may replace some of the previous
+			dependencies files -->
           <execution>
             <id>unxar-eesc-xwiki-ui-ecr</id>
             <phase>generate-resources</phase>
