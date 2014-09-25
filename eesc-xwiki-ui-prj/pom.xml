@@ -39,6 +39,12 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.xwiki.platform</groupId>
+      <artifactId>xwiki-platform-menu-ui</artifactId>
+      <version>${platform.version}</version>
+      <type>xar</type>
+    </dependency>
+    <dependency>
       <groupId>org.xwiki.contrib</groupId>
       <artifactId>application-task</artifactId>
       <version>${application-task.version}</version>
@@ -56,12 +62,6 @@
       <version>${application-project-management-taskmanager.version}</version>
       <type>xar</type>
     </dependency>
-    <dependency>
-      <groupId>org.xwiki.platform</groupId>
-      <artifactId>xwiki-platform-menu-ui</artifactId>
-	  <version>${platform.version}</version>
-      <type>xar</type>
-    </dependency>
   </dependencies>
 
   <build>
@@ -69,77 +69,23 @@
       <plugin>
         <groupId>org.xwiki.commons</groupId>
         <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>unxar-application-task</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>unxar</goal>
-            </goals>
-            <configuration>
-              <groupId>org.xwiki.contrib</groupId>
-              <artifactId>application-task</artifactId>
-              <version>${application-task.version}</version>
-              <type>xar</type>
-              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-              <includeDependencies>true</includeDependencies>
-              <excludes>
-                <exclude>TaskManager/WebHome.xml</exclude>
-              </excludes>
-            </configuration>
-          </execution>
-          <execution>
-            <id>unxar-application-project-management-generic</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>unxar</goal>
-            </goals>
-            <configuration>
-              <groupId>org.xwiki.contrib</groupId>
-              <artifactId>application-project-management-generic</artifactId>
-              <version>${application-project-management-generic.version}</version>
-              <type>xar</type>
-              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-              <includeDependencies>true</includeDependencies>
-              <excludes>
-                <exclude>Projects/WebHome.xml</exclude>
-                <exclude>Projects/WebPreferences.xml</exclude>
-                <exclude>ProjectsCode/WebPreferences.xml</exclude>
-                <exclude>ProjectsCode/SkinExtension.xml</exclude>
-              </excludes>
-            </configuration>
-          </execution>
-          <execution>
-            <id>unxar-application-project-management-taskmanager</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>unxar</goal>
-            </goals>
-            <configuration>
-              <groupId>org.xwiki.contrib</groupId>
-              <artifactId>application-project-management-taskmanager</artifactId>
-              <version>${application-project-management-taskmanager.version}</version>
-              <type>xar</type>
-              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-              <includeDependencies>true</includeDependencies>
-            </configuration>
-          </execution>
-          <execution>
-            <id>unxar-xwiki-platform-menu-ui</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>unxar</goal>
-            </goals>
-            <configuration>
-              <groupId>org.xwiki.platform</groupId>
-              <artifactId>xwiki-platform-menu-ui</artifactId>
-              <version>${platform.version}</version>
-              <type>xar</type>
-              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-              <includeDependencies>true</includeDependencies>
-            </configuration>
-          </execution>
-        </executions>
+        <configuration>
+          <transformations>
+            <transformation>
+              <artifact>org.xwiki.contrib:application-project-management-generic</artifact>
+              <file>ProjectsCode/ProjectConfig.xml</file>
+              <xpath>/xwikidoc/object/property/activeTabs</xpath>
+              <value>eesc-info, task</value>
+            </transformation>
+            <transformation>
+              <artifact>org.xwiki.contrib:application-project-management-generic</artifact>
+              <file>ProjectsCode/ProjectConfig.xml</file>
+              <xpath>/xwikidoc/object/property/taskTool</xpath>
+              <value>ProjectsCode.ProjectTaskManagerKanbanSheet</value>
+            </transformation>
+          </transformations>
+          <includeDependencies>true</includeDependencies>
+        </configuration>
       </plugin>
     </plugins>
   </build>

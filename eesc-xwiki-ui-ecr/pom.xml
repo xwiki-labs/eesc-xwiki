@@ -51,23 +51,9 @@
       <plugin>
         <groupId>org.xwiki.commons</groupId>
         <artifactId>xwiki-commons-tool-xar-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>unxar-xwiki-platform-menu-ui</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>unxar</goal>
-            </goals>
-            <configuration>
-              <groupId>org.xwiki.platform</groupId>
-              <artifactId>xwiki-platform-menu-ui</artifactId>
-              <version>${platform.version}</version>
-              <type>xar</type>
-              <outputDirectory>${project.build.outputDirectory}</outputDirectory>
-              <includeDependencies>true</includeDependencies>
-            </configuration>
-          </execution>
-        </executions>
+        <configuration>
+          <includeDependencies>true</includeDependencies>
+        </configuration>
       </plugin>
     </plugins>
   </build>

@@ -77,8 +77,8 @@
               </excludes>
             </configuration>
           </execution>
-		  <!-- Must be at the end since it replace some of the previous
-			dependencies files -->
+          <!-- Must be at the end since it may replace some of the previous
+            dependencies files -->
           <execution>
             <id>unxar-eesc-xwiki-ui-prj</id>
             <phase>generate-resources</phase>
@@ -92,6 +92,13 @@
               <type>xar</type>
               <outputDirectory>${project.build.outputDirectory}</outputDirectory>
               <includeDependencies>true</includeDependencies>
+              <excludes>
+                <exclude>TaskManager/WebHome.xml</exclude>
+                <exclude>Projects/WebHome.xml</exclude>
+                <exclude>Projects/WebPreferences.xml</exclude>
+                <exclude>ProjectsCode/WebPreferences.xml</exclude>
+                <exclude>ProjectsCode/SkinExtension.xml</exclude>
+              </excludes>
             </configuration>
           </execution>
         </executions>
