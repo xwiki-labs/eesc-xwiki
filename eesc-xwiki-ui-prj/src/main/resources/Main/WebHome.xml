@@ -509,7 +509,7 @@
     #foreach($pagename in $viewableprojects)
       #set($pagenameelements = $pagename.split('\.'))
       #set($projectname = $xwiki.getDocument($services.model.resolveDocument($pagename)).display('title1'))
-      * [[$services.icon.render('inbox') **${projectname}**&gt;&gt;${pagename}]]
+      * [[$services.icon.render('lightbulb') **${projectname}**&gt;&gt;${pagename}]]
       #set($query = "select distinct doc.fullName, task.name, task.status, task.assignee, task.duedate from Document as doc, doc.object('TaskManager.TaskManagerClass') as task where task.project = '${pagename}' order by task.duedate")
       #set($results = $services.query.xwql($query).execute())
       #foreach($task in $results)
@@ -526,7 +526,7 @@
         #set($taskstatusstr = "[${services.localization.render($taskstatustranslatekey)}] ")
         #set($tasknamestr = "${taskname}")
         #set($taskassigneestr = " (#if($taskassigneeobj)${services.localization.render('eesc.home.assignedto')} ${taskassigneename}#{else}${services.localization.render('eesc.home.noassigned')}#{end})")
-        ** $services.icon.render('lightbulb') (% class="status status-${taskstatus}" %)${taskstatusstr}[[${tasknamestr}${taskassigneestr}&gt;&gt;${taskpagename}]]
+        ** $services.icon.render('tag') (% class="status status-${taskstatus}" %)${taskstatusstr}[[${tasknamestr}${taskassigneestr}&gt;&gt;${taskpagename}]]
       #end
       * ----
     #end
