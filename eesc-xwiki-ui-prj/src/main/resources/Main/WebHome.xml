@@ -505,7 +505,7 @@
 #end
 #set($lastspacename = '')
 #if(!$viewableprojects.isEmpty())
-  {{menu type="vertical collapsible close"}}## Add/remove 'open' to have the menu expanded/folded by default
+  {{menu type="vertical collapsible"}}## Add/remove 'open' to have the menu expanded/folded by default
     #foreach($pagename in $viewableprojects)
       #set($pagenameelements = $pagename.split('\.'))
       #set($projectname = $xwiki.getDocument($services.model.resolveDocument($pagename)).display('title1'))
