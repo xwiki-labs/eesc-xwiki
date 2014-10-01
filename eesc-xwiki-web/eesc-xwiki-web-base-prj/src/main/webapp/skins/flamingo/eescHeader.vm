@@ -32,26 +32,7 @@
   float: right;
 }
 </style>
-<span>
-  #if(!$doc.isHidden() && $hasEdit)
-    <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'edit', '')}">
-      <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.project.edit')}" /> 
-    </form>
-    #if($doc.hasAccessLevel("delete"))
-      #if($isProject)
-      <form class="form-inline" method="GET" action="${xwiki.getURL($projectshareref, 'view', '')}">
-        <input type="hidden" name="step" value="form" />
-        <input type="hidden" name="projectname" value="${doc.name}" />
-        <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.project.share')}" /> 
-      </form>
-      <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'delete', '')}">
-        <input type="submit" class="btn btn-danger" value="${services.localization.render('eesc.template.eescheader.project.delete')}" /> 
-      </form>
-    #end
-  #end
-#end
-</span>
-<span class="text-right">
+<span class="text-left">
   <form class="form-inline" method="GET" action="${xwiki.getURL($projectcreateref)}">
     <input type="hidden" name="step" value="form" />
     <input type="hidden" name="referer" value="${doc.fullName}" />
@@ -69,4 +50,23 @@
       <input type="submit" class="btn btn-success" value="${services.localization.render('eesc.template.eescheader.create.task')}" />
     </form>
   #end
+</span>
+<span class="text-right">
+  #if(!$doc.isHidden() && $hasEdit)
+    <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'edit', '')}">
+      <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.project.edit')}" /> 
+    </form>
+    #if($doc.hasAccessLevel("delete"))
+      #if($isProject)
+      <form class="form-inline" method="GET" action="${xwiki.getURL($projectshareref, 'view', '')}">
+        <input type="hidden" name="step" value="form" />
+        <input type="hidden" name="projectname" value="${doc.name}" />
+        <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.project.share')}" /> 
+      </form>
+      <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'delete', '')}">
+        <input type="submit" class="btn btn-danger" value="${services.localization.render('eesc.template.eescheader.project.delete')}" /> 
+      </form>
+    #end
+  #end
+#end
 </span>
