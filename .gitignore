@@ -27,3 +27,8 @@ nbproject
 .*.swp
 eesc-deploy.conf
 eesc-service.conf
+
+# xwiki-tools
+do
+*ui*/src/xwiki
+*.xar
