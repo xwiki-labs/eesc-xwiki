@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -88,12 +89,16 @@ eesc.template.eescheader.create.task=Nouvelle tâche
 
 platform.appwithinminutes.appHomePageDeleteEntriesLabel=Supprimer toutes les entrées
 
+eesc.home.title.myprojects=Tous les projets
+eesc.home.title.mytasks=Mes tâches
 eesc.home.assignedto=assignée à
 eesc.home.noassigned=non-assignée
-eesc.home.noproject=Vous n'avez pas de projet.
 eesc.home.unconnected=Vous n'êtes pas correctement authentifié. Essayer de recharger la page. Si le problème persiste, contactez votre responsable informatique.
 eesc.home.task=Tâche
-eesc.ProjectCreate.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
+eesc.home.project=Projet
+eesc.home.notask=Aucune tâche ne vous est assignée.
+eesc.home.noproject=Vous n'avez pas de projet créé ou partagé avec vous.
+eesc.ProjectCreate.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&amp;gt;&amp;gt;Main.WebHome]].
 eesc.ProjectCreate.label.projectname=Nom du projet
 eesc.ProjectCreate.hint.projects=Entrer le nom du projet que vous souhaitez créer.
 eesc.ProjectCreate.label.sharewith=Partagé avec
@@ -112,7 +117,8 @@ eesc.ProjectShare.bottombuttons.share=Partager le projet
 eesc.ProjectShare.bottombuttons.cancel=Annuler
 eesc.ProjectShare.title=Partager le projet
 eesc.ProjectShare.message=Comment souhaitez-vous partager le projet « {0} » ?
-eesc.ProjectShare.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
+eesc.ProjectShare.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&amp;gt;&amp;gt;Main.WebHome]].
 
-eesc.CollaborativeProjectTemplate.title=Nouveau projet</content>
+eesc.CollaborativeProjectTemplate.title=Nouveau projet
+</content>
 </xwikidoc>

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -477,7 +478,7 @@
 ##############################################
 ##                 LIST PROJECTS
 ##############################################
-#set($query_select = "distinct doc.fullName")
+#set($query_select = "distinct doc.fullName, doc.title")
 #set($query_from = "XWikiDocument doc, BaseObject as oshare, BaseObject as oright, LargeStringProperty as pusers, LargeStringProperty as pgroups")
 #set($query_where_share = "doc.fullName = oshare.name and oshare.className = 'EESCCode.CollaborativeProjectClass' and doc.fullName not like '%Template'")
 #set($query_where_right = "doc.fullName = oright.name and oright.className = 'XWiki.XWikiRights'")
@@ -495,53 +496,106 @@
 #set($query_where = "${query_where_share} and ${query_where_right} and ( ( ${query_where_users} ) or ( ${query_where_groups} ) )")
 #set($query = "select ${query_select} from ${query_from} where ${query_where}")
 #set($results = $services.query.hql($query).addFilter('hidden').addFilter('unique').execute())
-#set($viewableprojects = [])
+#set($viewableprojects = {})
 ## Filter projects the user has access to
-#foreach($pagename in $results)
-  #set($pagename = $services.model.resolveDocument($pagename))
-  #if($xwiki.checkAccess($pagename, 'view'))
-    #set($discard = $viewableprojects.add($pagename))
+#foreach($project in $results)
+  #set($projectreference = $services.model.resolveDocument($project.get(0)))
+  #if($xwiki.checkAccess($projectreference, 'view'))
+    #set($discard = $viewableprojects.put($projectreference, $project.get(1)))
   #end
 #end
-#set($lastspacename = '')
+##
+##
+#set($listMyProjects = {})
+#set($listMyTasks = [])
 #if(!$viewableprojects.isEmpty())
-  {{menu type="vertical collapsible"}}## Add/remove 'open' to have the menu expanded/folded by default
-    #foreach($pagename in $viewableprojects)
-      #set($pagenameelements = $pagename.split('\.'))
-      #set($projectname = $xwiki.getDocument($pagename).title)
-      * (% class="fa fa-fw fa-inbox" style="font-size: 150%" %)((())) [[Projet : **${projectname}**&gt;&gt;${pagename}]]
-      #set($query = "select distinct doc.fullName, task.name, task.status, task.assignee, task.duedate from Document as doc, doc.object('TaskManager.TaskManagerClass') as task where task.project = '${pagename}' order by task.duedate")
-      #set($results = $services.query.xwql($query).execute())
-      #foreach($task in $results)
-        #set($taskpagename = $task.get(0))
-        #set($taskname = $task.get(1))
-        #set($taskstatus = $task.get(2))
-        #if($xwiki.getDocument($services.model.resolveDocument($taskpagename)).getObject('TaskManager.TaskManagerClass').getProperty('duedate').value.before($datetool.date) &amp;&amp; $taskstatus != 'Done')
-          #set($taskstatus = 'Late')
-        #end
-        #set($taskassignee = $task.get(3))
-        #set($taskassigneeobj = $xwiki.getDocument($services.model.resolveDocument($taskassignee)).getObject('XWiki.XWikiUsers'))
-        #set($taskassigneename = $stringtool.trim("${taskassigneeobj.getProperty('first_name').value} ${taskassigneeobj.getProperty('last_name').value}"))
-        #set($taskstatustranslatekey = "TaskManager.TaskManagerClass_status_${taskstatus}")
-        #set($taskstatusstr = "[${services.localization.render($taskstatustranslatekey)}] ")
-        #set($tasknamestr = "${taskname}")
-        #set($taskassigneestr = " (#if($taskassigneeobj)${services.localization.render('eesc.home.assignedto')} ${taskassigneename}#{else}${services.localization.render('eesc.home.noassigned')}#{end})")
-        ** $services.icon.render('tag') (% class="status status-${taskstatus}" %)${taskstatusstr}[[${tasknamestr}${taskassigneestr}&gt;&gt;${taskpagename}]]
+  #foreach($project in $viewableprojects.entrySet())
+    #set($currentProject = {})
+    #set($projectreference = $project.key)
+    #set($projecttitle = $project.value)
+    #set($discard = $currentProject.put('title', $projecttitle))
+    #set($discard = $currentProject.put('tasks', []))
+    #set($query = "select distinct doc.fullName, task.name, task.status, task.assignee, task.duedate from Document as doc, doc.object('TaskManager.TaskManagerClass') as task where task.project = '${projectreference}' order by task.duedate")
+    #set($results = $services.query.xwql($query).execute())
+    #foreach($task in $results)
+      #set($currentTask = {})
+      #set($taskreference = $services.model.resolveDocument($task.get(0)))
+      #set($discard = $currentTask.put('project', $projecttitle))
+      #set($discard = $currentTask.put('reference', $taskreference))
+      #set($discard = $currentTask.put('name', $task.get(1)))
+      #set($discard = $currentTask.put('status', $task.get(2)))
+      #set($discard = $currentTask.put('assignee', $task.get(3)))
+      #set($discard = $currentTask.put('duedate', $task.get(4)))
+      #set($discard = $currentProject.get('tasks').add($currentTask))
+      #if($currentTask.get('assignee') == $services.model.serialize($xcontext.getUserReference(), 'local'))
+        #set($discard = $listMyTasks.add($currentTask))
       #end
-      * ----
+    #end
+    #set($discard = $listMyProjects.put($projectreference, $currentProject))
+  #end
+#end
+##
+## MACRO TO DISPLAY A TASK IN MENU
+##
+#macro(displayTask $taskMap $level)
+  #set($taskreference = $taskMap.get('reference'))
+  #set($taskstatus = $taskMap.get('status'))
+  #set($taskduedate = $datetool.toDate($taskMap.get('duedate')))
+  #set($listLevel = '')
+  #if($level == 1)
+    #set($listLevel = '*')
+  #elseif($level == 2)
+    #set($listLevel = '**')
+  #end
+  #set($taskicon = "$services.icon.render('tag')")
+  #if($taskduedate.before($datetool.date) &amp;&amp; $taskstatus != 'Done')
+    #set($taskicon = "(% style='color:red' %)${taskicon}")
+  #end
+  #set($taskstatustranslatekey = "TaskManager.TaskManagerClass_status_${taskstatus}")
+  #set($taskstatusstr = "[${services.localization.render($taskstatustranslatekey)}] ")
+  #set($tasknamestr = "$taskMap.get('name')")
+  $listLevel ${taskicon} (% class="status status-${taskstatus}" %)${taskstatusstr}[[${tasknamestr}&gt;&gt;${taskreference}]]
+#end
+##
+## ERROR WHEN NOT CONNECTED
+##
+#if(!$xcontext.getUserReference())
+  {{error}}
+    ${services.localization.render('eesc.home.unconnected')}
+  {{/error}}
+#end
+##
+## LIST MY TASKS
+##
+== ${services.localization.render('eesc.home.title.mytasks')} ==
+#if($listMyTasks.isEmpty())
+  {{info}}${services.localization.render('eesc.home.notask')}{{/info}}
+#else
+  {{menu type="vertical"}}## Add/remove 'open' to have the menu expanded/folded by default
+    #foreach($task in $listMyTasks)
+      #displayTask($task, 1)
     #end
   {{/menu}}
-#else
-  #if($xcontext.getUserReference())
-    {{info}}
-      ${services.localization.render('eesc.home.noproject')}
-    {{/info}}
-  #else
-    {{error}}
-      ${services.localization.render('eesc.home.unconnected')}
-    {{/error}}
-  #end
 #end
-
-{{/velocity}}</content>
+##
+## LIST MY PROJECTS
+##
+== ${services.localization.render('eesc.home.title.myprojects')} ==
+#if($listMyProjects.isEmpty())
+  {{info}}${services.localization.render('eesc.home.noproject')}{{/info}}
+#else
+  {{menu type="vertical collapsible"}}## Add/remove 'open' to have the menu expanded/folded by default
+    #foreach($projectEntry in $listMyProjects.entrySet())
+      #set($projecticon = "(% class='fa fa-fw fa-inbox' style='font-size: 150%' %)((()))")
+      #set($projecttitle = "$projectEntry.value.get('title')")
+      #set($projectstr = "${services.localization.render('eesc.home.project')} « ${projecttitle} »")
+      * $projecticon [[${projectstr}&gt;&gt;${projectEntry.key}]]
+      #foreach($task in $projectEntry.value.get('tasks'))
+        #displayTask($task, 2)
+      #end
+    #end
+  {{/menu}}
+#end
+{{/velocity}}
+</content>
 </xwikidoc>
