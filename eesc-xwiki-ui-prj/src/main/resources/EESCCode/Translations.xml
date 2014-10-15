@@ -120,5 +120,6 @@ eesc.ProjectShare.message=Comment souhaitez-vous partager le projet « {0} » ?
 eesc.ProjectShare.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&amp;gt;&amp;gt;Main.WebHome]].
 
 eesc.CollaborativeProjectTemplate.title=Nouveau projet
+eesc.prj.tab.mytasks.title=Mes tâches
 </content>
 </xwikidoc>

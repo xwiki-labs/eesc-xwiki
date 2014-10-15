@@ -75,7 +75,7 @@
               <artifact>org.xwiki.contrib:application-project-management-generic</artifact>
               <file>ProjectsCode/ProjectConfig.xml</file>
               <xpath>/xwikidoc/object/property/activeTabs</xpath>
-              <value>eesc-info, task</value>
+              <value>eesc-info, task, eesc-mytasks</value>
             </transformation>
             <transformation>
               <artifact>org.xwiki.contrib:application-project-management-generic</artifact>

@@ -38,7 +38,7 @@
   <description>XWiki integration for project EESC</description>
 
   <properties>
-	  <application-task.version>2.2-SNAPSHOT</application-task.version>
+	  <application-task.version>2.3-SNAPSHOT</application-task.version>
 	  <application-project-management-generic.version>1.0-SNAPSHOT</application-project-management-generic.version>
 	  <application-project-management-taskmanager.version>1.0-SNAPSHOT</application-project-management-taskmanager.version>
   </properties>
