@@ -43,6 +43,7 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content>{{velocity}}
+#set($discard = $xwiki.jsx.use('EESCCode.TaskManagerSheet'))
 #if(!$isGuest)
 {{html wiki="true"}}
 #set ($discard = $doc.use('TaskManager.TaskManagerClass'))
@@ -145,9 +146,9 @@
           &lt;/label&gt;
           #set($taskName = $xwiki.getDocument($doc).getObject('TaskManager.TaskManagerClass').getProperty('name').value)
           #if($taskName)
-        :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" value="$taskName"/&gt;
+        :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager_TaskManagerClass_0_name" value="$taskName"/&gt;
           #else
-        :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" value="" placeholder="${services.localization.render('eesc.TaskManager.TaskManagerSheet.title.placeholder')}"/&gt;
+        :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager_TaskManagerClass_0_name" value="" placeholder="${services.localization.render('eesc.TaskManager.TaskManagerSheet.title.placeholder')}"/&gt;
           #end
           #if($doc.isNew())
           #set($query = "select max(taskObject.number) from Document doc, doc.object(TaskManager.TaskManagerClass) as taskObject")
@@ -271,4 +272,105 @@
 #end
 {{/velocity}}
 </content>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+        <size>30</size>
+      </name>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+        <rows>20</rows>
+        <size>50</size>
+      </code>
+      <use>
+        <disabled>0</disabled>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+        <cache>0</cache>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+      </use>
+      <parse>
+        <disabled>0</disabled>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+      </parse>
+      <cache>
+        <disabled>0</disabled>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+        <cache>0</cache>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <values>long|short|default|forbid</values>
+      </cache>
+    </class>
+    <name>EESCCode.TaskManagerSheet</name>
+    <number>1</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>e74b6a08-8033-44ab-a77e-e797247f3bdc</guid>
+    <property>
+      <name>Title on change</name>
+    </property>
+    <property>
+      <code>require(["jquery"], function($) {
+  document.observe('xwiki:wysiwyg:loaded', function(event) {
+    var inputTitle = $('#TaskManager_TaskManagerClass_0_name');
+    inputTitle.keyup(function(event) {
+      $('#document-title h1').text(inputTitle.val());
+      $('#hierarchy li:last-child a').text(inputTitle.val());
+    });
+  });
+});
+</code>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <cache>long</cache>
+    </property>
+  </object>
 </xwikidoc>
