@@ -347,7 +347,7 @@
     <name>EESCCode.TaskManagerSheet</name>
     <number>1</number>
     <className>XWiki.JavaScriptExtension</className>
-    <guid>c924579d-c90f-4053-89f2-d893109028c4</guid>
+    <guid>bb0de41f-90a6-4f03-9974-bf406138255d</guid>
     <property>
       <name>Title on change</name>
     </property>
@@ -355,9 +355,14 @@
       <code>require(["jquery"], function($) {
   document.observe('xwiki:wysiwyg:loaded', function(event) {
     var inputTitle = $('#TaskManager_TaskManagerClass_0_name');
+    $('#document-title h1').text("${services.localization.render('eesc.template.eescheader.create.task')}");
     inputTitle.keyup(function(event) {
-      $('#document-title h1').text(inputTitle.val());
-      $('#hierarchy li:last-child a').text(inputTitle.val());
+      var inputVal = inputTitle.val();
+      if(inputVal == '') {
+        inputVal = "${services.localization.render('eesc.template.eescheader.create.task')}";
+      }
+      $('#document-title h1').text(inputVal);
+      $('#hierarchy li:last-child a').text(inputVal);
     });
   });
 });
@@ -367,7 +372,7 @@
       <use>onDemand</use>
     </property>
     <property>
-      <parse>0</parse>
+      <parse>1</parse>
     </property>
     <property>
       <cache>long</cache>
