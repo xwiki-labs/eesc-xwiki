@@ -21,7 +21,7 @@
 #set($documentref = $services.model.resolveDocument($doc.fullName))
 #set($projectshareref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'ProjectShare'))
 #set($projectcreateref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'ProjectCreate'))
-#set($tasktemplateref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'ProjectsCode', 'TaskManagerTemplate'))
+#set($tasktemplateref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'TaskManagerTemplate'))
 #set($newtaskname = "$xwiki.getUniquePageName('TaskManager',$services.localization.render('eesc.home.task'))")
 #set($newtaskref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'TaskManager',$newtaskname))
 <style type="text/css">

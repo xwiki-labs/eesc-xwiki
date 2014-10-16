@@ -124,6 +124,7 @@ eesc.prj.tab.info.title=Projet
 eesc.prj.tab.mytasks.title=Mes tâches
 
 eesc.TaskManager.TaskManagerClass_description=Description et avancement de la tâche
+eesc.TaskManager.TaskManagerSheet.title.placeholder=Exemple: Faire ses devoirs
 eesc.ProjectsCode.ProjectsCodeClass_details=Description et avancement du projet
   </content>
 </xwikidoc>
