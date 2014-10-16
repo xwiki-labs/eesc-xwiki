@@ -98,7 +98,7 @@ eesc.home.task=Tâche
 eesc.home.project=Projet
 eesc.home.notask=Aucune tâche ne vous est assignée.
 eesc.home.noproject=Vous n'avez pas de projet créé ou partagé avec vous.
-eesc.ProjectCreate.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&amp;gt;&amp;gt;Main.WebHome]].
+eesc.ProjectCreate.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
 eesc.ProjectCreate.label.projectname=Nom du projet
 eesc.ProjectCreate.hint.projects=Entrer le nom du projet que vous souhaitez créer.
 eesc.ProjectCreate.label.sharewith=Partagé avec
@@ -117,10 +117,13 @@ eesc.ProjectShare.bottombuttons.share=Partager le projet
 eesc.ProjectShare.bottombuttons.cancel=Annuler
 eesc.ProjectShare.title=Partager le projet
 eesc.ProjectShare.message=Comment souhaitez-vous partager le projet « {0} » ?
-eesc.ProjectShare.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&amp;gt;&amp;gt;Main.WebHome]].
+eesc.ProjectShare.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
 
 eesc.CollaborativeProjectTemplate.title=Nouveau projet
 eesc.prj.tab.info.title=Projet
 eesc.prj.tab.mytasks.title=Mes tâches
-</content>
+
+eesc.TaskManager.TaskManagerClass_description=Description et avancement de la tâche
+eesc.ProjectsCode.ProjectsCodeClass_details=Description et avancement du projet
+  </content>
 </xwikidoc>

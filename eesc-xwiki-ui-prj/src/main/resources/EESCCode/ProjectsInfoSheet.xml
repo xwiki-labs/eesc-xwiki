@@ -158,7 +158,7 @@ priority=1</parameters>
   )))
   (% id="pInfo3"  %)
   (((
-    ; &lt;label for="ProjectsCode.ProjectsCodeClass_0_details"&gt;$escapetool.xml($doc.displayPrettyName('details', false, false))&lt;/label&gt;
+    ; &lt;label for="ProjectsCode.ProjectsCodeClass_0_details"&gt;$escapetool.xml($services.localization.render('eesc.ProjectsCode.ProjectsCodeClass_details'))&lt;/label&gt;
     : $doc.display('details')
   )))
 )))
@@ -208,5 +208,6 @@ priority=1</parameters>
   #end
 #end
 {{/html}}
-{{/velocity}}</content>
+{{/velocity}}
+</content>
 </xwikidoc>
