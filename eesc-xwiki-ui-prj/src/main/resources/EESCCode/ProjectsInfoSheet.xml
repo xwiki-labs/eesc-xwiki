@@ -121,7 +121,7 @@
       <name>eesc-info</name>
     </property>
     <property>
-      <parameters>label=prj.tab.info.title
+      <parameters>label=eesc.prj.tab.info.title
 priority=1</parameters>
     </property>
     <property>
