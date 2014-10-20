@@ -571,6 +571,7 @@
  *
  * Author: Jean SIMARD (jean.simard@xwiki.com)
  *#
+#set($discard = $xwiki.ssx.use('TaskManager.TaskManagerClass'))
 ##############################################
 ##                 GLOBALS
 ##############################################
@@ -617,7 +618,7 @@
     #set($projecttitle = $project.value)
     #set($discard = $currentProject.put('title', $projecttitle))
     #set($discard = $currentProject.put('tasks', []))
-    #set($query = "select distinct doc.fullName, task.name, task.status, task.assignee, task.duedate from Document as doc, doc.object('TaskManager.TaskManagerClass') as task where task.project = '${projectreference}' order by task.duedate")
+    #set($query = "select distinct doc.fullName, task.name, task.status, task.assignee, task.duedate, task.progress from Document as doc, doc.object('TaskManager.TaskManagerClass') as task where task.project = '${projectreference}' order by task.duedate")
     #set($results = $services.query.xwql($query).execute())
     #foreach($task in $results)
       #set($currentTask = {})
@@ -628,6 +629,7 @@
       #set($discard = $currentTask.put('status', $task.get(2)))
       #set($discard = $currentTask.put('assignee', $task.get(3)))
       #set($discard = $currentTask.put('duedate', $task.get(4)))
+      #set($discard = $currentTask.put('progress', $task.get(5)))
       #set($discard = $currentProject.get('tasks').add($currentTask))
       #if($currentTask.get('assignee') == $services.model.serialize($xcontext.getUserReference(), 'local'))
         #set($discard = $listMyTasks.add($currentTask))
@@ -643,6 +645,7 @@
   #set($taskreference = $taskMap.get('reference'))
   #set($taskstatus = $taskMap.get('status'))
   #set($taskduedate = $datetool.toDate($taskMap.get('duedate')))
+  #set($taskprogress = $taskMap.get('progress'))
   #set($listLevel = '')
   #if($level == 1)
     #set($listLevel = '*')
@@ -656,7 +659,19 @@
   #set($taskstatustranslatekey = "TaskManager.TaskManagerClass_status_${taskstatus}")
   #set($taskstatusstr = "[${services.localization.render($taskstatustranslatekey)}] ")
   #set($tasknamestr = "$taskMap.get('name')")
-  $listLevel ${taskicon} (% class="status status-${taskstatus}" %)${taskstatusstr}[[${tasknamestr}&gt;&gt;${taskreference}]]
+  $listLevel ${taskicon} {{html}}
+  &lt;span class="task-manager-dependency-progress"&gt;
+    &lt;div class="progress"&gt;
+      &lt;div class="progress-bar progress-bar-striped" style="width: $!{taskprogress}%"&gt;
+        #if($taskprogress &amp;&amp; $taskprogress != '')
+          $!{taskprogress}%
+        #else
+          0%
+        #end
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/span&gt;
+  {{/html}} (% class="status status-${taskstatus}" %)${taskstatusstr}[[${tasknamestr}&gt;&gt;${taskreference}]]
 #end
 ##
 ## ERROR WHEN NOT CONNECTED

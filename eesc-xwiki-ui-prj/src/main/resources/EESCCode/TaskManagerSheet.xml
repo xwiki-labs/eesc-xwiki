@@ -46,221 +46,284 @@
   <content>{{velocity}}
 #set($discard = $xwiki.jsx.use('EESCCode.TaskManagerSheet'))
 #if(!$isGuest)
-{{html wiki="true"}}
-#set ($discard = $doc.use('TaskManager.TaskManagerClass'))
-#set ($discard = $services.localization.use('document', 'TaskManager.TaskManagerTranslations'))
-#if($xcontext.action =='view')
-  (% class="xform" %)
-  (((
-    (% class="row" %)
-    (((
-      (% class="col-xs-12 col-md-6 col-lg-3" %)
+  {{html wiki="true"}}
+    #set ($discard = $doc.use('TaskManager.TaskManagerClass'))
+    #set ($discard = $services.localization.use('document', 'TaskManager.TaskManagerTranslations'))
+    #if($xcontext.action =='view')
+      (% class="xform" %)
       (((
-        (% class="form-group col-xs-12 text-right" %)
+        (% class="row" %)
         (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_creationdate"&gt;
-              $services.icon.render('calendar')
-              $services.localization.render('TaskManager.TaskManagerClass_creationdate')
-            &lt;/label&gt;
-          : $xwiki.formatDate($doc.creationDate,'dd/MM/yyyy HH:mm:ss')
-        )))
-        (% class="form-group col-xs-12 text-right" %)
-        (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_duedate"&gt;
-              $services.icon.render('time')
-              $escapetool.xml($doc.displayPrettyName('duedate', false, false))
-            &lt;/label&gt;
-          : $doc.display('duedate')
+          (% class="col-xs-12 col-md-6 col-lg-3 text-left" %)
+          (((
+            (% class="col-xs-12 text-right" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_project"&gt;
+                    $services.icon.render('folder')
+                    $escapetool.xml($doc.displayPrettyName('project', false, false))
+                  &lt;/label&gt;
+                : ${xwiki.getDocument($doc.get('project')).getObject("ProjectsCode.ProjectsCodeClass").get('title1')}
+              )))
+            )))
+            (% class="col-xs-12 text-right" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_creationdate"&gt;
+                  $services.icon.render('calendar')
+                  $services.localization.render('TaskManager.TaskManagerClass_creationdate')
+                  &lt;/label&gt;
+                : $xwiki.formatDate($doc.creationDate,'dd/MM/yyyy HH:mm:ss')
+              )))
+            )))
+            (% class="col-xs-12 text-right" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_duedate"&gt;
+                  $services.icon.render('time')
+                  $escapetool.xml($doc.displayPrettyName('duedate', false, false))
+                  &lt;/label&gt;
+                : $doc.display('duedate')
+              )))
+            )))
+          )))
+          (% class="col-xs-12 col-md-6 col-lg-3 text-right" %)
+          (((
+            (% class="col-xs-12 text-left" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_reporter"&gt;
+                    $services.icon.render('user')
+                    $escapetool.xml($doc.displayPrettyName('reporter', false, false))
+                  &lt;/label&gt;
+                : $doc.display('reporter')
+              )))
+            )))
+            (% class="col-xs-12 text-left" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_assignee"&gt;
+                    $services.icon.render('user')
+                    $escapetool.xml($doc.displayPrettyName('assignee', false, false))
+                  &lt;/label&gt;
+                : $doc.display('assignee')
+              )))
+            )))
+            (% class="col-xs-12 text-left" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_status"&gt;
+                    $services.icon.render('accept')
+                    $escapetool.xml($doc.displayPrettyName('status', false, false))
+                  &lt;/label&gt;
+                : $doc.display('status')
+              )))
+            )))
+            (% class="col-xs-12 text-left" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_progress"&gt;
+                    $services.icon.render('contrast')
+                    $escapetool.xml($doc.displayPrettyName('progress', false, false))
+                  &lt;/label&gt;
+                : $doc.display('progress')
+              )))
+            )))
+          )))
+          (% class="col-xs-12 col-md-6 col-lg-6" %)
+          (((
+            (% class="col-xs-12" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_description"&gt;
+                    ${services.localization.render('eesc.TaskManager.TaskManagerClass_description')}
+                  &lt;/label&gt;
+                : $doc.display('description')
+              )))
+            )))
+            (% class="col-xs-12" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_dependencies"&gt;
+                    $escapetool.xml($doc.displayPrettyName('dependencies', false, false))
+                  &lt;/label&gt;
+                : $doc.display('dependencies')
+              )))
+            )))
+          )))
         )))
       )))
-      (% class="col-xs-12 col-md-6 col-lg-3 text-right" %)
+    #end
+    #if($xcontext.action =='edit')
+      (% class="xform" %)
       (((
-        (% class="form-group col-xs-12 text-left" %)
+        (% class="row" %)
         (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_project"&gt;
-              $services.icon.render('folder')
-              $escapetool.xml($doc.displayPrettyName('project', false, false))
-            &lt;/label&gt;
-          : ${xwiki.getDocument($doc.get('project')).getObject("ProjectsCode.ProjectsCodeClass").get('title1')}
-        )))
-        (% class="form-group col-xs-12 text-left" %)
-        (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_reporter"&gt;
-              $services.icon.render('user')
-              $escapetool.xml($doc.displayPrettyName('reporter', false, false))
-            &lt;/label&gt;
-          : $doc.display('reporter')
-        )))
-        (% class="form-group col-xs-12 text-left" %)
-        (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_assignee"&gt;
-              $services.icon.render('user')
-              $escapetool.xml($doc.displayPrettyName('assignee', false, false))
-            &lt;/label&gt;
-          : $doc.display('assignee')
-        )))
-        (% class="form-group col-xs-12 text-left" %)
-        (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_status"&gt;
-              $services.icon.render('accept')
-              $escapetool.xml($doc.displayPrettyName('status', false, false))
-            &lt;/label&gt;
-          : $doc.display('status')
-        )))
-      )))
-      (% class="col-xs-12 col-md-6 col-lg-6" %)
-      (((
-        (% class="form-group col-xs-12" %)
-        (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_description"&gt;
-              ${services.localization.render('eesc.TaskManager.TaskManagerClass_description')}
-            &lt;/label&gt;
-          : $doc.display('description')
-        )))
-        (% class="form-group col-xs-12" %)
-        (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_dependencies"&gt;
-              $escapetool.xml($doc.displayPrettyName('dependencies', false, false))
-            &lt;/label&gt;
-          : $doc.display('dependencies')
-        )))
-      )))
-    )))
-  )))
-#end
-#if($xcontext.action =='edit')
-  (% class="xform" %)
-  (((
-    (% class="row" %)
-    (((
-      (% class="col-xs-12" %)
-      (((
-        ; &lt;label for="TaskManager.TaskManagerClass_0_name"&gt;
-            $escapetool.xml($doc.displayPrettyName('name', false, false))
-          &lt;/label&gt;
-          #set($taskName = $xwiki.getDocument($doc).getObject('TaskManager.TaskManagerClass').getProperty('name').value)
-          #if($taskName)
-        :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager_TaskManagerClass_0_name" value="$taskName"/&gt;
-          #else
-        :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager_TaskManagerClass_0_name" value="" placeholder="${services.localization.render('eesc.TaskManager.TaskManagerSheet.title.placeholder')}"/&gt;
-          #end
-          #if($doc.isNew())
-          #set($query = "select max(taskObject.number) from Document doc, doc.object(TaskManager.TaskManagerClass) as taskObject")
-          #set($result = $services.query.xwql($query).execute())
-          #if (($result.get(0)) &amp;&amp; ("$!result.get(0)" != "")) 
-            #set($index = $result.get(0))
-          #else
-            #set($index = 0)
-          #end
-          #set($number = $mathtool.add($index,1))
-          &lt;input type="hidden" name="TaskManager.TaskManagerClass_0_number" value="$number"/&gt;
-          #end
-
-      )))
-    )))
-    (% class="row" %)
-    (((
-      (% class="col-xs-12 col-md-6 col-lg-4" %)
-      (((
-        (% class="form-group col-xs-12" %)
-        (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_creationdate"&gt;
-              $services.icon.render('calendar')
-              $services.localization.render('TaskManager.TaskManagerClass_creationdate')
-            &lt;/label&gt;
-          : $xwiki.formatDate($doc.creationDate,'dd/MM/yyyy HH:mm:ss')
-        )))
-        (% class="form-group col-xs-12" %)
-        (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_duedate"&gt;
-              $services.icon.render('time')
-              $escapetool.xml($doc.displayPrettyName('duedate', false, false))
-            &lt;/label&gt;
-          : $doc.display('duedate')
-        )))
-      )))
-      (% class="col-xs-12 col-md-6 col-lg-4" %)
-      (((
-        (% class="form-group col-xs-12" %)
-        (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_reporter"&gt;
-              $services.icon.render('user')
-              $escapetool.xml($doc.displayPrettyName('reporter', false, false))
-            &lt;/label&gt;
-          : $doc.display('reporter', 'view')
-        )))
-        (% class="form-group col-xs-12" %)
-        (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_assignee"&gt;
-              $services.icon.render('user')
-              $escapetool.xml($doc.displayPrettyName('assignee', false, false))
-            &lt;/label&gt;
-          : $doc.display('assignee')
-        )))
-      )))
-      (% class="col-xs-12 col-md-6 col-lg-4" %)
-      (((
-        (% class="form-group col-xs-12" %)
-        (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_project"&gt;
-              $services.icon.render('folder')
-              $escapetool.xml($doc.displayPrettyName('project', false, false))
-            &lt;/label&gt;
-          : &lt;select id="TaskManager.TaskManagerClass_0_project" name="TaskManager.TaskManagerClass_0_project" size="1"&gt;
-              ## Replace the default workflow of TaskManager by using 'ProjectsCode.ProjectsCodeClass' instead of 'TaskManager.ProjectClass'
-              #set($query = "SELECT DISTINCT doc.fullName, doc.title FROM XWikiDocument AS doc, BaseObject AS task WHERE doc.fullName = task.name AND task.className = 'ProjectsCode.ProjectsCodeClass' AND doc.fullName NOT LIKE '%Template'")
-              #set($results = $services.query.hql($query).execute())
-              #set($selectedproject = $services.model.resolveDocument($request.getParameter('TaskManager.TaskManagerClass_0_project')))
-              #foreach($task in $results)
-                #set($docref = $services.model.resolveDocument($task.get(0)))
-                #set($title = $task.get(1))
-                #if($title.isEmpty())
-                  #set($title = $docref.getName())
+          (% class="col-xs-12 col-md-6 col-lg-8" %)
+          (((
+            (% class="form-group" %)
+            (((
+              ; &lt;label for="TaskManager.TaskManagerClass_0_name"&gt;
+                  $escapetool.xml($doc.displayPrettyName('name', false, false))
+                &lt;/label&gt;
+                #set($taskName = $xwiki.getDocument($doc).getObject('TaskManager.TaskManagerClass').getProperty('name').value)
+                #if($taskName)
+              :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager_TaskManagerClass_0_name" value="$taskName"/&gt;
+                #else
+              :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager_TaskManagerClass_0_name" value="" placeholder="${services.localization.render('eesc.TaskManager.TaskManagerSheet.title.placeholder')}"/&gt;
                 #end
-                #set($selected = '')
-                #if($docref == $selectedproject)
-                  #set($selected = 'selected')
+                #if($doc.isNew())
+                #set($query = "select max(taskObject.number) from Document doc, doc.object(TaskManager.TaskManagerClass) as taskObject")
+                #set($result = $services.query.xwql($query).execute())
+                #if (($result.get(0)) &amp;&amp; ("$!result.get(0)" != "")) 
+                  #set($index = $result.get(0))
+                #else
+                  #set($index = 0)
                 #end
-                &lt;option label="${title}" value="${docref}" ${selected}&gt;${title}&lt;/option&gt;
-              #end
-            &lt;/select&gt;
+                #set($number = $mathtool.add($index,1))
+                &lt;input type="hidden" name="TaskManager.TaskManagerClass_0_number" value="$number"/&gt;
+                #end
+              )))
+            )))
+            (% class="col-xs-12 col-md-6 col-lg-4" %)
+            (((
+              (% class="form-group" %)
+              (((
+              ; &lt;label for="TaskManager.TaskManagerClass_0_project"&gt;
+                  $services.icon.render('folder')
+                  $escapetool.xml($doc.displayPrettyName('project', false, false))
+                &lt;/label&gt;
+              : &lt;select class="form-control" id="TaskManager.TaskManagerClass_0_project" name="TaskManager.TaskManagerClass_0_project" size="1"&gt;
+                  ## Replace the default workflow of TaskManager by using 'ProjectsCode.ProjectsCodeClass' instead of 'TaskManager.ProjectClass'
+                  #set($query = "SELECT DISTINCT doc.fullName, doc.title FROM XWikiDocument AS doc, BaseObject AS task WHERE doc.fullName = task.name AND task.className = 'ProjectsCode.ProjectsCodeClass' AND doc.fullName NOT LIKE '%Template'")
+                  #set($results = $services.query.hql($query).execute())
+                  #set($selectedproject = $services.model.resolveDocument($request.getParameter('TaskManager.TaskManagerClass_0_project')))
+                  #foreach($task in $results)
+                    #set($docref = $services.model.resolveDocument($task.get(0)))
+                    #set($title = $task.get(1))
+                    #if($title.isEmpty())
+                      #set($title = $docref.getName())
+                    #end
+                    #set($selected = '')
+                    #if($docref == $selectedproject)
+                      #set($selected = 'selected')
+                    #end
+                    &lt;option label="${title}" value="${docref}" ${selected}&gt;${title}&lt;/option&gt;
+                  #end
+                &lt;/select&gt;
+              )))
+            )))
+          )))
+          (% class="row" %)
+          (((
+            (% class="col-xs-12 col-md-6 col-lg-8" %)
+            (((
+              (% class="row" %)
+              (((
+                (% class="col-xs-12 col-lg-6" %)
+                (((
+                  (% class="form-group" %)
+                  (((
+                    ; &lt;label for="TaskManager.TaskManagerClass_0_creationdate"&gt;
+                        $services.icon.render('calendar')
+                        $services.localization.render('TaskManager.TaskManagerClass_creationdate')
+                      &lt;/label&gt;
+                    : $xwiki.formatDate($doc.creationDate,'dd/MM/yyyy HH:mm:ss')
+                  )))
+                )))
+                (% class="col-xs-12 col-lg-6" %)
+                (((
+                  (% class="form-group" %)
+                  (((
+                    ; &lt;label for="TaskManager.TaskManagerClass_0_duedate"&gt;
+                        $services.icon.render('time')
+                        $escapetool.xml($doc.displayPrettyName('duedate', false, false))
+                      &lt;/label&gt;
+                    : $doc.display('duedate')
+                  )))
+                )))
+              )))
+              (% class="row" %)
+              (((
+                (% class="col-xs-12 col-lg-6" %)
+                (((
+                  (% class="form-group" %)
+                  (((
+                    ; &lt;label for="TaskManager.TaskManagerClass_0_reporter"&gt;
+                        $services.icon.render('user')
+                        $escapetool.xml($doc.displayPrettyName('reporter', false, false))
+                      &lt;/label&gt;
+                    : $doc.display('reporter', 'view')
+                  )))
+                )))
+                (% class="col-xs-12 col-lg-6" %)
+                (((
+                  (% class="form-group" %)
+                  (((
+                    ; &lt;label for="TaskManager.TaskManagerClass_0_assignee"&gt;
+                        $services.icon.render('user')
+                        $escapetool.xml($doc.displayPrettyName('assignee', false, false))
+                      &lt;/label&gt;
+                    : $doc.display('assignee')
+                  )))
+                )))
+              )))
+            )))
+            (% class="col-xs-12 col-md-6 col-lg-4" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_status"&gt;
+                    $services.icon.render('accept')
+                    $escapetool.xml($doc.displayPrettyName('status', false, false))
+                  &lt;/label&gt;
+                : $doc.display('status')
+              )))
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_progress"&gt;
+                    $services.icon.render('contrast')
+                    $escapetool.xml($doc.displayPrettyName('progress', false, false))
+                  &lt;/label&gt;
+                : $doc.display('progress')
+              )))
+            )))
+          )))
+          (% class="row" %)
+          (((
+            (% class="col-xs-12" %)
+            (((
+              ; &lt;label for="TaskManager.TaskManagerClass_0_description"&gt;
+                  ${services.localization.render('eesc.TaskManager.TaskManagerClass_description')}
+                &lt;/label&gt;
+              : $doc.display('description')
+            )))
+          )))
+          (% class="row" %)
+          (((
+            (% class="col-xs-12" %)
+            (((
+              ; &lt;label for="TaskManager.TaskManagerClass_0_dependencies"&gt;
+                  $escapetool.xml($doc.displayPrettyName('dependencies', false, false))
+                &lt;/label&gt;
+              : $doc.display('dependencies')
+            )))
+          )))
         )))
-        (% class="form-group col-xs-12" %)
-        (((
-          ; &lt;label for="TaskManager.TaskManagerClass_0_status"&gt;
-              $services.icon.render('accept')
-              $escapetool.xml($doc.displayPrettyName('status', false, false))
-            &lt;/label&gt;
-          : $doc.display('status')
-        )))
-      )))
-    )))
-    (% class="row" %)
-    (((
-      (% class="col-xs-12" %)
-      (((
-        ; &lt;label for="TaskManager.TaskManagerClass_0_description"&gt;
-            ${services.localization.render('eesc.TaskManager.TaskManagerClass_description')}
-          &lt;/label&gt;
-        : $doc.display('description')
-      )))
-    )))
-    (% class="row" %)
-    (((
-      (% class="col-xs-12" %)
-      (((
-        ; &lt;label for="TaskManager.TaskManagerClass_0_dependencies"&gt;
-            $escapetool.xml($doc.displayPrettyName('dependencies', false, false))
-          &lt;/label&gt;
-        : $doc.display('dependencies')
-      )))
-    )))
-  )))
-#end
-{{/html}}
-#else
-{{info}}You have to be logged in in order to view this page{{/info}}
-#end
+      #end
+    {{/html}}
+  #else
+    {{info}}You have to be logged in in order to view this page{{/info}}
+  #end
 {{/velocity}}
 </content>
   <object>
