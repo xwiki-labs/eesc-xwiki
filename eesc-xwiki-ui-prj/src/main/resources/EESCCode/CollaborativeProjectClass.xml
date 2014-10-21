@@ -69,7 +69,7 @@
       <unmodifiable>0</unmodifiable>
       <validationMessage/>
       <validationRegExp/>
-      <values>public|shared|private</values>
+      <values>public|shared-public|shared-private|private</values>
       <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
     </scope>
   </class>

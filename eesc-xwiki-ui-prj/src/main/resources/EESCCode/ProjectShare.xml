@@ -95,9 +95,9 @@
  * Given the HTTP POST request, change the project rights.
  *
  * @param $projectName The name of the project to create
- * @param $scope The type of restriction of the project ('public', 'shared' or 'private')
- * @param $users The list of authorized users if it apply (if $scope is 'shared')
- * @param $groups The list of authorized users if it apply (if $scope is 'shared')
+ * @param $scope The type of restriction of the project ('public', 'shared-public', 'shared-private' or 'private')
+ * @param $users The list of authorized users if it apply (if $scope is 'shared-*')
+ * @param $groups The list of authorized users if it apply (if $scope is 'shared-*')
  *#
 #macro(stepShare, $projectName, $scope, $users, $groups)
   #set($projectref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectName))
@@ -111,13 +111,19 @@
   #set($discard = $object.set('groups', ''))
   #set($discard = $object.set('levels', 'view,edit,delete,creator'))
   #set($discard = $object.set('allow', 'true'))
-  #if($scope.equals('public'))
+  #if($scope.endsWith('public'))
     #set($object = $project.newObject('XWiki.XWikiRights'))
     #set($discard = $object.set('users', ''))
     #set($discard = $object.set('groups', 'XWiki.XWikiAllGroup'))
     #set($discard = $object.set('levels', 'view,edit'))
     #set($discard = $object.set('allow', 'true'))
-  #elseif($scope.equals('shared'))
+  #end
+  #if($scope.startsWith('shared'))
+    #if($scope.equals('shared-public'))
+      #set($rights = 'view,edit')
+    #elseif($scope.equals('shared-private'))
+      #set($rights = 'view')
+    #end
     ## Rights for the users
     #foreach($username in $users)
       #set($user = $xwiki.getDocument($services.model.resolveDocument($username)))
@@ -125,7 +131,7 @@
         #set($object = $project.newObject('XWiki.XWikiRights'))
         #set($discard = $object.set('users', $username))
         #set($discard = $object.set('groups', ''))
-        #set($discard = $object.set('levels', 'view,edit'))
+        #set($discard = $object.set('levels', $rights))
         #set($discard = $object.set('allow', 'true'))
       #end
     #end
@@ -136,7 +142,7 @@
         #set($object = $project.newObject('XWiki.XWikiRights'))
         #set($discard = $object.set('users', ''))
         #set($discard = $object.set('groups', $groupname))
-        #set($discard = $object.set('levels', 'view,edit'))
+        #set($discard = $object.set('levels', $rights))
         #set($discard = $object.set('allow', 'true'))
       #end
     #end
@@ -211,5 +217,6 @@
   {{/html}}
 
 #end
-{{/velocity}}</content>
+{{/velocity}}
+</content>
 </xwikidoc>

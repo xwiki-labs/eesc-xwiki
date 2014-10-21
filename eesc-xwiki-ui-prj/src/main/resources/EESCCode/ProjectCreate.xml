@@ -307,9 +307,9 @@
  * Check that the fields are correct for the creation.
  *
  * @param $projectName The name of the project to create
- * @param $scope The type of restriction of the project ('public', 'shared' or 'private')
- * @param $users The list of authorized users if it apply (if $scope is 'shared')
- * @param $groups The list of authorized users if it apply (if $scope is 'shared')
+ * @param $scope The type of restriction of the project ('public', 'shared-public', 'shared-private' or 'private')
+ * @param $users The list of authorized users if it apply (if $scope is 'shared-*')
+ * @param $groups The list of authorized users if it apply (if $scope is 'shared-*')
  *#
 #macro(checkFields $projectName $scope $users $groups)
   #set($errors = [])
@@ -350,9 +350,9 @@
  * Given the HTTP POST request, create the project with the rights that apply.
  *
  * @param $projectName The name of the project to create
- * @param $scope The type of restriction of the project ('public', 'shared' or 'private')
- * @param $users The list of authorized users if it apply (if $scope is 'shared')
- * @param $groups The list of authorized users if it apply (if $scope is 'shared')
+ * @param $scope The type of restriction of the project ('public', 'shared-public', 'shared-private' or 'private')
+ * @param $users The list of authorized users if it apply (if $scope is 'shared-*')
+ * @param $groups The list of authorized users if it apply (if $scope is 'shared-*')
  *#
 #macro(stepCreate $projectName $scope $users $groups)
   #checkFields($projectName, $scope, $users, $groups)
@@ -409,9 +409,9 @@
  *
  * @param $referer The URL of the previous page
  * @param $projectName The name of the project to create
- * @param $scope The type of restriction of the project ('public', 'shared' or 'private')
- * @param $users The list of authorized users if it apply (if $scope is 'shared')
- * @param $groups The list of authorized users if it apply (if $scope is 'shared')
+ * @param $scope The type of restriction of the project ('public', 'shared-public', 'shared-private' or 'private')
+ * @param $users The list of authorized users if it apply (if $scope is 'shared-*')
+ * @param $groups The list of authorized users if it apply (if $scope is 'shared-*')
  * @param $errors The list of possible errors
  *#
 #macro(stepForm $referer $projectName $scope $users $groups $errors)
@@ -465,5 +465,6 @@
   {{/html}}
 
 #end
-{{/velocity}}</content>
+{{/velocity}}
+</content>
 </xwikidoc>

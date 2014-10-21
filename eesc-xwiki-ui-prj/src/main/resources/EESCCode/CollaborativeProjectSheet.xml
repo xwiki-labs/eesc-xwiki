@@ -97,21 +97,29 @@
   &lt;input type="hidden" id="XWiki.XWikiRights_0_levels" name="XWiki.XWikiRights_0_levels" value="view,edit,delete,creator" /&gt;
   &lt;input type="hidden" id="XWiki.XWikiRights_0_allow" name="XWiki.XWikiRights_0_allow" value="true" /&gt;
   #set($objectid = 1)
-  #if($scope.equals('public'))
+  #if($scope.endsWith('public'))
     ## Add all users with ENTAllGroup
-    &lt;input type="hidden" id="XWiki.XWikiRights_1_users" name="XWiki.XWikiRights_1_users" value="" /&gt;
-    &lt;input type="hidden" id="XWiki.XWikiRights_1_groups" name="XWiki.XWikiRights_1_groups" value="XWiki.XWikiAllGroup" /&gt;
-    &lt;input type="hidden" id="XWiki.XWikiRights_1_levels" name="XWiki.XWikiRights_1_levels" value="view,edit" /&gt;
-    &lt;input type="hidden" id="XWiki.XWikiRights_1_allow" name="XWiki.XWikiRights_1_allow" value="true" /&gt;
-  #elseif($scope.equals('shared'))
-  ## Add authorized users
+    #set($prefix = "XWiki.XWikiRights_${objectid}_")
+    &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="" /&gt;
+    &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="XWiki.XWikiAllGroup" /&gt;
+    &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="view,edit" /&gt;
+    &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" /&gt;
+    #set($objectid = $objectid + 1)
+  #end
+  #if($scope.startsWith('shared'))
+    #if($scope.equals('shared-public'))
+      #set($rights = 'view,edit')
+    #elseif($scope.equals('shared-private'))
+      #set($rights = 'view')
+    #end
+    ## Add authorized users
     #foreach($username in $users)
       #set($user = $xwiki.getDocument($services.model.resolveDocument($username)))
       #if($user.getObjectNumbers('XWiki.XWikiUsers') &gt;= 1)
         #set($prefix = "XWiki.XWikiRights_${objectid}_")
         &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="${username}" /&gt;
         &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="" /&gt;
-        &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="view,edit" /&gt;
+        &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="${rights}" /&gt;
         &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" /&gt;
         #set($objectid = $objectid + 1)
       #end
@@ -124,7 +132,7 @@
         #set($prefix = "XWiki.XWikiRights_${objectid}_")
         &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="" /&gt;
         &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="${groupname}" /&gt;
-        &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="view,edit" /&gt;
+        &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="${rights}" /&gt;
         &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" /&gt;
         #set($objectid = $objectid + 1)
       #end
@@ -133,5 +141,6 @@
 #end
 {{/html}}
 
-{{/velocity}}</content>
+{{/velocity}}
+</content>
 </xwikidoc>
