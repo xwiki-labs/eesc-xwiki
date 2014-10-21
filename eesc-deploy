@@ -259,6 +259,12 @@ function deploy_xwiki() {
 	$ a\
 		environment.permanentDirectory=$TO/xwiki.data
 	" $XWIKI_PATH/WEB-INF/xwiki.properties
+	sed -i "
+	/<session-factory>/ a\
+		<property name="connection.useUnicode">true</property>
+	/<session-factory>/ a\
+		<property name="connection.characterEncoding">UTF-8</property>
+	" $XWIKI_PATH/WEB-INF/hibernate.cfg.xml
 }
 
 function upload_xar() {
