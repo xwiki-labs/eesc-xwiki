@@ -7,12 +7,12 @@ repository (which is the `m2-local` directory) with the following command:
 
     mvn \
       org.apache.maven.plugins:maven-install-plugin:2.5.2:install-file \
-      -Dfile=m2-local/org/xwiki/platform/xwiki-platform-legacy-oldcore/6.2/xwiki-platform-legacy-oldcore-6.2.jar \
+      -Dfile=m2-local/org/xwiki/platform/xwiki-platform-oldcore/6.2/xwiki-platform-oldcore-6.2.jar \
       -DgroupId=org.xwiki.platform \
-      -DartifactId=xwiki-platform-legacy-oldcore \
+      -DartifactId=xwiki-platform-oldcore \
       -Dversion=6.2 \
       -Dpackaging=jar \
-	  -Dclassifier=object-policy \
+      -Dclassifier=object-policy \
       -DlocalRepositoryPath=m2-local
 
 `-Dfile` should indicate the path to the JAR concerned and
