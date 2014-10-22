@@ -343,7 +343,7 @@
     </property>
     <property>
       <code>#eesc-share input[type="radio"] {
-  margin: 4px 6px 0 -20px;
+  margin: 4px 6px 0 -20px !important;
 }
 #eesc-share-with {
   display: none;
