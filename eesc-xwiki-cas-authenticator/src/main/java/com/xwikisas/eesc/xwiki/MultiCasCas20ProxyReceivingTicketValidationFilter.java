@@ -16,7 +16,7 @@ public class MultiCasCas20ProxyReceivingTicketValidationFilter implements
 		Filter {
 	private Cas20ProxyReceivingTicketValidationFilter jasigCas20ProxyReceivingTicketValidationFilter;
 
-	private static final String CAS_TO_REDIRECT_PARAMETER = "porteur";
+	private static final String CAS_TO_REDIRECT_PARAMETER = "CODE_PORTEUR";
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -34,7 +34,7 @@ public class MultiCasCas20ProxyReceivingTicketValidationFilter implements
 		if (casId == null) {
 			casId = "demo";
 		}
-		final String proxyReceptorUrl = "https://" + casId
+		final String proxyReceptorUrl = "https://" + casId.toLowerCase()
 				+ ".monent.fr/connexion";
 
 		this.jasigCas20ProxyReceivingTicketValidationFilter
