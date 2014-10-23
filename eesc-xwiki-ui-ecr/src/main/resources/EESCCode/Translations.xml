@@ -83,11 +83,12 @@ eesc.template.eescheader.create.document=Nouveau document
 eesc.template.eescheader.document.delete=Supprimer
 eesc.template.eescheader.document.edit=Modifier
 eesc.template.eescheader.document.export=Exporter
+eesc.template.eescheader.document.export.doc=Microsoft Word (DOC)
 eesc.template.eescheader.document.export.html=HTML
 eesc.template.eescheader.document.export.pdf=PDF
 eesc.template.eescheader.document.export.print=Imprimer
-eesc.template.eescheader.document.export.odt=ODT
-eesc.template.eescheader.document.export.rtf=RTF
+eesc.template.eescheader.document.export.odt=LibreOffice (ODT)
+eesc.template.eescheader.document.export.rtf=Wordpad (RTF)
 eesc.template.eescheader.document.share=Partager
 
 # New document template

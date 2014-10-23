@@ -36,6 +36,36 @@
   </span>
   <span class="text-right">
     #if(!$doc.isHidden() && $hasEdit)
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary">${services.localization.render('eesc.template.eescheader.document.export')}</button>
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+          <span class="caret" />
+          <span class="sr-only">Toggle dropdown</span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="${xwiki.getURL($documentref, 'view', 'xpage=pdfoptions')}">${services.localization.render('eesc.template.eescheader.document.export.pdf')}</a>
+          </li>
+          #if("$!{services.officemanager.serverState}" == "Connected")
+            <li>
+              <a href="${xwiki.getURL($documentref, 'export', 'format=rtf')}">${services.localization.render('eesc.template.eescheader.document.export.rtf')}</a>
+            </li>
+            <li>
+              <a href="${xwiki.getURL($documentref, 'export', 'format=odt')}">${services.localization.render('eesc.template.eescheader.document.export.odt')}</a>
+            </li>
+            <li>
+              <a href="${xwiki.getURL($documentref, 'export', 'format=doc')}">${services.localization.render('eesc.template.eescheader.document.export.doc')}</a>
+            </li>
+          #end
+          <li>
+            <a href="${xwiki.getURL($documentref, 'export', 'format=html')}">${services.localization.render('eesc.template.eescheader.document.export.html')}</a>
+          </li>
+          <li class="divider" />
+          <li>
+            <a href="${xwiki.getURL($documentref, 'view', 'xpage=print')}">${services.localization.render('eesc.template.eescheader.document.export.print')}</a>
+          <li>
+        </ul>
+      </div>
       <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'edit', '')}">
         <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.document.edit')}" /> 
       </form>
@@ -47,31 +77,6 @@
           <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.document.share')}" /> 
         </form>
       #end
-      <div class="btn-group">
-        <button type="button" class="btn btn-primary">${services.localization.render('eesc.template.eescheader.document.export')}</button>
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
-          <span class="caret" />
-          <span class="sr-only">Toggle dropdown</span>
-        </button>
-        <ul class="dropdown-menu" role="menu">
-          <li>
-            <a href="${xwiki.getURL($documentref, 'view', 'xpage=pdfoptions')}">${services.localization.render('eesc.template.eescheader.document.export.pdf')}</a>
-          </li>
-          <li>
-            <a href="${xwiki.getURL($documentref, 'export', 'format=rtf')}">${services.localization.render('eesc.template.eescheader.document.export.rtf')}</a>
-          </li>
-          <li>
-            <a href="${xwiki.getURL($documentref, 'export', 'format=odt')}">${services.localization.render('eesc.template.eescheader.document.export.odt')}</a>
-          </li>
-          <li>
-            <a href="${xwiki.getURL($documentref, 'export', 'format=html')}">${services.localization.render('eesc.template.eescheader.document.export.html')}</a>
-          </li>
-          <li class="divider" />
-          <li>
-            <a href="${xwiki.getURL($documentref, 'view', 'xpage=print')}">${services.localization.render('eesc.template.eescheader.document.export.print')}</a>
-          <li>
-        </ul>
-      </div>
       #if($doc.hasAccessLevel("delete"))
         <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'delete', '')}">
           <input type="submit" class="btn btn-danger" value="${services.localization.render('eesc.template.eescheader.document.delete')}" /> 
