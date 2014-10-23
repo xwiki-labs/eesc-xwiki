@@ -97,6 +97,12 @@ of JAR in XWiki.  Download the driver at
 http://repo1.maven.org/maven2/mysql/mysql-connector-java/5.1.32/mysql-connector-java-5.1.32.jar
 and put it in `xwiki/WEB-INF/lib`.
 
+## `xwiki/WEB-INF/cache/infinispan/config.xml`
+You should give a uniq ID (for each XWiki instance on the machine) to the
+`jmxDomain`.  Look for the `<globalJmxStatistics>` element and change its
+`jmxDomain` attribute from `org.xwiki.infinispan` to something like
+`org.xwiki.infinispan.ecr`.
+
 # Tomcat configuration
 Tomcat configuration is based on a default version available on [Apache
 Tomcat](http://mirror.switch.ch/mirror/apache/dist/tomcat/tomcat-7/v7.0.53/bin/apache-tomcat-7.0.53.tar.gz).
