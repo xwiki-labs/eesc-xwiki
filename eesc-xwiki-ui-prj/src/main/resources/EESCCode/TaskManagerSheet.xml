@@ -109,9 +109,18 @@
               (((
                 ; &lt;label for="TaskManager.TaskManagerClass_0_assignee"&gt;
                     $services.icon.render('user')
-                    $escapetool.xml($doc.displayPrettyName('assignee', false, false))
+                    $escapetool.xml($services.localization.render('eesc.TaskManager.TaskManagerClass_assignee'))
                   &lt;/label&gt;
                 : $doc.display('assignee')
+              )))
+              (% class="form-group" %)
+              (((
+                #set($membersObj = $doc.getObject('EESCCode.TaskManagerMembersClass', false))
+                ; &lt;label for="EESCCode.TaskManagerMembersClass_0_assignees"&gt;
+                    $services.icon.render('group')
+                    $escapetool.xml($services.localization.render('EESCCode.TaskManagerMembersClass_assignees'))
+                  &lt;/label&gt;
+                : $membersObj.get('assignees')
               )))
             )))
             (% class="col-xs-12 text-left" %)
@@ -271,9 +280,18 @@
                   (((
                     ; &lt;label for="TaskManager.TaskManagerClass_0_assignee"&gt;
                         $services.icon.render('user')
-                        $escapetool.xml($doc.displayPrettyName('assignee', false, false))
+                        $escapetool.xml($services.localization.render('eesc.TaskManager.TaskManagerClass_assignee'))
                       &lt;/label&gt;
                     : $doc.display('assignee')
+                  )))
+                  (% class="form-group" %)
+                  (((
+                    #set($membersObj = $doc.getObject('EESCCode.TaskManagerMembersClass', false))
+                    ; &lt;label for="EESCCode.TaskManagerMembersClass_0_assignees"&gt;
+                        $services.icon.render('group')
+                        $escapetool.xml($services.localization.render('EESCCode.TaskManagerMembersClass_assignees'))
+                      &lt;/label&gt;
+                    : $membersObj.get('assignees')
                   )))
                 )))
               )))
