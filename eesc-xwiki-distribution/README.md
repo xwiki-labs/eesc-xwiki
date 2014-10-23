@@ -78,7 +78,8 @@ that.
 	<mapping resource="activitystream.hbm.xml"/>
 	<mapping resource="instance.hbm.xml"/>
 
-Add also the following properties for the encoding.
+Add also the following properties for the encoding (CAREFUL, it seems that you must put
+these properties before any `<mapping>` element).
 
 	<property name="connection.useUnicode">true</property>
 	<property name="connection.characterEncoding">UTF-8</property>
