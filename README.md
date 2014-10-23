@@ -14,4 +14,5 @@ initialize submodules
 # Deploy
 To deploy, you can use the `eesc-deploy` script that will help you to deploy the
 platform.  Look at the `eesc-deploy.conf` file to see what configuration
-information you can change.
+information you can change.  You can also look into the submodule
+`eesc-xwiki-distribution` for a `README.md` file.
