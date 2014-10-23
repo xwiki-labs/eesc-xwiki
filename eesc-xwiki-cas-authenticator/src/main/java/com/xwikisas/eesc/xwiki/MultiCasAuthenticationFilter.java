@@ -15,7 +15,7 @@ import org.jasig.cas.client.authentication.AuthenticationFilter;
 public class MultiCasAuthenticationFilter implements Filter {
 	private AuthenticationFilter jasigAuthenticationFilter;
 
-	private static final String CAS_TO_REDIRECT_PARAMETER = "porteur";
+	private static final String CAS_TO_REDIRECT_PARAMETER = "CODE_PORTEUR";
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
