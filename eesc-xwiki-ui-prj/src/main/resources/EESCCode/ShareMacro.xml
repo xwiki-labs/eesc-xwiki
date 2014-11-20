@@ -1,296 +1,316 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
 <xwikidoc version="1.1">
   <web>EESCCode</web>
   <name>ShareMacro</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <creator>XWiki.Admin</creator>
+  <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1407314460000</creationDate>
   <parent>Main.WebHome</parent>
-  <author>XWiki.Admin</author>
-  <contentAuthor>XWiki.Admin</contentAuthor>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1416409065000</date>
   <contentUpdateDate>1416409065000</contentUpdateDate>
-  <version>1.275</version>
+  <version>1.1</version>
   <title/>
   <comment/>
-  <minorEdit>true</minorEdit>
+  <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <content>{{velocity output="no"}}&#xd;
-#*&#xd;
- * Display a list of users&#xd;
- * -----&#xd;
- *&#xd;
- * Display a list of users with the avatar, the name and the uid.&#xd;
-*#&#xd;
-#macro(displayUsers $users $mode)&#xd;
-  #set($usersLabel = "")&#xd;
-  #if($mode == "edit")&#xd;
-     #set($usersLabel = $services.localization.render("eesc.ProjectCreate.share.usersAllowedToEdit"))&#xd;
-  #else&#xd;
-     #set($usersLabel = $services.localization.render("eesc.ProjectCreate.share.usersAllowedToView"))&#xd;
-  #end&#xd;
-&#xd;
-  #if ($users.size() > 0)&#xd;
-    &lt;h5>&lt;u>$usersLabel&lt;/u>&lt;/h5>&#xd;
-    #set ($discard = $xwiki.ssfx.use('uicomponents/widgets/userpicker/userPicker.css', true))&#xd;
-    &lt;ul class="users">&#xd;
-    #foreach ($user in $users)&#xd;
-      #set ($userReference = $services.model.resolveDocument($user))&#xd;
-      &lt;li class="user">&#xd;
-        &lt;div class="user-avatar-wrapper">&#xd;
-          #getUserAvatarURL($userReference $avatarURL 30)&#xd;
-          ## The string returned by XWiki#getUserName() is XML encoded.&#xd;
-          &lt;img src="$escapetool.xml($avatarURL.url)" class="icon"&#xd;
-            alt="$xwiki.getUserName($user, false)" />&#xd;
-        &lt;/div>&#xd;
-        &lt;div class="user-name">$xwiki.getUserName($user)&lt;/div>&#xd;
-        &lt;div>&#xd;
-          &lt;span class="user-alias">$escapetool.xml($userReference.name)&lt;/span>&#xd;
-          ## Display the wiki only for local users.&#xd;
-          #if ($userReference.wikiReference.name != $xcontext.getMainWikiName())&#xd;
-            &lt;span class="user-wiki">$escapetool.xml($userReference.wikiReference.name)&lt;/span>&#xd;
-          #end&#xd;
-        &lt;/div>&#xd;
-      &lt;/li>&#xd;
-    #end&#xd;
-    &lt;/ul>&#xd;
-  #end&#xd;
-#end&#xd;
-#*&#xd;
- * Display a list of groups&#xd;
- * -----&#xd;
- *&#xd;
- * Display a list of groups with the avatar, the name and the gid.&#xd;
-*#&#xd;
-#macro(displayGroups $groups $mode)&#xd;
-  #set($groupsLabel = "")&#xd;
-  #if($mode == "edit")&#xd;
-     #set($groupsLabel = $services.localization.render("eesc.ProjectCreate.share.groupsAllowedToEdit"))&#xd;
-  #else&#xd;
-     #set($groupsLabel = $services.localization.render("eesc.ProjectCreate.share.groupsAllowedToView"))&#xd;
-  #end&#xd;
-&#xd;
-  #if ($groups.size() > 0)&#xd;
-    &lt;h5>&lt;u>$groupsLabel&lt;/u>&lt;/h5>&#xd;
-    #set ($discard = $xwiki.ssfx.use('uicomponents/widgets/userpicker/userPicker.css', true))&#xd;
-    &lt;ul class="users">&#xd;
-    #foreach ($group in $groups)&#xd;
-      #set ($groupReference = $services.model.resolveDocument($group))&#xd;
-      #set ($groupName = $xwiki.getDocument($groupReference).plainTitle)&#xd;
-      #if ("$!groupName" == '')&#xd;
-        #set ($groupName = $groupReference.name)&#xd;
-      #end&#xd;
-      &lt;li class="user">&#xd;
-        &lt;div class="user-avatar-wrapper">&#xd;
-          #getUserAvatarURL($groupReference $avatarURL 30)&#xd;
-          &lt;img src="$escapetool.xml($avatarURL.url)" class="icon"&#xd;
-            alt="$escapetool.xml($groupName)" />&#xd;
-        &lt;/div>&#xd;
-        &lt;div class="user-name">&#xd;
-          &lt;a href="$escapetool.xml($xwiki.getURL($groupReference))">$escapetool.xml($groupName)&lt;/a>&#xd;
-        &lt;/div>&#xd;
-        &lt;div>&#xd;
-          &lt;span class="user-alias">$escapetool.xml($groupReference.name)&lt;/span>&#xd;
-          ## Display the wiki only for local groups.&#xd;
-          #if ($groupReference.wikiReference.name != $xcontext.getMainWikiName())&#xd;
-            &lt;span class="user-wiki">$escapetool.xml($groupReference.wikiReference.name)&lt;/span>&#xd;
-          #end&#xd;
-        &lt;/div>&#xd;
-      &lt;/li>&#xd;
-    #end&#xd;
-    &lt;/ul>&#xd;
-  #end&#xd;
-#end&#xd;
-&#xd;
-#*&#xd;
- * Share form macro&#xd;
- * -----&#xd;
- *&#xd;
- * This macro displays the material to share a project following a step by step questionaire&#xd;
- *&#xd;
- * Author: Fabio MANCINELLI &lt;fabio.mancinelli@xwiki.com>&#xd;
- *         Jean SIMARD &lt;jean.simard@xwiki.com>&#xd;
-           Mohamed Boussaa &lt;mohamed.boussa@xwiki.com>&#xd;
- *#&#xd;
-#macro(htmlshareproject $projectname $scope $eusers $egroups $vusers $vgroups, $mode)&#xd;
- #set($discard = $xwiki.jsx.use("EESCCode.ShareMacro"))&#xd;
- #set($discard = $xwiki.ssx.use("EESCCode.ShareMacro"))&#xd;
- #userPicker_import()&#xd;
- #set($projectref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectname))&#xd;
- #set($project = $xwiki.getDocument($projectref))&#xd;
- #set($shareobj = $project.getObject('EESCCode.CollaborativeProjectClass'))&#xd;
- #set($rightobjs = $project.getObjects('XWiki.XWikiRights'))&#xd;
- #set($projectscope = $shareobj.getProperty('scope').value)&#xd;
- #set($projectEditUsers = "")&#xd;
- #set($projectEditGroups = "")&#xd;
- #set($projectViewUsers = "")&#xd;
- #set($projectViewGroups = "")&#xd;
- #set($qlmsg= ${services.localization.render('eesc.ProjectShare.q1msg')})&#xd;
- #set($q2msg = ${services.localization.render('eesc.ProjectShare.q2msg')})&#xd;
- #if($projectscope.startsWith('some') || $projectscope.endsWith('some'))&#xd;
-  #foreach($rightobj in $rightobjs)&#xd;
-   #set($user = $rightobj.getProperty('users').value)&#xd;
-   #set($group = $rightobj.getProperty('groups').value)&#xd;
-                        #set($levels = $rightobj.getProperty('levels').value)&#xd;
-   #if($user &amp;&amp; !$user.equals(''))&#xd;
-    #if(!$user.equals($project.creator) &amp;&amp; $levels &amp;&amp; !$levels.equals(''))&#xd;
-                                        #if($levels.equals('view,edit') || $levels.equals('edit,view'))&#xd;
-          #set($projectEditUsers = "${projectEditUsers}${user},")&#xd;
-                                        #else&#xd;
-                                             #set($projectViewUsers = "${projectViewUsers}${user},")&#xd;
-                                        #end&#xd;
-    #end&#xd;
-   #elseif($group &amp;&amp; !$group.equals('') &amp;&amp; $levels &amp;&amp; !$levels.equals(''))&#xd;
-                                 #if($levels.equals('view,edit') || $levels.equals('edit,view'))&#xd;
-        #set($projectEditGroups = "${projectEditGroups}${group},")&#xd;
-                                 #else&#xd;
-                                    #set($projectViewGroups = "${projectViewGroups}${group},")&#xd;
-                                 #end&#xd;
-   #end&#xd;
-  #end&#xd;
- #end&#xd;
- ## If variables have been given as arguments ($scope, $eusers, $egroups, $vusers and $vgroups), then replace the previous values&#xd;
- #if($scope)&#xd;
-  #set($projectscope = $scope)&#xd;
- #end&#xd;
-        ## Edit users and groups&#xd;
- #if($eusers &amp;&amp; !$eusers.equals(''))&#xd;
-  #set($projectEditUsers = '')&#xd;
-  #set($sep = '')&#xd;
-  #foreach($user in $eusers)&#xd;
-   #set($projectEditUsers = "${projectEditUsers}${sep}${user}")&#xd;
-   #set($sep = ',')&#xd;
-  #end&#xd;
- #end&#xd;
- #if($egroups &amp;&amp; !$egroups.equals(''))&#xd;
-  #set($projectEditGroups = '')&#xd;
-  #set($sep = '')&#xd;
-  #foreach($group in $egroups)&#xd;
-   #set($projectEditGroups = "${projectEditGroups}${sep}${group}")&#xd;
-   #set($sep = ',')&#xd;
-  #end&#xd;
- #end&#xd;
-        ## view users and groups&#xd;
- #if($vusers &amp;&amp; !$vusers.equals(''))&#xd;
-  #set($projectViewUsers = '')&#xd;
-  #set($sep = '')&#xd;
-  #foreach($user in $vusers)&#xd;
-   #set($projectViewUsers = "${projectViewUsers}${sep}${user}")&#xd;
-   #set($sep = ',')&#xd;
-  #end&#xd;
- #end&#xd;
- #if($vgroups &amp;&amp; !$vgroups.equals(''))&#xd;
-  #set($projectViewGroups = '')&#xd;
-  #set($sep = '')&#xd;
-  #foreach($group in $vgroups)&#xd;
-   #set($projectViewGroups = "${projectViewGroups}${sep}${group}")&#xd;
-   #set($sep = ',')&#xd;
-  #end&#xd;
- #end&#xd;
- &lt;div id="eesc-share">&#xd;
-  #if($mode == 'view')&#xd;
-   #set($sharekey = "eesc.ProjectCreate.share.$projectscope")&#xd;
-   ${services.localization.render($sharekey)}&#xd;
-   #if($projectscope.startsWith('some'))&#xd;
-      #displayUsers($eusers "edit")&#xd;
-      #displayGroups($egroups "edit")&#xd;
-   #end&#xd;
-   #if($projectscope.endsWith('some'))&#xd;
-      #displayUsers($vusers "view")&#xd;
-      #displayGroups($vgroups "view")&#xd;
-   #end&#xd;
-  #else&#xd;
-  &lt;div class="row">&#xd;
-   &lt;div id="eesc-share-choice" class="col-xs-12 col-md-6">&#xd;
-    &lt;div id="essc-share-q1-blk">&#xd;
-     &lt;label>&#xd;
-      $qlmsg&#xd;
-     &lt;/label>&#xd;
-     &lt;div class="radio">&#xd;
-     &lt;label>&#xd;
-      &lt;input type="radio" name="editscope" value="all" #if($projectscope.equals('all')) checked="checked" #end />&#xd;
-      ${services.localization.render('eesc.ProjectShare.share.all')}&#xd;
-     &lt;/label>&#xd;
-    &lt;/div>&#xd;
-    &lt;div class="radio">&#xd;
-     &lt;label>&#xd;
-      &lt;input type="radio" name="editscope" value="some" #if($projectscope.startsWith('some')) checked="checked" #end/>&#xd;
-      ${services.localization.render('eesc.ProjectShare.share.some')}&#xd;
-     &lt;/label>&#xd;
-    &lt;/div>&#xd;
-    &lt;div class="radio">&#xd;
-     &lt;label>&#xd;
-      &lt;input type="radio" name="editscope" value="nobody" #if($projectscope.startsWith('nobody')) checked="checked" #end/>&#xd;
-      ${services.localization.render('eesc.ProjectShare.share.nobody')}&#xd;
-     &lt;/label>&#xd;
-    &lt;/div>&#xd;
-   &lt;/div>&#xd;
-   &lt;div id="share-edit-with" #if($projectscope.startsWith('some')) style="display:block" #end>&#xd;
-    &lt;div>&#xd;
-     &lt;label>${services.localization.render('eesc.ProjectCreate.label.users')}&lt;/label>&#xd;
-     &lt;input id="eesc-editsuggestUsers" type="text" name="editusers" class="suggestUsers global multipleSelection" value="${projectEditUsers}" />&#xd;
-     &lt;span class="help-block">&#xd;
-      ${services.localization.render('eesc.ProjectCreate.hint.users')}&#xd;
-     &lt;/span>&#xd;
-    &lt;/div>&lt;!-- "#eesc-share-with-users" -->&#xd;
-    &lt;div>&#xd;
-     &lt;label>${services.localization.render('eesc.ProjectCreate.label.groups')}&lt;/label>&#xd;
-     &lt;input id="eesc-editsuggestGroups" type="text" name="editgroups" class="suggestGroups global multipleSelection" value="${projectEditGroups}" />&#xd;
-     &lt;span class="help-block">&#xd;
-      ${services.localization.render('eesc.ProjectCreate.hint.groups')}&#xd;
-     &lt;/span>&#xd;
-    &lt;/div>&lt;!-- "#eesc-share-with-groups" -->&#xd;
-   &lt;/div>&#xd;
-  &lt;/div>&lt;!-- "#eesc-share-choice" -->&#xd;
-  &lt;div id="eesc-share-with" class="col-xs-12 col-md-6">&#xd;
-   &lt;div id="essc-share-q2-blk" #if($projectscope &amp;&amp; !$projectscope.equals('all')) style="display:block"#end>&#xd;
-    &lt;label>&#xd;
-     $q2msg&#xd;
-    &lt;/label>&#xd;
-    &lt;div class="radio">&#xd;
-     &lt;label>&#xd;
-      &lt;input type="radio" name="viewscope" value="all" #if($projectscope.endsWith('-all')) checked="checked" #end/>&#xd;
-      ${services.localization.render('eesc.ProjectShare.share.all')}&#xd;
-     &lt;/label>&#xd;
-    &lt;/div>&#xd;
-    &lt;div class="radio">&#xd;
-     &lt;label>&#xd;
-      &lt;input type="radio" name="viewscope" value="some" #if($projectscope.endsWith('some')) checked="checked" #end/>&#xd;
-      ${services.localization.render('eesc.ProjectShare.share.some')}&#xd;
-     &lt;/label>&#xd;
-    &lt;/div>&#xd;
-    &lt;div class="radio" id="nobodyviewradio" #if($projectscope.startsWith('some')) style="display:none" #end>&#xd;
-     &lt;label>&#xd;
-      &lt;input type="radio" name="viewscope" value="nobody" #if($projectscope.endsWith('nobody')) checked="checked" #end/>&#xd;
-      ${services.localization.render('eesc.ProjectShare.share.nobody')}&#xd;
-     &lt;/label>&#xd;
-    &lt;/div>&#xd;
-    &lt;div id="share-view-with" #if($projectscope.endsWith('some')) style="display:block" #end>&#xd;
-     &lt;div>&#xd;
-      &lt;label>${services.localization.render('eesc.ProjectCreate.label.users')}&lt;/label>&#xd;
-      &lt;input id="eesc-viewsuggestUsers" type="text" name="viewusers" class="suggestUsers global multipleSelection" value="$!{projectViewUsers}" />&#xd;
-      &lt;span class="help-block">&#xd;
-       ${services.localization.render('eesc.ProjectCreate.hint.users')}&#xd;
-      &lt;/span>&#xd;
-     &lt;/div>&lt;!-- "#eesc-share-with-users" -->&#xd;
-     &lt;div>&#xd;
-      &lt;label>${services.localization.render('eesc.ProjectCreate.label.groups')}&lt;/label>&#xd;
-      &lt;input id="eesc-viewsuggestGroups" type="text" name="viewgroups" class="suggestGroups global multipleSelection" value="$!{projectViewGroups}" />&#xd;
-      &lt;span class="help-block">&#xd;
-       ${services.localization.render('eesc.ProjectCreate.hint.groups')}&#xd;
-      &lt;/span>&#xd;
-     &lt;/div>&lt;!-- "#eesc-share-with-groups" -->&#xd;
-    &lt;/div>&#xd;
-   &lt;/div>&#xd;
-  &lt;/div>&lt;!-- "#eesc-share-with" -->&#xd;
- &lt;/div>&#xd;
-#end&#xd;
- &lt;/div>&lt;!-- "#eesc-share" -->&#xd;
-#end&#xd;
-&#xd;
+  <content>{{velocity output="no"}}
+#*
+ * Display a list of users
+ * -----
+ *
+ * Display a list of users with the avatar, the name and the uid.
+*#
+#macro(displayUsers $users $mode)
+  #set($usersLabel = "")
+  #if($mode == "edit")
+     #set($usersLabel = $services.localization.render("eesc.ProjectCreate.share.usersAllowedToEdit"))
+  #else
+     #set($usersLabel = $services.localization.render("eesc.ProjectCreate.share.usersAllowedToView"))
+  #end
+
+  #if ($users.size() &gt; 0)
+    &lt;h5&gt;&lt;u&gt;$usersLabel&lt;/u&gt;&lt;/h5&gt;
+    #set ($discard = $xwiki.ssfx.use('uicomponents/widgets/userpicker/userPicker.css', true))
+    &lt;ul class="users"&gt;
+    #foreach ($user in $users)
+      #set ($userReference = $services.model.resolveDocument($user))
+      &lt;li class="user"&gt;
+        &lt;div class="user-avatar-wrapper"&gt;
+          #getUserAvatarURL($userReference $avatarURL 30)
+          ## The string returned by XWiki#getUserName() is XML encoded.
+          &lt;img src="$escapetool.xml($avatarURL.url)" class="icon"
+            alt="$xwiki.getUserName($user, false)" /&gt;
+        &lt;/div&gt;
+        &lt;div class="user-name"&gt;$xwiki.getUserName($user)&lt;/div&gt;
+        &lt;div&gt;
+          &lt;span class="user-alias"&gt;$escapetool.xml($userReference.name)&lt;/span&gt;
+          ## Display the wiki only for local users.
+          #if ($userReference.wikiReference.name != $xcontext.getMainWikiName())
+            &lt;span class="user-wiki"&gt;$escapetool.xml($userReference.wikiReference.name)&lt;/span&gt;
+          #end
+        &lt;/div&gt;
+      &lt;/li&gt;
+    #end
+    &lt;/ul&gt;
+  #end
+#end
+#*
+ * Display a list of groups
+ * -----
+ *
+ * Display a list of groups with the avatar, the name and the gid.
+*#
+#macro(displayGroups $groups $mode)
+  #set($groupsLabel = "")
+  #if($mode == "edit")
+     #set($groupsLabel = $services.localization.render("eesc.ProjectCreate.share.groupsAllowedToEdit"))
+  #else
+     #set($groupsLabel = $services.localization.render("eesc.ProjectCreate.share.groupsAllowedToView"))
+  #end
+
+  #if ($groups.size() &gt; 0)
+    &lt;h5&gt;&lt;u&gt;$groupsLabel&lt;/u&gt;&lt;/h5&gt;
+    #set ($discard = $xwiki.ssfx.use('uicomponents/widgets/userpicker/userPicker.css', true))
+    &lt;ul class="users"&gt;
+    #foreach ($group in $groups)
+      #set ($groupReference = $services.model.resolveDocument($group))
+      #set ($groupName = $xwiki.getDocument($groupReference).plainTitle)
+      #if ("$!groupName" == '')
+        #set ($groupName = $groupReference.name)
+      #end
+      &lt;li class="user"&gt;
+        &lt;div class="user-avatar-wrapper"&gt;
+          #getUserAvatarURL($groupReference $avatarURL 30)
+          &lt;img src="$escapetool.xml($avatarURL.url)" class="icon"
+            alt="$escapetool.xml($groupName)" /&gt;
+        &lt;/div&gt;
+        &lt;div class="user-name"&gt;
+          &lt;a href="$escapetool.xml($xwiki.getURL($groupReference))"&gt;$escapetool.xml($groupName)&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;div&gt;
+          &lt;span class="user-alias"&gt;$escapetool.xml($groupReference.name)&lt;/span&gt;
+          ## Display the wiki only for local groups.
+          #if ($groupReference.wikiReference.name != $xcontext.getMainWikiName())
+            &lt;span class="user-wiki"&gt;$escapetool.xml($groupReference.wikiReference.name)&lt;/span&gt;
+          #end
+        &lt;/div&gt;
+      &lt;/li&gt;
+    #end
+    &lt;/ul&gt;
+  #end
+#end
+
+#*
+ * Share form macro
+ * -----
+ *
+ * This macro displays the material to share a project following a step by step questionaire
+ *
+ * Author: Fabio MANCINELLI &lt;fabio.mancinelli@xwiki.com&gt;
+ *         Jean SIMARD &lt;jean.simard@xwiki.com&gt;
+           Mohamed Boussaa &lt;mohamed.boussa@xwiki.com&gt;
+ *#
+#macro(htmlshareproject $projectname $scope $eusers $egroups $vusers $vgroups, $mode)
+ #set($discard = $xwiki.jsx.use("EESCCode.ShareMacro"))
+ #set($discard = $xwiki.ssx.use("EESCCode.ShareMacro"))
+ #userPicker_import()
+ #set($projectref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectname))
+ #set($project = $xwiki.getDocument($projectref))
+ #set($shareobj = $project.getObject('EESCCode.CollaborativeProjectClass'))
+ #set($rightobjs = $project.getObjects('XWiki.XWikiRights'))
+ #set($projectscope = $shareobj.getProperty('scope').value)
+ #set($projectEditUsers = "")
+ #set($projectEditGroups = "")
+ #set($projectViewUsers = "")
+ #set($projectViewGroups = "")
+ #set($qlmsg= ${services.localization.render('eesc.ProjectShare.q1msg')})
+ #set($q2msg = ${services.localization.render('eesc.ProjectShare.q2msg')})
+ #if($projectscope.startsWith('some') || $projectscope.endsWith('some'))
+  #foreach($rightobj in $rightobjs)
+   #set($user = $rightobj.getProperty('users').value)
+   #set($group = $rightobj.getProperty('groups').value)
+                        #set($levels = $rightobj.getProperty('levels').value)
+   #if($user &amp;&amp; !$user.equals(''))
+    #if(!$user.equals($project.creator) &amp;&amp; $levels &amp;&amp; !$levels.equals(''))
+                                        #if($levels.equals('view,edit') || $levels.equals('edit,view'))
+          #set($projectEditUsers = "${projectEditUsers}${user},")
+                                        #else
+                                             #set($projectViewUsers = "${projectViewUsers}${user},")
+                                        #end
+    #end
+   #elseif($group &amp;&amp; !$group.equals('') &amp;&amp; $levels &amp;&amp; !$levels.equals(''))
+                                 #if($levels.equals('view,edit') || $levels.equals('edit,view'))
+        #set($projectEditGroups = "${projectEditGroups}${group},")
+                                 #else
+                                    #set($projectViewGroups = "${projectViewGroups}${group},")
+                                 #end
+   #end
+  #end
+ #end
+ ## If variables have been given as arguments ($scope, $eusers, $egroups, $vusers and $vgroups), then replace the previous values
+ #if($scope)
+  #set($projectscope = $scope)
+ #end
+        ## Edit users and groups
+ #if($eusers &amp;&amp; !$eusers.equals(''))
+  #set($projectEditUsers = '')
+  #set($sep = '')
+  #foreach($user in $eusers)
+   #set($projectEditUsers = "${projectEditUsers}${sep}${user}")
+   #set($sep = ',')
+  #end
+ #end
+ #if($egroups &amp;&amp; !$egroups.equals(''))
+  #set($projectEditGroups = '')
+  #set($sep = '')
+  #foreach($group in $egroups)
+   #set($projectEditGroups = "${projectEditGroups}${sep}${group}")
+   #set($sep = ',')
+  #end
+ #end
+        ## view users and groups
+ #if($vusers &amp;&amp; !$vusers.equals(''))
+  #set($projectViewUsers = '')
+  #set($sep = '')
+  #foreach($user in $vusers)
+   #set($projectViewUsers = "${projectViewUsers}${sep}${user}")
+   #set($sep = ',')
+  #end
+ #end
+ #if($vgroups &amp;&amp; !$vgroups.equals(''))
+  #set($projectViewGroups = '')
+  #set($sep = '')
+  #foreach($group in $vgroups)
+   #set($projectViewGroups = "${projectViewGroups}${sep}${group}")
+   #set($sep = ',')
+  #end
+ #end
+ &lt;div id="eesc-share"&gt;
+  #if($mode == 'view')
+   #set($sharekey = "eesc.ProjectCreate.share.$projectscope")
+   ${services.localization.render($sharekey)}
+   #if($projectscope.startsWith('some'))
+      #displayUsers($eusers "edit")
+      #displayGroups($egroups "edit")
+   #end
+   #if($projectscope.endsWith('some'))
+      #displayUsers($vusers "view")
+      #displayGroups($vgroups "view")
+   #end
+  #else
+  &lt;div class="row"&gt;
+   &lt;div id="eesc-share-choice" class="col-xs-12 col-md-6"&gt;
+    &lt;div id="essc-share-q1-blk"&gt;
+     &lt;label&gt;
+      $qlmsg
+     &lt;/label&gt;
+     &lt;div class="radio"&gt;
+     &lt;label&gt;
+      &lt;input type="radio" name="editscope" value="all" #if($projectscope.equals('all')) checked="checked" #end /&gt;
+      ${services.localization.render('eesc.ProjectShare.share.all')}
+     &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class="radio"&gt;
+     &lt;label&gt;
+      &lt;input type="radio" name="editscope" value="some" #if($projectscope.startsWith('some')) checked="checked" #end/&gt;
+      ${services.localization.render('eesc.ProjectShare.share.some')}
+     &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class="radio"&gt;
+     &lt;label&gt;
+      &lt;input type="radio" name="editscope" value="nobody" #if($projectscope.startsWith('nobody')) checked="checked" #end/&gt;
+      ${services.localization.render('eesc.ProjectShare.share.nobody')}
+     &lt;/label&gt;
+    &lt;/div&gt;
+   &lt;/div&gt;
+   &lt;div id="share-edit-with" #if($projectscope.startsWith('some')) style="display:block" #end&gt;
+    &lt;div&gt;
+     &lt;label&gt;${services.localization.render('eesc.ProjectCreate.label.users')}&lt;/label&gt;
+     &lt;input id="eesc-editsuggestUsers" type="text" name="editusers" class="suggestUsers global multipleSelection" value="${projectEditUsers}" /&gt;
+     &lt;span class="help-block"&gt;
+      ${services.localization.render('eesc.ProjectCreate.hint.users')}
+     &lt;/span&gt;
+    &lt;/div&gt;&lt;!-- "#eesc-share-with-users" --&gt;
+    &lt;div&gt;
+     &lt;label&gt;${services.localization.render('eesc.ProjectCreate.label.groups')}&lt;/label&gt;
+     &lt;input id="eesc-editsuggestGroups" type="text" name="editgroups" class="suggestGroups global multipleSelection" value="${projectEditGroups}" /&gt;
+     &lt;span class="help-block"&gt;
+      ${services.localization.render('eesc.ProjectCreate.hint.groups')}
+     &lt;/span&gt;
+    &lt;/div&gt;&lt;!-- "#eesc-share-with-groups" --&gt;
+   &lt;/div&gt;
+  &lt;/div&gt;&lt;!-- "#eesc-share-choice" --&gt;
+  &lt;div id="eesc-share-with" class="col-xs-12 col-md-6"&gt;
+   &lt;div id="essc-share-q2-blk" #if($projectscope &amp;&amp; !$projectscope.equals('all')) style="display:block"#end&gt;
+    &lt;label&gt;
+     $q2msg
+    &lt;/label&gt;
+    &lt;div class="radio"&gt;
+     &lt;label&gt;
+      &lt;input type="radio" name="viewscope" value="all" #if($projectscope.endsWith('-all')) checked="checked" #end/&gt;
+      ${services.localization.render('eesc.ProjectShare.share.all')}
+     &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class="radio"&gt;
+     &lt;label&gt;
+      &lt;input type="radio" name="viewscope" value="some" #if($projectscope.endsWith('some')) checked="checked" #end/&gt;
+      ${services.localization.render('eesc.ProjectShare.share.some')}
+     &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div class="radio" id="nobodyviewradio" #if($projectscope.startsWith('some')) style="display:none" #end&gt;
+     &lt;label&gt;
+      &lt;input type="radio" name="viewscope" value="nobody" #if($projectscope.endsWith('nobody')) checked="checked" #end/&gt;
+      ${services.localization.render('eesc.ProjectShare.share.nobody')}
+     &lt;/label&gt;
+    &lt;/div&gt;
+    &lt;div id="share-view-with" #if($projectscope.endsWith('some')) style="display:block" #end&gt;
+     &lt;div&gt;
+      &lt;label&gt;${services.localization.render('eesc.ProjectCreate.label.users')}&lt;/label&gt;
+      &lt;input id="eesc-viewsuggestUsers" type="text" name="viewusers" class="suggestUsers global multipleSelection" value="$!{projectViewUsers}" /&gt;
+      &lt;span class="help-block"&gt;
+       ${services.localization.render('eesc.ProjectCreate.hint.users')}
+      &lt;/span&gt;
+     &lt;/div&gt;&lt;!-- "#eesc-share-with-users" --&gt;
+     &lt;div&gt;
+      &lt;label&gt;${services.localization.render('eesc.ProjectCreate.label.groups')}&lt;/label&gt;
+      &lt;input id="eesc-viewsuggestGroups" type="text" name="viewgroups" class="suggestGroups global multipleSelection" value="$!{projectViewGroups}" /&gt;
+      &lt;span class="help-block"&gt;
+       ${services.localization.render('eesc.ProjectCreate.hint.groups')}
+      &lt;/span&gt;
+     &lt;/div&gt;&lt;!-- "#eesc-share-with-groups" --&gt;
+    &lt;/div&gt;
+   &lt;/div&gt;
+  &lt;/div&gt;&lt;!-- "#eesc-share-with" --&gt;
+ &lt;/div&gt;
+#end
+ &lt;/div&gt;&lt;!-- "#eesc-share" --&gt;
+#end
+
 {{/velocity}}</content>
   <object>
     <name>EESCCode.ShareMacro</name>
@@ -372,45 +392,45 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>require(['jquery'], function($) {&#xd;
-  //Check the "all" edit scope by default&#xd;
-  if(!$("input[name='editscope']").is(":checked")){&#xd;
-    $("input[name='editscope']").eq(0).click();&#xd;
-  }&#xd;
-  $("input[name='editscope']").click(function(){&#xd;
-      if($(this).val() == "some"){&#xd;
-         $('#share-edit-with').show();&#xd;
-         $("#nobodyviewradio input[type='radio']").attr("checked",false);&#xd;
-         $("#nobodyviewradio").hide();&#xd;
-         //if there is no radio button checked in the question 2 check the first&#xd;
-         if(!$("input[name='viewscope']").is(":checked")){&#xd;
-             $("input[name='viewscope']").eq(0).click();&#xd;
-         }&#xd;
-         $('#essc-share-q2-blk').fadeIn();&#xd;
-      }&#xd;
-     else if($(this).val() == "nobody"){&#xd;
-         $('#share-edit-with').hide();&#xd;
-         $("#nobodyviewradio").show();&#xd;
-         if(!$("input[name='viewscope']").is(":checked")){&#xd;
-             $("input[name='viewscope']").eq(0).click();&#xd;
-         }&#xd;
-         $('#essc-share-q2-blk').fadeIn();&#xd;
-      }&#xd;
-      else&#xd;
-      {&#xd;
-         $('#share-edit-with').hide();&#xd;
-         $('#essc-share-q2-blk').fadeOut();&#xd;
-      }&#xd;
-  });&#xd;
-    $("input[name='viewscope']").click(function(){&#xd;
-      if($(this).val() == "some"){&#xd;
-         $('#share-view-with').show();&#xd;
-      }&#xd;
-      else&#xd;
-      {&#xd;
-         $('#share-view-with').hide();&#xd;
-      }&#xd;
-  });&#xd;
+      <code>require(['jquery'], function($) {
+  //Check the "all" edit scope by default
+  if(!$("input[name='editscope']").is(":checked")){
+    $("input[name='editscope']").eq(0).click();
+  }
+  $("input[name='editscope']").click(function(){
+      if($(this).val() == "some"){
+         $('#share-edit-with').show();
+         $("#nobodyviewradio input[type='radio']").attr("checked",false);
+         $("#nobodyviewradio").hide();
+         //if there is no radio button checked in the question 2 check the first
+         if(!$("input[name='viewscope']").is(":checked")){
+             $("input[name='viewscope']").eq(0).click();
+         }
+         $('#essc-share-q2-blk').fadeIn();
+      }
+     else if($(this).val() == "nobody"){
+         $('#share-edit-with').hide();
+         $("#nobodyviewradio").show();
+         if(!$("input[name='viewscope']").is(":checked")){
+             $("input[name='viewscope']").eq(0).click();
+         }
+         $('#essc-share-q2-blk').fadeIn();
+      }
+      else
+      {
+         $('#share-edit-with').hide();
+         $('#essc-share-q2-blk').fadeOut();
+      }
+  });
+    $("input[name='viewscope']").click(function(){
+      if($(this).val() == "some"){
+         $('#share-view-with').show();
+      }
+      else
+      {
+         $('#share-view-with').hide();
+      }
+  });
 });</code>
     </property>
     <property>
@@ -503,27 +523,27 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>(function(){&#xd;
-  document.observe('dom:loaded', function () {&#xd;
-    if($('eesc-suggestGroups')) {&#xd;
-        new XWiki.widgets.UserPicker($('eesc-suggestGroups'), {&#xd;
-          script: "$xwiki.getURL('EESCCode.SuggestGroups', 'get', 'outputSyntax=plain')&amp;",&#xd;
-          varname: 'input',&#xd;
-          seps: ' ,|',&#xd;
-          delay: 500,&#xd;
-          timeout: 0,&#xd;
-          offsety: 0,&#xd;
-          parentContainer: $('suggest'),&#xd;
-          minchars: 1,&#xd;
-          showKey: false,&#xd;
-          inputType: 'hidden',&#xd;
-          listInsertionPosition: 'before',&#xd;
-          acceptFreeText: false&#xd;
-        });&#xd;
-        //*/&#xd;
-      //});&#xd;
-    }&#xd;
-  }); // end of doc observe&#xd;
+      <code>(function(){
+  document.observe('dom:loaded', function () {
+    if($('eesc-suggestGroups')) {
+        new XWiki.widgets.UserPicker($('eesc-suggestGroups'), {
+          script: "$xwiki.getURL('EESCCode.SuggestGroups', 'get', 'outputSyntax=plain')&amp;",
+          varname: 'input',
+          seps: ' ,|',
+          delay: 500,
+          timeout: 0,
+          offsety: 0,
+          parentContainer: $('suggest'),
+          minchars: 1,
+          showKey: false,
+          inputType: 'hidden',
+          listInsertionPosition: 'before',
+          acceptFreeText: false
+        });
+        //*/
+      //});
+    }
+  }); // end of doc observe
 })();</code>
     </property>
     <property>
@@ -616,17 +636,17 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>#eesc-share input[type="radio"] {&#xd;
-  margin: 4px 6px 0 -20px !important;&#xd;
-}&#xd;
-#eesc-share-with {&#xd;
-  display: block;&#xd;
-}&#xd;
-#essc-share-q2-blk, #share-edit-with, #share-view-with {&#xd;
-  display: none;&#xd;
-}&#xd;
-.undeline{&#xd;
-   test-decoration:underline;&#xd;
+      <code>#eesc-share input[type="radio"] {
+  margin: 4px 6px 0 -20px !important;
+}
+#eesc-share-with {
+  display: block;
+}
+#essc-share-q2-blk, #share-edit-with, #share-view-with {
+  display: none;
+}
+.undeline{
+   test-decoration:underline;
 }</code>
     </property>
     <property>

@@ -1,276 +1,296 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
 <xwikidoc version="1.1">
   <web>EESCCode</web>
   <name>ProjectCreate</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <creator>XWiki.Admin</creator>
+  <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1407314461000</creationDate>
   <parent>Main.WebHome</parent>
-  <author>XWiki.Admin</author>
-  <contentAuthor>XWiki.Admin</contentAuthor>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1416169340000</date>
   <contentUpdateDate>1416169166000</contentUpdateDate>
-  <version>1.55</version>
+  <version>1.1</version>
   <title>${services.localization.render('eesc.ProjectCreate.title')}</title>
   <comment/>
-  <minorEdit>true</minorEdit>
+  <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <content>{{include reference="EESCCode.ShareMacro" /}}&#xd;
-&#xd;
-{{velocity}}&#xd;
-#*&#xd;
- * EESC create a project&#xd;
- * -----&#xd;
- *&#xd;
- * This page propose the creation of a new project.&#xd;
- *&#xd;
- * Author: Fabio MANCINELLI &lt;fabio.mancinelli@xwiki.com>&#xd;
- *         Jean SIMARD &lt;jean.simard@xwiki.com>&#xd;
- *#&#xd;
-##############################################&#xd;
-##                 GLOBALS&#xd;
-##############################################&#xd;
-## HTTP REQUEST PARAMETERS&#xd;
-#set($reqStep = $request.getParameter('step'))&#xd;
-#if($request.getParameter('cancel'))&#xd;
-  #set($reqStep = 'cancel')&#xd;
-#end&#xd;
-#set($reqReferer = $request.getParameter('referer'))&#xd;
-#if(!$reqReferer)&#xd;
-  #set($reqReferer = $request.getHeader('referer'))&#xd;
-#end&#xd;
-#if($reqReferer.contains('?'))&#xd;
-  #set($reqReferer = $reqReferer.split('\?').get(0))&#xd;
-#end&#xd;
-#set($reqProjectName = $request.getParameter('projectname'))&#xd;
-#set($reqScope = $request.getParameter('scope'))&#xd;
-#if(!$reqScope || $reqScope.equals(''))&#xd;
-  #set($reqScope = 'all')&#xd;
-#end&#xd;
-&#xd;
-#set($editScope = $request.getParameter('editscope'))&#xd;
-#set($viewScope = $request.getParameter('viewscope'))&#xd;
-#if(!$editScope || $editScope.equals(''))&#xd;
-  #set($editScope = 'all')&#xd;
-#end&#xd;
-## The scope is now a combination of edit scope and view scope (ex: all, some-all, some-some ...)&#xd;
-#set($reqScope = $editScope)&#xd;
-#if($editScope &amp;&amp; $editScope != "all")&#xd;
-   #set($reqScope = $editScope + "-" + $viewScope)&#xd;
-#end&#xd;
-#set($editUsers= $request.getParameterValues('editusers'))&#xd;
-#set($editGroups = $request.getParameterValues('editgroups'))&#xd;
-#set($viewUsers = $request.getParameterValues('viewusers'))&#xd;
-#set($viewGroups = $request.getParameterValues('viewgroups'))&#xd;
-#set($reqErrors = $request.getParameterValues('errors'))&#xd;
-##############################################&#xd;
-##                CONTROLLER&#xd;
-##############################################&#xd;
-#controller()&#xd;
-#macro(controller)&#xd;
-  #if($reqStep.equals('cancel'))&#xd;
-    #stepCancel($reqReferer)&#xd;
-  #elseif($reqStep.equals('form'))&#xd;
-    #stepForm($reqReferer, $reqProjectName, $reqScope, $editUsers, $editGroups, $viewUsers, $viewGroups, $reqErrors)&#xd;
-  #elseif($reqStep.equals('create'))&#xd;
-    #stepCreate($reqProjectName, $reqScope, $editUsers, $editGroups, $viewUsers, $viewGroups)&#xd;
-  #else&#xd;
-    #displayError()&#xd;
-  #end&#xd;
-#end&#xd;
-##############################################&#xd;
-##               ADD DATA&#xd;
-##############################################&#xd;
-#*&#xd;
- * Check before creation&#xd;
- * -----&#xd;
- *&#xd;
- * Check that the fields are correct for the creation.&#xd;
- *&#xd;
- * @param $projectName The name of the project to create&#xd;
- * @param $scope The type of restriction of the project ('public', 'shared-public', 'shared-private' or 'private')&#xd;
- * @param $eusers The list of authorized users to edit if it apply (if $scope is 'some-*')&#xd;
- * @param $egroups The list of authorized users to edit if it apply (if $scope is 'some-*')&#xd;
- * @param $vusers The list of authorized users to view if it apply (if $scope is '*-some')&#xd;
- * @param $vgroups The list of authorized users to view if it apply (if $scope is '*-some')&#xd;
- *#&#xd;
-#macro(checkFields $projectName $scope $eusers $egroups $vusers $vgroups)&#xd;
-  #set($errors = [])&#xd;
-  ## Check that the project has a name&#xd;
-  #if($projectName.equals(''))&#xd;
-    #set($discard = $errors.add('EMPTY_PROJECTNAME'))&#xd;
-  #end&#xd;
-  ## Check if the project already exists (only projects with a XWiki.XWikiRights)&#xd;
-  #set($projecttocreateref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectName))&#xd;
-  #if($xwiki.exists($projecttocreateref))&#xd;
-    #if($xwiki.getDocument($projecttocreateref).getObjects('ProjectsCode.ProjectsCodeClass').size() != 0)&#xd;
-      #set($discard = $errors.add('PROJECT_EXISTS'))&#xd;
-    #end&#xd;
-  #end&#xd;
-  #if(!$errors.isEmpty())&#xd;
-    #set($querystring = "referer=${reqReferer}")&#xd;
-    #set($sep = '&amp;')&#xd;
-    #set($querystring = "${querystring}${sep}step=form")&#xd;
-    #set($querystring = "${querystring}${sep}projectname=${projectName}")&#xd;
-    #set($querystring = "${querystring}${sep}scope=${scope}")&#xd;
-    #foreach($user in $eusers)&#xd;
-      #set($querystring = "${querystring}${sep}editusers=${user}")&#xd;
-    #end&#xd;
-    #foreach($group in $egroups)&#xd;
-      #set($querystring = "${querystring}${sep}editgroups=${group}")&#xd;
-    #end&#xd;
-    #foreach($user in $vusers)&#xd;
-      #set($querystring = "${querystring}${sep}viewusers=${user}")&#xd;
-    #end&#xd;
-    #foreach($group in $vgroups)&#xd;
-      #set($querystring = "${querystring}${sep}viewgroups=${group}")&#xd;
-    #end&#xd;
-    #foreach($error in $errors)&#xd;
-      #set($querystring = "${querystring}${sep}errors=${error}")&#xd;
-    #end&#xd;
-    #set($projectcreateref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'EESCCode', 'ProjectCreate'))&#xd;
-    #set($discard = $response.sendRedirect($xwiki.getURL($projectcreateref, 'view', $querystring)))&#xd;
-  #end&#xd;
-#end&#xd;
-#*&#xd;
- * Create the project&#xd;
- * -----&#xd;
- *&#xd;
- * Given the HTTP POST request, create the project with the rights that apply.&#xd;
- *&#xd;
- * @param $projectName The name of the project to create&#xd;
- * @param $scope The type of restriction of the project ('all', 'some-all', 'some-some' ...)&#xd;
- * @param $eusers The list of authorized users to edit if it apply (if $scope is 'some-*')&#xd;
- * @param $egroups The list of authorized users to edit if it apply (if $scope is '*-some')&#xd;
- * @param $vusers The list of authorized users to view if it apply ()&#xd;
- * @param $vgroups The list of authorized users to view if it apply ()&#xd;
-&#xd;
- *#&#xd;
-#macro(stepCreate $projectName $scope $eusers $egroups $vusers $vgroups)&#xd;
-  #checkFields($projectName, $scope, $eusers, $egroups, $vusers, $vgroups)&#xd;
-  #set($querystring = "template=EESCCode.ProjectsCodeTemplate")&#xd;
-  #set($sep = '&amp;')&#xd;
-  #set($querystring = "${querystring}${sep}sheet=EESCCode.ProjectsCodeSheet")&#xd;
-  #set($querystring = "${querystring}${sep}parent=Main.WebHome")&#xd;
-  #set($querystring = "${querystring}${sep}title=${projectName}")&#xd;
-  #set($querystring = "${querystring}${sep}ProjectsCode.ProjectsCodeClass_0_projectLeader=${xcontext.userReference}")&#xd;
-  #set($querystring = "${querystring}${sep}scope=${scope}")&#xd;
-  #foreach($user in $eusers)&#xd;
-    #if($user &amp;&amp; !$user.isEmpty())&#xd;
-      #set($querystring = "${querystring}${sep}editusers=${user}")&#xd;
-    #end&#xd;
-  #end&#xd;
-  #foreach($group in $egroups)&#xd;
-    #if($group &amp;&amp; !$group.isEmpty())&#xd;
-      #set($querystring = "${querystring}${sep}editgroups=${group}")&#xd;
-    #end&#xd;
-  #end&#xd;
-  #foreach($user in $vusers)&#xd;
-    #if($user &amp;&amp; !$user.isEmpty())&#xd;
-      #set($querystring = "${querystring}${sep}viewusers=${user}")&#xd;
-    #end&#xd;
-  #end&#xd;
-  #foreach($group in $vgroups)&#xd;
-    #if($group &amp;&amp; !$group.isEmpty())&#xd;
-      #set($querystring = "${querystring}${sep}viewgroups=${group}")&#xd;
-    #end&#xd;
-  #end&#xd;
-  #set($projectref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectName))&#xd;
-  #set($discard = $response.sendRedirect($xwiki.getURL($projectref, 'edit', $querystring)))&#xd;
-#end&#xd;
-##############################################&#xd;
-##                  VIEW&#xd;
-##############################################&#xd;
-#*&#xd;
- * Redirect to the referer&#xd;
- * -----&#xd;
- *&#xd;
- * Redirect the user to the page from where it was coming from.&#xd;
- *&#xd;
- * @param $referer The URL to redirect&#xd;
- *#&#xd;
-#macro(stepCancel $referer)&#xd;
-  #set($discard = $response.sendRedirect($referer))&#xd;
-#end&#xd;
-#*&#xd;
- * Display error&#xd;
- * -----&#xd;
- *&#xd;
- * Display an error when the HTTP request is incomplete.&#xd;
- *#&#xd;
-#macro(displayError)&#xd;
-  {{error}}&#xd;
-    ${services.localization.render('eesc.ProjectCreate.error')}&#xd;
-  {{/error}}&#xd;
-#end&#xd;
-#*&#xd;
- * Display the form&#xd;
- * -----&#xd;
- *&#xd;
- * Display the form to the user to name the project.&#xd;
- *&#xd;
- * @param $referer The URL of the previous page&#xd;
- * @param $projectName The name of the project to create&#xd;
- * @param $scope The type of restriction of the project ('public', 'shared-public', 'shared-private' or 'private')&#xd;
- * @param $users The list of authorized users if it apply (if $scope is 'shared-*')&#xd;
- * @param $groups The list of authorized users if it apply (if $scope is 'shared-*')&#xd;
- * @param $errors The list of possible errors&#xd;
- *#&#xd;
-#macro(stepForm $referer $projectName $scope $eusers $egroups $vusers $vgroups $errors)&#xd;
-&#xd;
-  {{html clean='false'}}&#xd;
-    &lt;form class="xform" method="GET" action="${xwiki.getURL($services.model.createDocumentReference(${xcontext.mainWikiName}, 'EESCCode', 'ProjectCreate'))}">&#xd;
-      &lt;input type="hidden" name="step" value="create" />&#xd;
-      &lt;input type="hidden" name="referer" value="${referer}" />&#xd;
-      &lt;dl>&#xd;
-        &lt;dt>&#xd;
-          &lt;label for="projectname">&#xd;
-            ${services.localization.render('eesc.ProjectCreate.label.projectname')}&#xd;
-          &lt;/label>&#xd;
-          &lt;span class="xHint">&#xd;
-            ${services.localization.render('eesc.ProjectCreate.hint.projects')}&#xd;
-          &lt;/span>&#xd;
-        &lt;/dt>&#xd;
-        &lt;dd>&#xd;
-          &lt;input type="text" name="projectname" #if(${projectName} &amp;&amp; !${projectName.isEmpty()})value="${projectName}" #{else}value="${services.localization.render('eesc.ProjectCreate.label.projectname')}" class="withTip"#{end} />&#xd;
-          #if($errors.contains('EMPTY_PROJECTNAME'))&#xd;
-            &lt;div class="box errormessage">&#xd;
-              $services.localization.render('eesc.ProjectCreate.error.project.empty')&#xd;
-            &lt;/div>&#xd;
-          #end&#xd;
-          #if($errors.contains('PROJECT_EXISTS'))&#xd;
-            &lt;div class="box errormessage">&#xd;
-              $services.localization.render('eesc.DocumentCreate.error.project.exists')&#xd;
-            &lt;/div>&#xd;
-          #end&#xd;
-        &lt;/dd>&#xd;
-        &lt;dt>&#xd;
-          &lt;label for="shareWith">&#xd;
-            ${services.localization.render('eesc.ProjectCreate.label.sharewith')}&#xd;
-          &lt;/label>&#xd;
-        &lt;/dt>&#xd;
-        &lt;dd>&#xd;
-          #htmlshareproject($projectName, $scope, $eusers, $egroups, $vusers, $vgroups, 'edit')&#xd;
-        &lt;/dd>&#xd;
-      &lt;/dl>&#xd;
-      &lt;div class="bottombuttons">&#xd;
-        &lt;div class="buttons">&#xd;
-          &lt;span class="buttonwrapper">&#xd;
-            &lt;input type="submit" name="create" value="${services.localization.render('eesc.ProjectCreate.bottombuttons.create')}" class="button" />&#xd;
-          &lt;/span>&#xd;
-          &lt;span class="buttonwrapper">&#xd;
-            &lt;input type="submit" name="cancel" value="${services.localization.render('eesc.ProjectCreate.bottombuttons.cancel')}" class="button" />&#xd;
-          &lt;/span>&#xd;
-        &lt;/div>&#xd;
-      &lt;/div>&#xd;
-    &lt;/form>&#xd;
-  {{/html}}&#xd;
-&#xd;
-#end&#xd;
-{{/velocity}}&#xd;
+  <content>{{include reference="EESCCode.ShareMacro" /}}
+
+{{velocity}}
+#*
+ * EESC create a project
+ * -----
+ *
+ * This page propose the creation of a new project.
+ *
+ * Author: Fabio MANCINELLI &lt;fabio.mancinelli@xwiki.com&gt;
+ *         Jean SIMARD &lt;jean.simard@xwiki.com&gt;
+ *#
+##############################################
+##                 GLOBALS
+##############################################
+## HTTP REQUEST PARAMETERS
+#set($reqStep = $request.getParameter('step'))
+#if($request.getParameter('cancel'))
+  #set($reqStep = 'cancel')
+#end
+#set($reqReferer = $request.getParameter('referer'))
+#if(!$reqReferer)
+  #set($reqReferer = $request.getHeader('referer'))
+#end
+#if($reqReferer.contains('?'))
+  #set($reqReferer = $reqReferer.split('\?').get(0))
+#end
+#set($reqProjectName = $request.getParameter('projectname'))
+#set($reqScope = $request.getParameter('scope'))
+#if(!$reqScope || $reqScope.equals(''))
+  #set($reqScope = 'all')
+#end
+
+#set($editScope = $request.getParameter('editscope'))
+#set($viewScope = $request.getParameter('viewscope'))
+#if(!$editScope || $editScope.equals(''))
+  #set($editScope = 'all')
+#end
+## The scope is now a combination of edit scope and view scope (ex: all, some-all, some-some ...)
+#set($reqScope = $editScope)
+#if($editScope &amp;&amp; $editScope != "all")
+   #set($reqScope = $editScope + "-" + $viewScope)
+#end
+#set($editUsers= $request.getParameterValues('editusers'))
+#set($editGroups = $request.getParameterValues('editgroups'))
+#set($viewUsers = $request.getParameterValues('viewusers'))
+#set($viewGroups = $request.getParameterValues('viewgroups'))
+#set($reqErrors = $request.getParameterValues('errors'))
+##############################################
+##                CONTROLLER
+##############################################
+#controller()
+#macro(controller)
+  #if($reqStep.equals('cancel'))
+    #stepCancel($reqReferer)
+  #elseif($reqStep.equals('form'))
+    #stepForm($reqReferer, $reqProjectName, $reqScope, $editUsers, $editGroups, $viewUsers, $viewGroups, $reqErrors)
+  #elseif($reqStep.equals('create'))
+    #stepCreate($reqProjectName, $reqScope, $editUsers, $editGroups, $viewUsers, $viewGroups)
+  #else
+    #displayError()
+  #end
+#end
+##############################################
+##               ADD DATA
+##############################################
+#*
+ * Check before creation
+ * -----
+ *
+ * Check that the fields are correct for the creation.
+ *
+ * @param $projectName The name of the project to create
+ * @param $scope The type of restriction of the project ('public', 'shared-public', 'shared-private' or 'private')
+ * @param $eusers The list of authorized users to edit if it apply (if $scope is 'some-*')
+ * @param $egroups The list of authorized users to edit if it apply (if $scope is 'some-*')
+ * @param $vusers The list of authorized users to view if it apply (if $scope is '*-some')
+ * @param $vgroups The list of authorized users to view if it apply (if $scope is '*-some')
+ *#
+#macro(checkFields $projectName $scope $eusers $egroups $vusers $vgroups)
+  #set($errors = [])
+  ## Check that the project has a name
+  #if($projectName.equals(''))
+    #set($discard = $errors.add('EMPTY_PROJECTNAME'))
+  #end
+  ## Check if the project already exists (only projects with a XWiki.XWikiRights)
+  #set($projecttocreateref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectName))
+  #if($xwiki.exists($projecttocreateref))
+    #if($xwiki.getDocument($projecttocreateref).getObjects('ProjectsCode.ProjectsCodeClass').size() != 0)
+      #set($discard = $errors.add('PROJECT_EXISTS'))
+    #end
+  #end
+  #if(!$errors.isEmpty())
+    #set($querystring = "referer=${reqReferer}")
+    #set($sep = '&amp;')
+    #set($querystring = "${querystring}${sep}step=form")
+    #set($querystring = "${querystring}${sep}projectname=${projectName}")
+    #set($querystring = "${querystring}${sep}scope=${scope}")
+    #foreach($user in $eusers)
+      #set($querystring = "${querystring}${sep}editusers=${user}")
+    #end
+    #foreach($group in $egroups)
+      #set($querystring = "${querystring}${sep}editgroups=${group}")
+    #end
+    #foreach($user in $vusers)
+      #set($querystring = "${querystring}${sep}viewusers=${user}")
+    #end
+    #foreach($group in $vgroups)
+      #set($querystring = "${querystring}${sep}viewgroups=${group}")
+    #end
+    #foreach($error in $errors)
+      #set($querystring = "${querystring}${sep}errors=${error}")
+    #end
+    #set($projectcreateref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'EESCCode', 'ProjectCreate'))
+    #set($discard = $response.sendRedirect($xwiki.getURL($projectcreateref, 'view', $querystring)))
+  #end
+#end
+#*
+ * Create the project
+ * -----
+ *
+ * Given the HTTP POST request, create the project with the rights that apply.
+ *
+ * @param $projectName The name of the project to create
+ * @param $scope The type of restriction of the project ('all', 'some-all', 'some-some' ...)
+ * @param $eusers The list of authorized users to edit if it apply (if $scope is 'some-*')
+ * @param $egroups The list of authorized users to edit if it apply (if $scope is '*-some')
+ * @param $vusers The list of authorized users to view if it apply ()
+ * @param $vgroups The list of authorized users to view if it apply ()
+
+ *#
+#macro(stepCreate $projectName $scope $eusers $egroups $vusers $vgroups)
+  #checkFields($projectName, $scope, $eusers, $egroups, $vusers, $vgroups)
+  #set($querystring = "template=EESCCode.ProjectsCodeTemplate")
+  #set($sep = '&amp;')
+  #set($querystring = "${querystring}${sep}sheet=EESCCode.ProjectsCodeSheet")
+  #set($querystring = "${querystring}${sep}parent=Main.WebHome")
+  #set($querystring = "${querystring}${sep}title=${projectName}")
+  #set($querystring = "${querystring}${sep}ProjectsCode.ProjectsCodeClass_0_projectLeader=${xcontext.userReference}")
+  #set($querystring = "${querystring}${sep}scope=${scope}")
+  #foreach($user in $eusers)
+    #if($user &amp;&amp; !$user.isEmpty())
+      #set($querystring = "${querystring}${sep}editusers=${user}")
+    #end
+  #end
+  #foreach($group in $egroups)
+    #if($group &amp;&amp; !$group.isEmpty())
+      #set($querystring = "${querystring}${sep}editgroups=${group}")
+    #end
+  #end
+  #foreach($user in $vusers)
+    #if($user &amp;&amp; !$user.isEmpty())
+      #set($querystring = "${querystring}${sep}viewusers=${user}")
+    #end
+  #end
+  #foreach($group in $vgroups)
+    #if($group &amp;&amp; !$group.isEmpty())
+      #set($querystring = "${querystring}${sep}viewgroups=${group}")
+    #end
+  #end
+  #set($projectref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectName))
+  #set($discard = $response.sendRedirect($xwiki.getURL($projectref, 'edit', $querystring)))
+#end
+##############################################
+##                  VIEW
+##############################################
+#*
+ * Redirect to the referer
+ * -----
+ *
+ * Redirect the user to the page from where it was coming from.
+ *
+ * @param $referer The URL to redirect
+ *#
+#macro(stepCancel $referer)
+  #set($discard = $response.sendRedirect($referer))
+#end
+#*
+ * Display error
+ * -----
+ *
+ * Display an error when the HTTP request is incomplete.
+ *#
+#macro(displayError)
+  {{error}}
+    ${services.localization.render('eesc.ProjectCreate.error')}
+  {{/error}}
+#end
+#*
+ * Display the form
+ * -----
+ *
+ * Display the form to the user to name the project.
+ *
+ * @param $referer The URL of the previous page
+ * @param $projectName The name of the project to create
+ * @param $scope The type of restriction of the project ('public', 'shared-public', 'shared-private' or 'private')
+ * @param $users The list of authorized users if it apply (if $scope is 'shared-*')
+ * @param $groups The list of authorized users if it apply (if $scope is 'shared-*')
+ * @param $errors The list of possible errors
+ *#
+#macro(stepForm $referer $projectName $scope $eusers $egroups $vusers $vgroups $errors)
+
+  {{html clean='false'}}
+    &lt;form class="xform" method="GET" action="${xwiki.getURL($services.model.createDocumentReference(${xcontext.mainWikiName}, 'EESCCode', 'ProjectCreate'))}"&gt;
+      &lt;input type="hidden" name="step" value="create" /&gt;
+      &lt;input type="hidden" name="referer" value="${referer}" /&gt;
+      &lt;dl&gt;
+        &lt;dt&gt;
+          &lt;label for="projectname"&gt;
+            ${services.localization.render('eesc.ProjectCreate.label.projectname')}
+          &lt;/label&gt;
+          &lt;span class="xHint"&gt;
+            ${services.localization.render('eesc.ProjectCreate.hint.projects')}
+          &lt;/span&gt;
+        &lt;/dt&gt;
+        &lt;dd&gt;
+          &lt;input type="text" name="projectname" #if(${projectName} &amp;&amp; !${projectName.isEmpty()})value="${projectName}" #{else}value="${services.localization.render('eesc.ProjectCreate.label.projectname')}" class="withTip"#{end} /&gt;
+          #if($errors.contains('EMPTY_PROJECTNAME'))
+            &lt;div class="box errormessage"&gt;
+              $services.localization.render('eesc.ProjectCreate.error.project.empty')
+            &lt;/div&gt;
+          #end
+          #if($errors.contains('PROJECT_EXISTS'))
+            &lt;div class="box errormessage"&gt;
+              $services.localization.render('eesc.DocumentCreate.error.project.exists')
+            &lt;/div&gt;
+          #end
+        &lt;/dd&gt;
+        &lt;dt&gt;
+          &lt;label for="shareWith"&gt;
+            ${services.localization.render('eesc.ProjectCreate.label.sharewith')}
+          &lt;/label&gt;
+        &lt;/dt&gt;
+        &lt;dd&gt;
+          #htmlshareproject($projectName, $scope, $eusers, $egroups, $vusers, $vgroups, 'edit')
+        &lt;/dd&gt;
+      &lt;/dl&gt;
+      &lt;div class="bottombuttons"&gt;
+        &lt;div class="buttons"&gt;
+          &lt;span class="buttonwrapper"&gt;
+            &lt;input type="submit" name="create" value="${services.localization.render('eesc.ProjectCreate.bottombuttons.create')}" class="button" /&gt;
+          &lt;/span&gt;
+          &lt;span class="buttonwrapper"&gt;
+            &lt;input type="submit" name="cancel" value="${services.localization.render('eesc.ProjectCreate.bottombuttons.cancel')}" class="button" /&gt;
+          &lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/form&gt;
+  {{/html}}
+
+#end
+{{/velocity}}
 </content>
   <object>
     <name>EESCCode.ProjectCreate</name>

@@ -1,103 +1,123 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
 <xwikidoc version="1.1">
   <web>EESCCode</web>
   <name>Translations</name>
   <language/>
-  <defaultLanguage/>
+  <defaultLanguage>en</defaultLanguage>
   <translation>0</translation>
-  <creator>XWiki.Admin</creator>
+  <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1407223525000</creationDate>
   <parent>Main.WebHome</parent>
-  <author>XWiki.Admin</author>
-  <contentAuthor>XWiki.Admin</contentAuthor>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1416168262000</date>
   <contentUpdateDate>1416168262000</contentUpdateDate>
-  <version>1.29</version>
+  <version>1.1</version>
   <title/>
   <comment/>
-  <minorEdit>true</minorEdit>
+  <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <content># Main title&#xd;
-eesc.service.name=Service de gestion de projets&#xd;
-# Templates&#xd;
-eesc.task.template.title=Nouvelle tâche&#xd;
-eesc.template.eescheader.project.edit=Modifier&#xd;
-eesc.template.eescheader.project.share=Partager&#xd;
-eesc.template.eescheader.project.delete=Supprimer&#xd;
-eesc.template.eescheader.create.project=Nouveau projet&#xd;
-eesc.template.eescheader.create.task=Nouvelle tâche&#xd;
-&#xd;
-platform.appwithinminutes.appHomePageDeleteEntriesLabel=Supprimer toutes les entrées&#xd;
-&#xd;
-eesc.home.title.myprojects=Tous les projets&#xd;
-eesc.home.title.mytasks=Mes tâches&#xd;
-eesc.home.assignedto=assignée à&#xd;
-eesc.home.noassigned=non-assignée&#xd;
-eesc.home.unconnected=Vous n'êtes pas correctement authentifié. Essayer de recharger la page. Si le problème persiste, contactez votre responsable informatique.&#xd;
-eesc.home.task=Tâche&#xd;
-eesc.home.project=Projet&#xd;
-eesc.home.notask=Aucune tâche ne vous est assignée.&#xd;
-eesc.home.noproject=Vous n'avez pas de projet créé ou partagé avec vous.&#xd;
-eesc.ProjectCreate.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil>>Main.WebHome]].&#xd;
-eesc.ProjectCreate.label.projectname=Nom du projet&#xd;
-eesc.ProjectCreate.hint.projects=Entrer le nom du projet que vous souhaitez créer.&#xd;
-eesc.ProjectCreate.label.sharewith=Partagé avec&#xd;
-eesc.ProjectCreate.label.users=Utilisateurs autorisés&#xd;
-eesc.ProjectCreate.label.groups=Groupes autorisés&#xd;
-eesc.ProjectCreate.share.public=Libre accès&#xd;
-eesc.ProjectCreate.share.public.help=Tout le monde peut modifier le projet.&#xd;
-eesc.ProjectCreate.share.shared-public=Restreint (visible)&#xd;
-eesc.ProjectCreate.share.shared-public.help=Tout le monde peut consulter le projet mais seules les personnes autorisées peuvent modifier le projet.&#xd;
-eesc.ProjectCreate.share.shared-private=Restreint (invisible)&#xd;
-eesc.ProjectCreate.share.shared-private.help=Seulement les personnes autorisées peuvent consulter et modifier au projet.&#xd;
-eesc.ProjectCreate.share.private=Personnel&#xd;
-eesc.ProjectCreate.share.private.help=Seul le créateur du projet peut consulter et modifier le projet.&#xd;
-eesc.ProjectCreate.share.all=Libre accès&#xd;
-eesc.ProjectCreate.share.public.help=Tout le monde peut modifier le projet.&#xd;
-eesc.ProjectCreate.share.some-all=Accès restreint en édition et libre en visualisation&#xd;
-eesc.ProjectCreate.share.some-all.help=Tout le monde peut consulter le projet mais seules les personnes autorisées peuvent modifier le projet.&#xd;
-eesc.ProjectCreate.share.some-some=Accés restreint en édition et en visualisation&#xd;
-eesc.ProjectCreate.share.some-some.help=Seulement les personnes autorisées peuvent consulter et modifier au projet.&#xd;
-eesc.ProjectCreate.share.nobody-all=Accés privé en édition et libre en visualisation&#xd;
-eesc.ProjectCreate.share.nobody-all.help=Tout le monde peut consulter le projet mais seul le créateur du projet peut le modifier.&#xd;
-eesc.ProjectCreate.share.nobody-some=Accés privé en édition et restreint en visualisation&#xd;
-eesc.ProjectCreate.share.nobody-some.help=Seul le créateur du projet peut le modifier le projet mais seulement les personnes autorisées peuvent le consulter.&#xd;
-eesc.ProjectCreate.share.nobody-nobody=Personnel&#xd;
-eesc.ProjectCreate.nobody-nobody.help=Seul le créateur du projet peut consulter et modifier le projet.&#xd;
-eesc.ProjectCreate.share.usersAllowedToEdit=Utilisateurs autorisés à éditer le projet&#xd;
-eesc.ProjectCreate.share.groupsAllowedToEdit=Groupes autorisés à éditer le projet&#xd;
-eesc.ProjectCreate.share.usersAllowedToView=Utilisateurs autorisés à visualiser le projet&#xd;
-eesc.ProjectCreate.share.groupsAllowedToView=Groupes autorisés à visualiser le projet&#xd;
-&#xd;
-eesc.ProjectCreate.bottombuttons.create=Créer le projet&#xd;
-eesc.ProjectCreate.bottombuttons.cancel=Annuler&#xd;
-eesc.ProjectCreate.title=Créer un nouveau projet&#xd;
-eesc.ProjectCreate.error.project.empty=Vous devez donner un nom à votre projet.&#xd;
-eesc.ProjectCreate.error.project.exists=Un projet avec ce nom existe déjà.&#xd;
-eesc.ProjectCreate.hint.users=Commencer à taper les premiers caractères pour afficher les utilisateurs.&#xd;
-eesc.ProjectCreate.hint.groups=Commencer à taper les premiers caractères pour afficher les groupes.&#xd;
-&#xd;
-eesc.ProjectShare.bottombuttons.share=Partager le projet&#xd;
-eesc.ProjectShare.bottombuttons.cancel=Annuler&#xd;
-eesc.ProjectShare.title=Partager le projet&#xd;
-eesc.ProjectShare.message=Comment souhaitez-vous partager le projet « {0} » ?&#xd;
-eesc.ProjectShare.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil>>Main.WebHome]].&#xd;
-eesc.ProjectShare.q1msg=Qui peut modifier le projet?&#xd;
-eesc.ProjectShare.q2msg=Qui peut voir le projet?&#xd;
-eesc.ProjectShare.share.all=Tous&#xd;
-eesc.ProjectShare.share.some=Certains&#xd;
-eesc.ProjectShare.share.nobody=Aucun&#xd;
-&#xd;
-eesc.CollaborativeProjectTemplate.title=Nouveau projet&#xd;
-eesc.prj.tab.info.title=Projet&#xd;
-eesc.prj.tab.mytasks.title=Mes tâches&#xd;
-&#xd;
-eesc.TaskManager.TaskManagerClass_description=Description et avancement de la tâche&#xd;
-eesc.TaskManager.TaskManagerSheet.title.placeholder=Exemple: Faire ses devoirs&#xd;
-eesc.ProjectsCode.ProjectsCodeClass_details=Description et avancement du projet&#xd;
-EESCCode.TaskManagerMembersClass_assignees=Autres membres&#xd;
-eesc.TaskManager.TaskManagerClass_assignee=Référent&#xd;
+  <content># Main title
+eesc.service.name=Service de gestion de projets
+# Templates
+eesc.task.template.title=Nouvelle tâche
+eesc.template.eescheader.project.edit=Modifier
+eesc.template.eescheader.project.share=Partager
+eesc.template.eescheader.project.delete=Supprimer
+eesc.template.eescheader.create.project=Nouveau projet
+eesc.template.eescheader.create.task=Nouvelle tâche
+
+platform.appwithinminutes.appHomePageDeleteEntriesLabel=Supprimer toutes les entrées
+
+eesc.home.title.myprojects=Tous les projets
+eesc.home.title.mytasks=Mes tâches
+eesc.home.assignedto=assignée à
+eesc.home.noassigned=non-assignée
+eesc.home.unconnected=Vous n'êtes pas correctement authentifié. Essayer de recharger la page. Si le problème persiste, contactez votre responsable informatique.
+eesc.home.task=Tâche
+eesc.home.project=Projet
+eesc.home.notask=Aucune tâche ne vous est assignée.
+eesc.home.noproject=Vous n'avez pas de projet créé ou partagé avec vous.
+eesc.ProjectCreate.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
+eesc.ProjectCreate.label.projectname=Nom du projet
+eesc.ProjectCreate.hint.projects=Entrer le nom du projet que vous souhaitez créer.
+eesc.ProjectCreate.label.sharewith=Partagé avec
+eesc.ProjectCreate.label.users=Utilisateurs autorisés
+eesc.ProjectCreate.label.groups=Groupes autorisés
+eesc.ProjectCreate.share.public=Libre accès
+eesc.ProjectCreate.share.public.help=Tout le monde peut modifier le projet.
+eesc.ProjectCreate.share.shared-public=Restreint (visible)
+eesc.ProjectCreate.share.shared-public.help=Tout le monde peut consulter le projet mais seules les personnes autorisées peuvent modifier le projet.
+eesc.ProjectCreate.share.shared-private=Restreint (invisible)
+eesc.ProjectCreate.share.shared-private.help=Seulement les personnes autorisées peuvent consulter et modifier au projet.
+eesc.ProjectCreate.share.private=Personnel
+eesc.ProjectCreate.share.private.help=Seul le créateur du projet peut consulter et modifier le projet.
+eesc.ProjectCreate.share.all=Libre accès
+eesc.ProjectCreate.share.public.help=Tout le monde peut modifier le projet.
+eesc.ProjectCreate.share.some-all=Accès restreint en édition et libre en visualisation
+eesc.ProjectCreate.share.some-all.help=Tout le monde peut consulter le projet mais seules les personnes autorisées peuvent modifier le projet.
+eesc.ProjectCreate.share.some-some=Accés restreint en édition et en visualisation
+eesc.ProjectCreate.share.some-some.help=Seulement les personnes autorisées peuvent consulter et modifier au projet.
+eesc.ProjectCreate.share.nobody-all=Accés privé en édition et libre en visualisation
+eesc.ProjectCreate.share.nobody-all.help=Tout le monde peut consulter le projet mais seul le créateur du projet peut le modifier.
+eesc.ProjectCreate.share.nobody-some=Accés privé en édition et restreint en visualisation
+eesc.ProjectCreate.share.nobody-some.help=Seul le créateur du projet peut le modifier le projet mais seulement les personnes autorisées peuvent le consulter.
+eesc.ProjectCreate.share.nobody-nobody=Personnel
+eesc.ProjectCreate.nobody-nobody.help=Seul le créateur du projet peut consulter et modifier le projet.
+eesc.ProjectCreate.share.usersAllowedToEdit=Utilisateurs autorisés à éditer le projet
+eesc.ProjectCreate.share.groupsAllowedToEdit=Groupes autorisés à éditer le projet
+eesc.ProjectCreate.share.usersAllowedToView=Utilisateurs autorisés à visualiser le projet
+eesc.ProjectCreate.share.groupsAllowedToView=Groupes autorisés à visualiser le projet
+
+eesc.ProjectCreate.bottombuttons.create=Créer le projet
+eesc.ProjectCreate.bottombuttons.cancel=Annuler
+eesc.ProjectCreate.title=Créer un nouveau projet
+eesc.ProjectCreate.error.project.empty=Vous devez donner un nom à votre projet.
+eesc.ProjectCreate.error.project.exists=Un projet avec ce nom existe déjà.
+eesc.ProjectCreate.hint.users=Commencer à taper les premiers caractères pour afficher les utilisateurs.
+eesc.ProjectCreate.hint.groups=Commencer à taper les premiers caractères pour afficher les groupes.
+
+eesc.ProjectShare.bottombuttons.share=Partager le projet
+eesc.ProjectShare.bottombuttons.cancel=Annuler
+eesc.ProjectShare.title=Partager le projet
+eesc.ProjectShare.message=Comment souhaitez-vous partager le projet « {0} » ?
+eesc.ProjectShare.error=Votre requête est incomplète.\nVous pouvez revenir à l'[[accueil&gt;&gt;Main.WebHome]].
+eesc.ProjectShare.q1msg=Qui peut modifier le projet?
+eesc.ProjectShare.q2msg=Qui peut voir le projet?
+eesc.ProjectShare.share.all=Tous
+eesc.ProjectShare.share.some=Certains
+eesc.ProjectShare.share.nobody=Aucun
+
+eesc.CollaborativeProjectTemplate.title=Nouveau projet
+eesc.prj.tab.info.title=Projet
+eesc.prj.tab.mytasks.title=Mes tâches
+
+eesc.TaskManager.TaskManagerClass_description=Description et avancement de la tâche
+eesc.TaskManager.TaskManagerSheet.title.placeholder=Exemple: Faire ses devoirs
+eesc.ProjectsCode.ProjectsCodeClass_details=Description et avancement du projet
+EESCCode.TaskManagerMembersClass_assignees=Autres membres
+eesc.TaskManager.TaskManagerClass_assignee=Référent
   </content>
   <object>
     <name>EESCCode.Translations</name>

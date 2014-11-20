@@ -1,175 +1,195 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
 <xwikidoc version="1.1">
   <web>EESCCode</web>
   <name>ProjectsInfoSheet</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <creator>XWiki.Admin</creator>
+  <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1407314460000</creationDate>
   <parent>ProjectsCode.ProjectsCodeSheet</parent>
-  <author>XWiki.Admin</author>
-  <contentAuthor>XWiki.Admin</contentAuthor>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <date>1416169343000</date>
   <contentUpdateDate>1416169227000</contentUpdateDate>
-  <version>1.88</version>
+  <version>1.1</version>
   <title>ProjectsInfoSheet</title>
   <comment/>
-  <minorEdit>true</minorEdit>
+  <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <content>{{include reference="EESCCode.ShareMacro"/}}&#xd;
-&#xd;
-{{velocity}}&#xd;
-#set($template = $request.getParameter('template'))&#xd;
-#set($parent = $request.getParameter('parent'))&#xd;
-#set($projectname = $request.getParameter('projectname'))&#xd;
-#set($scope = $request.getParameter('scope'))&#xd;
-#if(!$scope || $scope.equals(''))&#xd;
-  #set($scope = 'all')&#xd;
-#end&#xd;
-&#xd;
-#set($eusers = $request.getParameterValues('editusers'))&#xd;
-#set($egroups = $request.getParameterValues('editgroups'))&#xd;
-#set($vusers = $request.getParameterValues('viewusers'))&#xd;
-#set($vgroups = $request.getParameterValues('viewgroups'))&#xd;
-#set($template = $request.getParameter('template'))&#xd;
-&#xd;
-#if($context.action == "view" || ($context.action == "edit" &amp;&amp; !$template) )&#xd;
-#set($project = $doc)&#xd;
-#set($shareobj = $project.getObject('EESCCode.CollaborativeProjectClass'))&#xd;
-#set($scope = $shareobj.getProperty('scope').value)&#xd;
-#set($editRights = $project.getObjects('XWiki.XWikiRights','levels','view,edit'))&#xd;
-#set($viewRights = $project.getObjects('XWiki.XWikiRights','levels','view'))&#xd;
-#set($eusers = [])&#xd;
-#set($egroups = [])&#xd;
-#set($vusers = [])&#xd;
-#set($vgroups = [])&#xd;
-#foreach($rightobj in $editRights)&#xd;
-      #set($user = $rightobj.getProperty('users').value)&#xd;
-      #set($group = $rightobj.getProperty('groups').value)&#xd;
-      #if($user &amp;&amp; !$user.equals(''))&#xd;
-        #if(!$user.equals($project.creator))&#xd;
-          #set($ok = $eusers.add($user))&#xd;
-        #end&#xd;
-      #elseif($group &amp;&amp; !$group.equals(''))&#xd;
-        #set($ok = $egroups.add($group))&#xd;
-      #end&#xd;
-#end&#xd;
-#foreach($rightobj in $viewRights)&#xd;
-      #set($user = $rightobj.getProperty('users').value)&#xd;
-      #set($group = $rightobj.getProperty('groups').value)&#xd;
-      #if($user &amp;&amp; !$user.equals(''))&#xd;
-        #if(!$user.equals($project.creator))&#xd;
-          #set($ok = $vusers.add($user))&#xd;
-        #end&#xd;
-      #elseif($group &amp;&amp; !$group.equals(''))&#xd;
-        #set($ok = $vgroups.add($group))&#xd;
-      #end&#xd;
-#end&#xd;
-#end&#xd;
-{{html wiki="true" clean="false"}}&#xd;
-#if(!$request.tab || $request.tab=="eesc-info" || $context.action=="edit")&#xd;
-(% id="pTabInfo" class="xform" %)&#xd;
-(((&#xd;
-  (% id="pInfo1" %)&#xd;
-  (((&#xd;
-    ; &lt;label for="ProjectsCode.ProjectsCodeClass_0_projectLeader">$escapetool.xml($doc.displayPrettyName('projectLeader', false, false))&lt;/label>&#xd;
-    : $doc.display('projectLeader', 'view')&#xd;
-      {{html clean="false"}}&lt;input type="hidden" name="ProjectsCode.ProjectsCodeClass_0_projectLeader" value="$!{request.getParameter('ProjectsCode.ProjectsCodeClass_0_projectLeader')}" />{{/html}}&#xd;
-  )))&#xd;
-  (% id="pInfo2" %)&#xd;
-  (((&#xd;
-    ; &lt;label for="ProjectsCode.ProjectsCodeClass_0_member_other">$escapetool.xml($doc.displayPrettyName('member_other', false, false))&lt;/label>&#xd;
-    : {{html clean="false"}}#htmlshareproject($projectname, $scope, $eusers, $egroups, $vusers, $vgroups, 'view'){{/html}}&#xd;
-  )))&#xd;
-  (% id="pInfo3"  %)&#xd;
-  (((&#xd;
-    ; &lt;label for="ProjectsCode.ProjectsCodeClass_0_details">$escapetool.xml($services.localization.render('eesc.ProjectsCode.ProjectsCodeClass_details'))&lt;/label>&#xd;
-    : $doc.display('details')&#xd;
-  )))&#xd;
-)))&#xd;
-#end&#xd;
-## Add rights objects&#xd;
-&lt;input type="hidden" id="template" name="template" value="${template}" />&#xd;
-&lt;input type="hidden" id="parent" name="parent" value="${parent}" />&#xd;
-&lt;input type="hidden" id="objectPolicy" name="objectPolicy" value="updateOrCreate" />&#xd;
-&lt;input type="hidden" id="title" name="title" value="[${doc.space}] ${doc.name}" />&#xd;
-&lt;input type="hidden" id="EESCCode.CollaborativeProjectClass_0_scope" name="EESCCode.CollaborativeProjectClass_0_scope" value="${scope}" />&#xd;
-## Creator of the document&#xd;
-&lt;input type="hidden" id="XWiki.XWikiRights_0_users" name="XWiki.XWikiRights_0_users" value="${xcontext.user}" />&#xd;
-&lt;input type="hidden" id="XWiki.XWikiRights_0_groups" name="XWiki.XWikiRights_0_groups" value="" />&#xd;
-&lt;input type="hidden" id="XWiki.XWikiRights_0_levels" name="XWiki.XWikiRights_0_levels" value="view,edit,delete,creator" />&#xd;
-&lt;input type="hidden" id="XWiki.XWikiRights_0_allow" name="XWiki.XWikiRights_0_allow" value="true" />&#xd;
-#set($objectid = 1)&#xd;
-#if($scope.equals('all'))&#xd;
-  ## Add all users with ENTAllGroup&#xd;
-  #set($prefix = "XWiki.XWikiRights_${objectid}_")&#xd;
-  &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="" />&#xd;
-  &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="XWiki.XWikiAllGroup" />&#xd;
-  &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="view,edit" />&#xd;
-  &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" />&#xd;
-  #set($objectid = $objectid + 1)&#xd;
-#end&#xd;
-&#xd;
-#if($scope.startsWith('some'))&#xd;
-  #set($rights = 'view,edit')&#xd;
-  ## Add authorized users&#xd;
-  #foreach($username in $eusers)&#xd;
-    #set($user = $xwiki.getDocument($services.model.resolveDocument($username)))&#xd;
-    #if($user.getObjectNumbers('XWiki.XWikiUsers') >= 1)&#xd;
-      #set($prefix = "XWiki.XWikiRights_${objectid}_")&#xd;
-      &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="${username}" />&#xd;
-      &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="" />&#xd;
-      &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="${rights}" />&#xd;
-      &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" />&#xd;
-      #set($objectid = $objectid + 1)&#xd;
-    #end&#xd;
-  #end&#xd;
-  ## Add authorized groups&#xd;
-  #foreach($groupname in $egroups)&#xd;
-    #set($groupref = $services.model.resolveDocument($groupname))&#xd;
-    #set($group = $xwiki.getDocument($groupref))&#xd;
-    #if($group.getObjectNumbers('XWiki.XWikiGroups') >= 1)&#xd;
-      #set($prefix = "XWiki.XWikiRights_${objectid}_")&#xd;
-      &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="" />&#xd;
-      &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="${groupname}" />&#xd;
-      &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="${rights}" />&#xd;
-      &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" />&#xd;
-      #set($objectid = $objectid + 1)&#xd;
-    #end&#xd;
-  #end&#xd;
-#end&#xd;
-&#xd;
-#if($scope.endsWith('some'))&#xd;
-  #set($rights = 'view')&#xd;
-  ## Add authorized users&#xd;
-  #foreach($username in $vusers)&#xd;
-    #set($user = $xwiki.getDocument($services.model.resolveDocument($username)))&#xd;
-    #if($user.getObjectNumbers('XWiki.XWikiUsers') >= 1)&#xd;
-      #set($prefix = "XWiki.XWikiRights_${objectid}_")&#xd;
-      &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="${username}" />&#xd;
-      &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="" />&#xd;
-      &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="${rights}" />&#xd;
-      &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" />&#xd;
-      #set($objectid = $objectid + 1)&#xd;
-    #end&#xd;
-  #end&#xd;
-  ## Add authorized groups&#xd;
-  #foreach($groupname in $vgroups)&#xd;
-    #set($groupref = $services.model.resolveDocument($groupname))&#xd;
-    #set($group = $xwiki.getDocument($groupref))&#xd;
-    #if($group.getObjectNumbers('XWiki.XWikiGroups') >= 1)&#xd;
-      #set($prefix = "XWiki.XWikiRights_${objectid}_")&#xd;
-      &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="" />&#xd;
-      &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="${groupname}" />&#xd;
-      &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="${rights}" />&#xd;
-      &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" />&#xd;
-      #set($objectid = $objectid + 1)&#xd;
-    #end&#xd;
-  #end&#xd;
-#end&#xd;
-{{/html}}&#xd;
+  <content>{{include reference="EESCCode.ShareMacro"/}}
+
+{{velocity}}
+#set($template = $request.getParameter('template'))
+#set($parent = $request.getParameter('parent'))
+#set($projectname = $request.getParameter('projectname'))
+#set($scope = $request.getParameter('scope'))
+#if(!$scope || $scope.equals(''))
+  #set($scope = 'all')
+#end
+
+#set($eusers = $request.getParameterValues('editusers'))
+#set($egroups = $request.getParameterValues('editgroups'))
+#set($vusers = $request.getParameterValues('viewusers'))
+#set($vgroups = $request.getParameterValues('viewgroups'))
+#set($template = $request.getParameter('template'))
+
+#if($context.action == "view" || ($context.action == "edit" &amp;&amp; !$template) )
+#set($project = $doc)
+#set($shareobj = $project.getObject('EESCCode.CollaborativeProjectClass'))
+#set($scope = $shareobj.getProperty('scope').value)
+#set($editRights = $project.getObjects('XWiki.XWikiRights','levels','view,edit'))
+#set($viewRights = $project.getObjects('XWiki.XWikiRights','levels','view'))
+#set($eusers = [])
+#set($egroups = [])
+#set($vusers = [])
+#set($vgroups = [])
+#foreach($rightobj in $editRights)
+      #set($user = $rightobj.getProperty('users').value)
+      #set($group = $rightobj.getProperty('groups').value)
+      #if($user &amp;&amp; !$user.equals(''))
+        #if(!$user.equals($project.creator))
+          #set($ok = $eusers.add($user))
+        #end
+      #elseif($group &amp;&amp; !$group.equals(''))
+        #set($ok = $egroups.add($group))
+      #end
+#end
+#foreach($rightobj in $viewRights)
+      #set($user = $rightobj.getProperty('users').value)
+      #set($group = $rightobj.getProperty('groups').value)
+      #if($user &amp;&amp; !$user.equals(''))
+        #if(!$user.equals($project.creator))
+          #set($ok = $vusers.add($user))
+        #end
+      #elseif($group &amp;&amp; !$group.equals(''))
+        #set($ok = $vgroups.add($group))
+      #end
+#end
+#end
+{{html wiki="true" clean="false"}}
+#if(!$request.tab || $request.tab=="eesc-info" || $context.action=="edit")
+(% id="pTabInfo" class="xform" %)
+(((
+  (% id="pInfo1" %)
+  (((
+    ; &lt;label for="ProjectsCode.ProjectsCodeClass_0_projectLeader"&gt;$escapetool.xml($doc.displayPrettyName('projectLeader', false, false))&lt;/label&gt;
+    : $doc.display('projectLeader', 'view')
+      {{html clean="false"}}&lt;input type="hidden" name="ProjectsCode.ProjectsCodeClass_0_projectLeader" value="$!{request.getParameter('ProjectsCode.ProjectsCodeClass_0_projectLeader')}" /&gt;{{/html}}
+  )))
+  (% id="pInfo2" %)
+  (((
+    ; &lt;label for="ProjectsCode.ProjectsCodeClass_0_member_other"&gt;$escapetool.xml($doc.displayPrettyName('member_other', false, false))&lt;/label&gt;
+    : {{html clean="false"}}#htmlshareproject($projectname, $scope, $eusers, $egroups, $vusers, $vgroups, 'view'){{/html}}
+  )))
+  (% id="pInfo3"  %)
+  (((
+    ; &lt;label for="ProjectsCode.ProjectsCodeClass_0_details"&gt;$escapetool.xml($services.localization.render('eesc.ProjectsCode.ProjectsCodeClass_details'))&lt;/label&gt;
+    : $doc.display('details')
+  )))
+)))
+#end
+## Add rights objects
+&lt;input type="hidden" id="template" name="template" value="${template}" /&gt;
+&lt;input type="hidden" id="parent" name="parent" value="${parent}" /&gt;
+&lt;input type="hidden" id="objectPolicy" name="objectPolicy" value="updateOrCreate" /&gt;
+&lt;input type="hidden" id="title" name="title" value="[${doc.space}] ${doc.name}" /&gt;
+&lt;input type="hidden" id="EESCCode.CollaborativeProjectClass_0_scope" name="EESCCode.CollaborativeProjectClass_0_scope" value="${scope}" /&gt;
+## Creator of the document
+&lt;input type="hidden" id="XWiki.XWikiRights_0_users" name="XWiki.XWikiRights_0_users" value="${xcontext.user}" /&gt;
+&lt;input type="hidden" id="XWiki.XWikiRights_0_groups" name="XWiki.XWikiRights_0_groups" value="" /&gt;
+&lt;input type="hidden" id="XWiki.XWikiRights_0_levels" name="XWiki.XWikiRights_0_levels" value="view,edit,delete,creator" /&gt;
+&lt;input type="hidden" id="XWiki.XWikiRights_0_allow" name="XWiki.XWikiRights_0_allow" value="true" /&gt;
+#set($objectid = 1)
+#if($scope.equals('all'))
+  ## Add all users with ENTAllGroup
+  #set($prefix = "XWiki.XWikiRights_${objectid}_")
+  &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="" /&gt;
+  &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="XWiki.XWikiAllGroup" /&gt;
+  &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="view,edit" /&gt;
+  &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" /&gt;
+  #set($objectid = $objectid + 1)
+#end
+
+#if($scope.startsWith('some'))
+  #set($rights = 'view,edit')
+  ## Add authorized users
+  #foreach($username in $eusers)
+    #set($user = $xwiki.getDocument($services.model.resolveDocument($username)))
+    #if($user.getObjectNumbers('XWiki.XWikiUsers') &gt;= 1)
+      #set($prefix = "XWiki.XWikiRights_${objectid}_")
+      &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="${username}" /&gt;
+      &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="" /&gt;
+      &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="${rights}" /&gt;
+      &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" /&gt;
+      #set($objectid = $objectid + 1)
+    #end
+  #end
+  ## Add authorized groups
+  #foreach($groupname in $egroups)
+    #set($groupref = $services.model.resolveDocument($groupname))
+    #set($group = $xwiki.getDocument($groupref))
+    #if($group.getObjectNumbers('XWiki.XWikiGroups') &gt;= 1)
+      #set($prefix = "XWiki.XWikiRights_${objectid}_")
+      &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="" /&gt;
+      &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="${groupname}" /&gt;
+      &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="${rights}" /&gt;
+      &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" /&gt;
+      #set($objectid = $objectid + 1)
+    #end
+  #end
+#end
+
+#if($scope.endsWith('some'))
+  #set($rights = 'view')
+  ## Add authorized users
+  #foreach($username in $vusers)
+    #set($user = $xwiki.getDocument($services.model.resolveDocument($username)))
+    #if($user.getObjectNumbers('XWiki.XWikiUsers') &gt;= 1)
+      #set($prefix = "XWiki.XWikiRights_${objectid}_")
+      &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="${username}" /&gt;
+      &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="" /&gt;
+      &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="${rights}" /&gt;
+      &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" /&gt;
+      #set($objectid = $objectid + 1)
+    #end
+  #end
+  ## Add authorized groups
+  #foreach($groupname in $vgroups)
+    #set($groupref = $services.model.resolveDocument($groupname))
+    #set($group = $xwiki.getDocument($groupref))
+    #if($group.getObjectNumbers('XWiki.XWikiGroups') &gt;= 1)
+      #set($prefix = "XWiki.XWikiRights_${objectid}_")
+      &lt;input type="hidden" id="${prefix}users" name="${prefix}users" value="" /&gt;
+      &lt;input type="hidden" id="${prefix}groups" name="${prefix}groups" value="${groupname}" /&gt;
+      &lt;input type="hidden" id="${prefix}levels" name="${prefix}levels" value="${rights}" /&gt;
+      &lt;input type="hidden" id="${prefix}allow" name="${prefix}allow" value="true" /&gt;
+      #set($objectid = $objectid + 1)
+    #end
+  #end
+#end
+{{/html}}
 {{/velocity}}</content>
   <object>
     <name>EESCCode.ProjectsInfoSheet</name>

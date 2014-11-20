@@ -1,328 +1,348 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
 <xwikidoc version="1.1">
   <web>EESCCode</web>
   <name>TaskManagerSheet</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <creator>XWiki.Admin</creator>
+  <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1405584390000</creationDate>
   <parent>TaskManagerClass</parent>
-  <author>XWiki.Admin</author>
-  <contentAuthor>XWiki.Admin</contentAuthor>
-  <date>1416409402000</date>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1416482860000</date>
   <contentUpdateDate>1416325455000</contentUpdateDate>
-  <version>4.83</version>
+  <version>1.1</version>
   <title>$xwiki.getDocument($doc).getObject('TaskManager.TaskManagerClass').getProperty('name').value</title>
   <comment/>
-  <minorEdit>true</minorEdit>
+  <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
-  <content>{{velocity}}&#xd;
-#set($discard = $xwiki.jsx.use('EESCCode.TaskManagerSheet'))&#xd;
-#if(!$isGuest)&#xd;
-  {{html wiki="true"}}&#xd;
-    #set ($discard = $doc.use('TaskManager.TaskManagerClass'))&#xd;
-    #set ($discard = $services.localization.use('document', 'TaskManager.TaskManagerTranslations'))&#xd;
-    #if($xcontext.action =='view')&#xd;
-      (% class="xform" %)&#xd;
-      (((&#xd;
-        (% class="row" %)&#xd;
-        (((&#xd;
-          (% class="col-xs-12 col-md-6 col-lg-3 text-left" %)&#xd;
-          (((&#xd;
-            (% class="col-xs-12 text-right" %)&#xd;
-            (((&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-                ; &lt;label for="TaskManager.TaskManagerClass_0_project">&#xd;
-                    $services.icon.render('folder')&#xd;
-                    $escapetool.xml($doc.displayPrettyName('project', false, false))&#xd;
-                  &lt;/label>&#xd;
-                : ${xwiki.getDocument($doc.get('project')).getObject("ProjectsCode.ProjectsCodeClass").get('title1')}&#xd;
-              )))&#xd;
-            )))&#xd;
-            (% class="col-xs-12 text-right" %)&#xd;
-            (((&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-                ; &lt;label for="TaskManager.TaskManagerClass_0_creationdate">&#xd;
-                  $services.icon.render('calendar')&#xd;
-                  $services.localization.render('TaskManager.TaskManagerClass_creationdate')&#xd;
-                  &lt;/label>&#xd;
-                : $xwiki.formatDate($doc.creationDate,'dd/MM/yyyy HH:mm:ss')&#xd;
-              )))&#xd;
-            )))&#xd;
-            (% class="col-xs-12 text-right" %)&#xd;
-            (((&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-                ; &lt;label for="TaskManager.TaskManagerClass_0_duedate">&#xd;
-                  $services.icon.render('time')&#xd;
-                  $escapetool.xml($doc.displayPrettyName('duedate', false, false))&#xd;
-                  &lt;/label>&#xd;
-                : $doc.display('duedate')&#xd;
-              )))&#xd;
-            )))&#xd;
-          )))&#xd;
-          (% class="col-xs-12 col-md-6 col-lg-3 text-right" %)&#xd;
-          (((&#xd;
-            (% class="col-xs-12 text-left" %)&#xd;
-            (((&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-                ; &lt;label for="TaskManager.TaskManagerClass_0_reporter">&#xd;
-                    $services.icon.render('user')&#xd;
-                    $escapetool.xml($doc.displayPrettyName('reporter', false, false))&#xd;
-                  &lt;/label>&#xd;
-                : $doc.display('reporter')&#xd;
-              )))&#xd;
-            )))&#xd;
-            (% class="col-xs-12 text-left" %)&#xd;
-            (((&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-                ; &lt;label for="TaskManager.TaskManagerClass_0_assignee">&#xd;
-                    $services.icon.render('user')&#xd;
-                    $escapetool.xml($services.localization.render('eesc.TaskManager.TaskManagerClass_assignee'))&#xd;
-                  &lt;/label>&#xd;
-                : $doc.display('assignee')&#xd;
-              )))&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-                #set($membersObj = $doc.getObject('EESCCode.TaskManagerMembersClass', false))&#xd;
-                ; &lt;label for="EESCCode.TaskManagerMembersClass_0_assignees">&#xd;
-                    $services.icon.render('group')&#xd;
-                    $escapetool.xml($services.localization.render('EESCCode.TaskManagerMembersClass_assignees'))&#xd;
-                  &lt;/label>&#xd;
-                : $membersObj.get('assignees')&#xd;
-              )))&#xd;
-            )))&#xd;
-            (% class="col-xs-12 text-left" %)&#xd;
-            (((&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-                ; &lt;label for="TaskManager.TaskManagerClass_0_status">&#xd;
-                    $services.icon.render('accept')&#xd;
-                    $escapetool.xml($doc.displayPrettyName('status', false, false))&#xd;
-                  &lt;/label>&#xd;
-                : $doc.display('status')&#xd;
-              )))&#xd;
-            )))&#xd;
-            (% class="col-xs-12 text-left" %)&#xd;
-            (((&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-                ; &lt;label for="TaskManager.TaskManagerClass_0_progress">&#xd;
-                    $services.icon.render('contrast')&#xd;
-                    $escapetool.xml($doc.displayPrettyName('progress', false, false))&#xd;
-                  &lt;/label>&#xd;
-                : $doc.display('progress')&#xd;
-              )))&#xd;
-            )))&#xd;
-          )))&#xd;
-          (% class="col-xs-12 col-md-6 col-lg-6" %)&#xd;
-          (((&#xd;
-            (% class="col-xs-12" %)&#xd;
-            (((&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-                ; &lt;label for="TaskManager.TaskManagerClass_0_description">&#xd;
-                    ${services.localization.render('eesc.TaskManager.TaskManagerClass_description')}&#xd;
-                  &lt;/label>&#xd;
-                : $doc.display('description')&#xd;
-              )))&#xd;
-            )))&#xd;
-            (% class="col-xs-12" %)&#xd;
-            (((&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-                ; &lt;label for="TaskManager.TaskManagerClass_0_dependencies">&#xd;
-                    $escapetool.xml($doc.displayPrettyName('dependencies', false, false))&#xd;
-                  &lt;/label>&#xd;
-                : $doc.display('dependencies')&#xd;
-              )))&#xd;
-            )))&#xd;
-          )))&#xd;
-        )))&#xd;
-      )))&#xd;
-    #end&#xd;
-    #if($xcontext.action =='edit')&#xd;
-      (% class="xform" %)&#xd;
-      (((&#xd;
-        (% class="row" %)&#xd;
-        (((&#xd;
-          (% class="col-xs-12 col-md-6 col-lg-8" %)&#xd;
-          (((&#xd;
-            (% class="form-group" %)&#xd;
-            (((&#xd;
-              ; &lt;label for="TaskManager.TaskManagerClass_0_name">&#xd;
-                  $escapetool.xml($doc.displayPrettyName('name', false, false))&#xd;
-                &lt;/label>&#xd;
-                #set($taskName = $xwiki.getDocument($doc).getObject('TaskManager.TaskManagerClass').getProperty('name').value)&#xd;
-                #if($taskName)&#xd;
-              :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager_TaskManagerClass_0_name" value="$taskName"/>&#xd;
-                #else&#xd;
-              :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager_TaskManagerClass_0_name" value="" placeholder="${services.localization.render('eesc.TaskManager.TaskManagerSheet.title.placeholder')}"/>&#xd;
-                #end&#xd;
-                #if($doc.isNew())&#xd;
-                #set($query = "select max(taskObject.number) from Document doc, doc.object(TaskManager.TaskManagerClass) as taskObject")&#xd;
-                #set($result = $services.query.xwql($query).execute())&#xd;
-                #if (($result.get(0)) &amp;&amp; ("$!result.get(0)" != "")) &#xd;
-                  #set($index = $result.get(0))&#xd;
-                #else&#xd;
-                  #set($index = 0)&#xd;
-                #end&#xd;
-                #set($number = $mathtool.add($index,1))&#xd;
-                &lt;input type="hidden" name="TaskManager.TaskManagerClass_0_number" value="$number"/>&#xd;
-                #end&#xd;
-              )))&#xd;
-            )))&#xd;
-            (% class="col-xs-12 col-md-6 col-lg-4" %)&#xd;
-            (((&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-              ; &lt;label for="TaskManager.TaskManagerClass_0_project">&#xd;
-                  $services.icon.render('folder')&#xd;
-                  $escapetool.xml($doc.displayPrettyName('project', false, false))&#xd;
-                &lt;/label>&#xd;
-              : &lt;select class="form-control" id="TaskManager.TaskManagerClass_0_project" name="TaskManager.TaskManagerClass_0_project" size="1">&#xd;
-                  ## Replace the default workflow of TaskManager by using 'ProjectsCode.ProjectsCodeClass' instead of 'TaskManager.ProjectClass'&#xd;
-                  #set($query = "SELECT DISTINCT doc.fullName, doc.title FROM XWikiDocument AS doc, BaseObject AS task WHERE doc.fullName = task.name AND task.className = 'ProjectsCode.ProjectsCodeClass' AND doc.fullName NOT LIKE '%Template'")&#xd;
-                  #set($results = $services.query.hql($query).execute())&#xd;
-                  #set($selectedproject = $services.model.resolveDocument($request.getParameter('TaskManager.TaskManagerClass_0_project')))&#xd;
-                  #foreach($task in $results)&#xd;
-                    #set($docref = $services.model.resolveDocument($task.get(0)))&#xd;
-                    #set($title = $task.get(1))&#xd;
-                    #if($title.isEmpty())&#xd;
-                      #set($title = $docref.getName())&#xd;
-                    #end&#xd;
-                    #set($selected = '')&#xd;
-                    #if($docref == $selectedproject)&#xd;
-                      #set($selected = 'selected')&#xd;
-                    #end&#xd;
-                    &lt;option label="${title}" value="${docref}" ${selected}>${title}&lt;/option>&#xd;
-                  #end&#xd;
-                &lt;/select>&#xd;
-              )))&#xd;
-            )))&#xd;
-          )))&#xd;
-          (% class="row" %)&#xd;
-          (((&#xd;
-            (% class="col-xs-12 col-md-6 col-lg-8" %)&#xd;
-            (((&#xd;
-              (% class="row" %)&#xd;
-              (((&#xd;
-                (% class="col-xs-12 col-lg-6" %)&#xd;
-                (((&#xd;
-                  (% class="form-group" %)&#xd;
-                  (((&#xd;
-                    ; &lt;label for="TaskManager.TaskManagerClass_0_creationdate">&#xd;
-                        $services.icon.render('calendar')&#xd;
-                        $services.localization.render('TaskManager.TaskManagerClass_creationdate')&#xd;
-                      &lt;/label>&#xd;
-                    : $xwiki.formatDate($doc.creationDate,'dd/MM/yyyy HH:mm:ss')&#xd;
-                  )))&#xd;
-                )))&#xd;
-                (% class="col-xs-12 col-lg-6" %)&#xd;
-                (((&#xd;
-                  (% class="form-group" %)&#xd;
-                  (((&#xd;
-                    ; &lt;label for="TaskManager.TaskManagerClass_0_duedate">&#xd;
-                        $services.icon.render('time')&#xd;
-                        $escapetool.xml($doc.displayPrettyName('duedate', false, false))&#xd;
-                      &lt;/label>&#xd;
-                    : $doc.display('duedate')&#xd;
-                  )))&#xd;
-                )))&#xd;
-              )))&#xd;
-              (% class="row" %)&#xd;
-              (((&#xd;
-                (% class="col-xs-12 col-lg-6" %)&#xd;
-                (((&#xd;
-                  (% class="form-group" %)&#xd;
-                  (((&#xd;
-                    ; &lt;label for="TaskManager.TaskManagerClass_0_reporter">&#xd;
-                        $services.icon.render('user')&#xd;
-                        $escapetool.xml($doc.displayPrettyName('reporter', false, false))&#xd;
-                      &lt;/label>&#xd;
-                    : $doc.display('reporter', 'view')&#xd;
-                  )))&#xd;
-                )))&#xd;
-                (% class="col-xs-12 col-lg-6" %)&#xd;
-                (((&#xd;
-                  (% class="form-group" %)&#xd;
-                  (((&#xd;
-                    ; &lt;label for="TaskManager.TaskManagerClass_0_assignee">&#xd;
-                        $services.icon.render('user')&#xd;
-                        $escapetool.xml($services.localization.render('eesc.TaskManager.TaskManagerClass_assignee'))&#xd;
-                      &lt;/label>&#xd;
-                    : $doc.display('assignee')&#xd;
-                  )))&#xd;
-                  (% class="form-group" %)&#xd;
-                  (((&#xd;
-                    #set($membersObj = $doc.getObject('EESCCode.TaskManagerMembersClass', false))&#xd;
-                    ; &lt;label for="EESCCode.TaskManagerMembersClass_0_assignees">&#xd;
-                        $services.icon.render('group')&#xd;
-                        $escapetool.xml($services.localization.render('EESCCode.TaskManagerMembersClass_assignees'))&#xd;
-                      &lt;/label>&#xd;
-                    : $membersObj.get('assignees')&#xd;
-                  )))&#xd;
-                )))&#xd;
-              )))&#xd;
-            )))&#xd;
-            (% class="col-xs-12 col-md-6 col-lg-4" %)&#xd;
-            (((&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-                ; &lt;label for="TaskManager.TaskManagerClass_0_status">&#xd;
-                    $services.icon.render('accept')&#xd;
-                    $escapetool.xml($doc.displayPrettyName('status', false, false))&#xd;
-                  &lt;/label>&#xd;
-                : $doc.display('status')&#xd;
-              )))&#xd;
-              (% class="form-group" %)&#xd;
-              (((&#xd;
-                ; &lt;label for="TaskManager.TaskManagerClass_0_progress">&#xd;
-                    $services.icon.render('contrast')&#xd;
-                    $escapetool.xml($doc.displayPrettyName('progress', false, false))&#xd;
-                  &lt;/label>&#xd;
-                : $doc.display('progress')&#xd;
-              )))&#xd;
-            )))&#xd;
-          )))&#xd;
-          (% class="row" %)&#xd;
-          (((&#xd;
-            (% class="col-xs-12" %)&#xd;
-            (((&#xd;
-              ; &lt;label for="TaskManager.TaskManagerClass_0_description">&#xd;
-                  ${services.localization.render('eesc.TaskManager.TaskManagerClass_description')}&#xd;
-                &lt;/label>&#xd;
-              : $doc.display('description')&#xd;
-            )))&#xd;
-          )))&#xd;
-          (% class="row" %)&#xd;
-          (((&#xd;
-            (% class="col-xs-12" %)&#xd;
-            (((&#xd;
-              ; &lt;label for="TaskManager.TaskManagerClass_0_dependencies">&#xd;
-                  $escapetool.xml($doc.displayPrettyName('dependencies', false, false))&#xd;
-                &lt;/label>&#xd;
-              : $doc.display('dependencies')&#xd;
-            )))&#xd;
-          )))&#xd;
-        )))&#xd;
-      #end&#xd;
-     #**&#xd;
-     * Setting rights on the task&#xd;
-     *#&#xd;
-     #if($xcontext.action =='edit')&#xd;
-       &lt;input type="hidden" name="taskDocRef" value="$doc.getDocumentReference()"/>&#xd;
-     #end&#xd;
-    {{/html}}&#xd;
-  #else&#xd;
-    {{info}}You have to be logged in in order to view this page{{/info}}&#xd;
-  #end&#xd;
+  <content>{{velocity}}
+#set($discard = $xwiki.jsx.use('EESCCode.TaskManagerSheet'))
+#if(!$isGuest)
+  {{html wiki="true"}}
+    #set ($discard = $doc.use('TaskManager.TaskManagerClass'))
+    #set ($discard = $services.localization.use('document', 'TaskManager.TaskManagerTranslations'))
+    #if($xcontext.action =='view')
+      (% class="xform" %)
+      (((
+        (% class="row" %)
+        (((
+          (% class="col-xs-12 col-md-6 col-lg-3 text-left" %)
+          (((
+            (% class="col-xs-12 text-right" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_project"&gt;
+                    $services.icon.render('folder')
+                    $escapetool.xml($doc.displayPrettyName('project', false, false))
+                  &lt;/label&gt;
+                : ${xwiki.getDocument($doc.get('project')).getObject("ProjectsCode.ProjectsCodeClass").get('title1')}
+              )))
+            )))
+            (% class="col-xs-12 text-right" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_creationdate"&gt;
+                  $services.icon.render('calendar')
+                  $services.localization.render('TaskManager.TaskManagerClass_creationdate')
+                  &lt;/label&gt;
+                : $xwiki.formatDate($doc.creationDate,'dd/MM/yyyy HH:mm:ss')
+              )))
+            )))
+            (% class="col-xs-12 text-right" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_duedate"&gt;
+                  $services.icon.render('time')
+                  $escapetool.xml($doc.displayPrettyName('duedate', false, false))
+                  &lt;/label&gt;
+                : $doc.display('duedate')
+              )))
+            )))
+          )))
+          (% class="col-xs-12 col-md-6 col-lg-3 text-right" %)
+          (((
+            (% class="col-xs-12 text-left" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_reporter"&gt;
+                    $services.icon.render('user')
+                    $escapetool.xml($doc.displayPrettyName('reporter', false, false))
+                  &lt;/label&gt;
+                : $doc.display('reporter')
+              )))
+            )))
+            (% class="col-xs-12 text-left" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_assignee"&gt;
+                    $services.icon.render('user')
+                    $escapetool.xml($services.localization.render('eesc.TaskManager.TaskManagerClass_assignee'))
+                  &lt;/label&gt;
+                : $doc.display('assignee')
+              )))
+              (% class="form-group" %)
+              (((
+                #set($membersObj = $doc.getObject('EESCCode.TaskManagerMembersClass', false))
+                ; &lt;label for="EESCCode.TaskManagerMembersClass_0_assignees"&gt;
+                    $services.icon.render('group')
+                    $escapetool.xml($services.localization.render('EESCCode.TaskManagerMembersClass_assignees'))
+                  &lt;/label&gt;
+                : $membersObj.get('assignees')
+              )))
+            )))
+            (% class="col-xs-12 text-left" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_status"&gt;
+                    $services.icon.render('accept')
+                    $escapetool.xml($doc.displayPrettyName('status', false, false))
+                  &lt;/label&gt;
+                : $doc.display('status')
+              )))
+            )))
+            (% class="col-xs-12 text-left" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_progress"&gt;
+                    $services.icon.render('contrast')
+                    $escapetool.xml($doc.displayPrettyName('progress', false, false))
+                  &lt;/label&gt;
+                : $doc.display('progress')
+              )))
+            )))
+          )))
+          (% class="col-xs-12 col-md-6 col-lg-6" %)
+          (((
+            (% class="col-xs-12" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_description"&gt;
+                    ${services.localization.render('eesc.TaskManager.TaskManagerClass_description')}
+                  &lt;/label&gt;
+                : $doc.display('description')
+              )))
+            )))
+            (% class="col-xs-12" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_dependencies"&gt;
+                    $escapetool.xml($doc.displayPrettyName('dependencies', false, false))
+                  &lt;/label&gt;
+                : $doc.display('dependencies')
+              )))
+            )))
+          )))
+        )))
+      )))
+    #end
+    #if($xcontext.action =='edit')
+      (% class="xform" %)
+      (((
+        (% class="row" %)
+        (((
+          (% class="col-xs-12 col-md-6 col-lg-8" %)
+          (((
+            (% class="form-group" %)
+            (((
+              ; &lt;label for="TaskManager.TaskManagerClass_0_name"&gt;
+                  $escapetool.xml($doc.displayPrettyName('name', false, false))
+                &lt;/label&gt;
+                #set($taskName = $xwiki.getDocument($doc).getObject('TaskManager.TaskManagerClass').getProperty('name').value)
+                #if($taskName)
+              :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager_TaskManagerClass_0_name" value="$taskName"/&gt;
+                #else
+              :   &lt;input class="form-control" type="input" name="TaskManager.TaskManagerClass_0_name" id="TaskManager_TaskManagerClass_0_name" value="" placeholder="${services.localization.render('eesc.TaskManager.TaskManagerSheet.title.placeholder')}"/&gt;
+                #end
+                #if($doc.isNew())
+                #set($query = "select max(taskObject.number) from Document doc, doc.object(TaskManager.TaskManagerClass) as taskObject")
+                #set($result = $services.query.xwql($query).execute())
+                #if (($result.get(0)) &amp;&amp; ("$!result.get(0)" != "")) 
+                  #set($index = $result.get(0))
+                #else
+                  #set($index = 0)
+                #end
+                #set($number = $mathtool.add($index,1))
+                &lt;input type="hidden" name="TaskManager.TaskManagerClass_0_number" value="$number"/&gt;
+                #end
+              )))
+            )))
+            (% class="col-xs-12 col-md-6 col-lg-4" %)
+            (((
+              (% class="form-group" %)
+              (((
+              ; &lt;label for="TaskManager.TaskManagerClass_0_project"&gt;
+                  $services.icon.render('folder')
+                  $escapetool.xml($doc.displayPrettyName('project', false, false))
+                &lt;/label&gt;
+              : &lt;select class="form-control" id="TaskManager.TaskManagerClass_0_project" name="TaskManager.TaskManagerClass_0_project" size="1"&gt;
+                  ## Replace the default workflow of TaskManager by using 'ProjectsCode.ProjectsCodeClass' instead of 'TaskManager.ProjectClass'
+                  #set($query = "SELECT DISTINCT doc.fullName, doc.title FROM XWikiDocument AS doc, BaseObject AS task WHERE doc.fullName = task.name AND task.className = 'ProjectsCode.ProjectsCodeClass' AND doc.fullName NOT LIKE '%Template'")
+                  #set($results = $services.query.hql($query).execute())
+                  #set($selectedproject = $services.model.resolveDocument($request.getParameter('TaskManager.TaskManagerClass_0_project')))
+                  #foreach($task in $results)
+                    #set($docref = $services.model.resolveDocument($task.get(0)))
+                    #set($title = $task.get(1))
+                    #if($title.isEmpty())
+                      #set($title = $docref.getName())
+                    #end
+                    #set($selected = '')
+                    #if($docref == $selectedproject)
+                      #set($selected = 'selected')
+                    #end
+                    &lt;option label="${title}" value="${docref}" ${selected}&gt;${title}&lt;/option&gt;
+                  #end
+                &lt;/select&gt;
+              )))
+            )))
+          )))
+          (% class="row" %)
+          (((
+            (% class="col-xs-12 col-md-6 col-lg-8" %)
+            (((
+              (% class="row" %)
+              (((
+                (% class="col-xs-12 col-lg-6" %)
+                (((
+                  (% class="form-group" %)
+                  (((
+                    ; &lt;label for="TaskManager.TaskManagerClass_0_creationdate"&gt;
+                        $services.icon.render('calendar')
+                        $services.localization.render('TaskManager.TaskManagerClass_creationdate')
+                      &lt;/label&gt;
+                    : $xwiki.formatDate($doc.creationDate,'dd/MM/yyyy HH:mm:ss')
+                  )))
+                )))
+                (% class="col-xs-12 col-lg-6" %)
+                (((
+                  (% class="form-group" %)
+                  (((
+                    ; &lt;label for="TaskManager.TaskManagerClass_0_duedate"&gt;
+                        $services.icon.render('time')
+                        $escapetool.xml($doc.displayPrettyName('duedate', false, false))
+                      &lt;/label&gt;
+                    : $doc.display('duedate')
+                  )))
+                )))
+              )))
+              (% class="row" %)
+              (((
+                (% class="col-xs-12 col-lg-6" %)
+                (((
+                  (% class="form-group" %)
+                  (((
+                    ; &lt;label for="TaskManager.TaskManagerClass_0_reporter"&gt;
+                        $services.icon.render('user')
+                        $escapetool.xml($doc.displayPrettyName('reporter', false, false))
+                      &lt;/label&gt;
+                    : $doc.display('reporter', 'view')
+                  )))
+                )))
+                (% class="col-xs-12 col-lg-6" %)
+                (((
+                  (% class="form-group" %)
+                  (((
+                    ; &lt;label for="TaskManager.TaskManagerClass_0_assignee"&gt;
+                        $services.icon.render('user')
+                        $escapetool.xml($services.localization.render('eesc.TaskManager.TaskManagerClass_assignee'))
+                      &lt;/label&gt;
+                    : $doc.display('assignee')
+                  )))
+                  (% class="form-group" %)
+                  (((
+                    #set($membersObj = $doc.getObject('EESCCode.TaskManagerMembersClass', false))
+                    ; &lt;label for="EESCCode.TaskManagerMembersClass_0_assignees"&gt;
+                        $services.icon.render('group')
+                        $escapetool.xml($services.localization.render('EESCCode.TaskManagerMembersClass_assignees'))
+                      &lt;/label&gt;
+                    : $membersObj.get('assignees')
+                  )))
+                )))
+              )))
+            )))
+            (% class="col-xs-12 col-md-6 col-lg-4" %)
+            (((
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_status"&gt;
+                    $services.icon.render('accept')
+                    $escapetool.xml($doc.displayPrettyName('status', false, false))
+                  &lt;/label&gt;
+                : $doc.display('status')
+              )))
+              (% class="form-group" %)
+              (((
+                ; &lt;label for="TaskManager.TaskManagerClass_0_progress"&gt;
+                    $services.icon.render('contrast')
+                    $escapetool.xml($doc.displayPrettyName('progress', false, false))
+                  &lt;/label&gt;
+                : $doc.display('progress')
+              )))
+            )))
+          )))
+          (% class="row" %)
+          (((
+            (% class="col-xs-12" %)
+            (((
+              ; &lt;label for="TaskManager.TaskManagerClass_0_description"&gt;
+                  ${services.localization.render('eesc.TaskManager.TaskManagerClass_description')}
+                &lt;/label&gt;
+              : $doc.display('description')
+            )))
+          )))
+          (% class="row" %)
+          (((
+            (% class="col-xs-12" %)
+            (((
+              ; &lt;label for="TaskManager.TaskManagerClass_0_dependencies"&gt;
+                  $escapetool.xml($doc.displayPrettyName('dependencies', false, false))
+                &lt;/label&gt;
+              : $doc.display('dependencies')
+            )))
+          )))
+        )))
+      #end
+     #**
+     * Setting rights on the task
+     *#
+     #if($xcontext.action =='edit')
+       &lt;input type="hidden" name="taskDocRef" value="$doc.getDocumentReference()"/&gt;
+     #end
+    {{/html}}
+  #else
+    {{info}}You have to be logged in in order to view this page{{/info}}
+  #end
 {{/velocity}}</content>
   <object>
     <name>EESCCode.TaskManagerSheet</name>
@@ -404,25 +424,25 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>require(["jquery"], function($) {&#xd;
-  document.observe('xwiki:wysiwyg:loaded', function(event) {&#xd;
-    var inputTitle = $('#TaskManager_TaskManagerClass_0_name');&#xd;
-    var inputVal = inputTitle.val();&#xd;
-    if(inputVal == '') {&#xd;
-      inputVal = "${services.localization.render('eesc.template.eescheader.create.task')}";&#xd;
-    }&#xd;
-    $('#document-title h1').text(inputVal);&#xd;
-    $('#hierarchy li:last-child a').text(inputVal);&#xd;
-    inputTitle.keyup(function(event) {&#xd;
-      var inputVal = inputTitle.val();&#xd;
-      if(inputVal == '') {&#xd;
-        inputVal = "${services.localization.render('eesc.template.eescheader.create.task')}";&#xd;
-      }&#xd;
-      $('#document-title h1').text(inputVal);&#xd;
-      $('#hierarchy li:last-child a').text(inputVal);&#xd;
-    });&#xd;
-  });&#xd;
-});&#xd;
+      <code>require(["jquery"], function($) {
+  document.observe('xwiki:wysiwyg:loaded', function(event) {
+    var inputTitle = $('#TaskManager_TaskManagerClass_0_name');
+    var inputVal = inputTitle.val();
+    if(inputVal == '') {
+      inputVal = "${services.localization.render('eesc.template.eescheader.create.task')}";
+    }
+    $('#document-title h1').text(inputVal);
+    $('#hierarchy li:last-child a').text(inputVal);
+    inputTitle.keyup(function(event) {
+      var inputVal = inputTitle.val();
+      if(inputVal == '') {
+        inputVal = "${services.localization.render('eesc.template.eescheader.create.task')}";
+      }
+      $('#document-title h1').text(inputVal);
+      $('#hierarchy li:last-child a').text(inputVal);
+    });
+  });
+});
 </code>
     </property>
     <property>
@@ -515,48 +535,53 @@
       <cache>long</cache>
     </property>
     <property>
-      <code>require(['jquery'], function ($) {&#xd;
-   $(document).ready(function(){&#xd;
-      $("input[type='submit'][name='action_save']").click(function(event){&#xd;
-         event.preventDefault();&#xd;
-         $("input[type='submit'][name='action_saveandcontinue']").click();&#xd;
-         $(this).unbind("click");&#xd;
-         $(this).click();&#xd;
-      });&#xd;
-   });&#xd;
-});&#xd;
-document.observe("xwiki:actions:save", function(event){&#xd;
-  var doContinue = event.memo['continue'];&#xd;
-  if (doContinue) {&#xd;
-    require(['jquery'], function ($) {&#xd;
-        // Send ajax request to save rights on the task document&#xd;
-        var form = event.memo.form;&#xd;
-        var taskManager = $("input[type='hidden'][name^='TaskManager.TaskManagerClass']",$(form)).val();&#xd;
-        var taskMembers = $("input[type='hidden'][name^='EESCCode.TaskManagerMembersClass']",$(form));&#xd;
-        var project = $("select[name='TaskManager.TaskManagerClass_0_project']",$(form)).val();&#xd;
-        var taskDocRef = $("input[type='hidden'][name='taskDocRef']",$(form)).val();&#xd;
-        var params="taskManager=" + taskManager;&#xd;
-        taskMembers.each(function(index){&#xd;
-           params = params + "&amp;taskMembers=" + $(this).val();&#xd;
-        });&#xd;
-        params = params + "&amp;project=" + project;&#xd;
-        params = params + "&amp;task=" + taskDocRef;&#xd;
-        params = "?" + params + "&amp;action=setTaskRights&amp;xpage=plain";&#xd;
-        $.ajax({&#xd;
-	   url:"$xwiki.getURL('EESCCode.AjaxActions')" + params,&#xd;
-	   type:'GET',&#xd;
-	   //dataType:'json',&#xd;
-	   //data: {}, &#xd;
-	   success:function(rep, textStatus, jqXHR)//En cas de succes&#xd;
-	    {&#xd;
-            },&#xd;
-	   error:function(jqXHR, textStatus, errorThrown)//En cas d'erreur (jqXHR : objet XMLHttpRequest )&#xd;
-	    {&#xd;
-	       console.log("Problem with the request :" + jqXHR.status + "\n Please try again");&#xd;
-	    }&#xd;
-       });&#xd;
-    });&#xd;
-  }&#xd;
+      <code>var action = "saveandcontinue";
+require(['jquery'], function ($) {
+   $(document).ready(function(){
+      $("input[type='submit'][name='action_save']").click(function(event){
+         event.preventDefault();
+         action = "save";
+         $("input[type='submit'][name='action_saveandcontinue']").click();
+      });
+   });
+});
+document.observe("xwiki:actions:save", function(event){
+  var doContinue = event.memo['continue'];
+  if (doContinue) {
+    require(['jquery'], function ($) {
+        // Send ajax request to save rights on the task document
+        var form = event.memo.form;
+        var taskManager = $("input[type='hidden'][name^='TaskManager.TaskManagerClass']",$(form)).val();
+        var taskMembers = $("input[type='hidden'][name^='EESCCode.TaskManagerMembersClass']",$(form));
+        var project = $("select[name='TaskManager.TaskManagerClass_0_project']",$(form)).val();
+        var taskDocRef = $("input[type='hidden'][name='taskDocRef']",$(form)).val();
+        var params="taskManager=" + taskManager;
+        taskMembers.each(function(index){
+           params = params + "&amp;taskMembers=" + $(this).val();
+        });
+        params = params + "&amp;project=" + project;
+        params = params + "&amp;task=" + taskDocRef;
+        params = "?" + params + "&amp;action=setTaskRights&amp;xpage=plain";
+        $.ajax({
+	   url:"$xwiki.getURL('EESCCode.AjaxActions')" + params,
+	   type:'GET',
+	   //dataType:'json',
+	   //data: {}, 
+	   success:function(rep, textStatus, jqXHR)//En cas de succes
+	    {},
+	   error:function(jqXHR, textStatus, errorThrown)//En cas d'erreur (jqXHR : objet XMLHttpRequest )
+	    {
+	       console.log("Problem with the request :" + jqXHR.status + "\n Please try again");
+	    },
+           complete:function( jqXHR , textStatus ){
+              if(action == "save"){
+                 $("input[type='submit'][name='action_save']").unbind("click");
+                 $("input[type='submit'][name='action_save']").click();
+              }
+           }
+       });
+    });
+  }
 });</code>
     </property>
     <property>
