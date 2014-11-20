@@ -1,222 +1,306 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<!--
- * See the NOTICE file distributed with this work for additional
- * information regarding copyright ownership.
- *
- * This is free software; you can redistribute it and/or modify it
- * under the terms of the GNU Lesser General Public License as
- * published by the Free Software Foundation; either version 2.1 of
- * the License, or (at your option) any later version.
- *
- * This software is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this software; if not, write to the Free
- * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
- * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
--->
-
-<xwikidoc>
+<?xml version='1.0' encoding='UTF-8'?>
+<xwikidoc version="1.1">
   <web>EESCCode</web>
   <name>ProjectShare</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>Main.WebHome</parent>
-  <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creator>XWiki.Admin</creator>
   <creationDate>1406119636000</creationDate>
-  <date>1406120565000</date>
-  <contentUpdateDate>1406120565000</contentUpdateDate>
-  <version>1.1</version>
+  <parent>Main.WebHome</parent>
+  <author>XWiki.Admin</author>
+  <contentAuthor>XWiki.Admin</contentAuthor>
+  <date>1416408062000</date>
+  <contentUpdateDate>1416408062000</contentUpdateDate>
+  <version>2.54</version>
   <title>${services.localization.render('eesc.ProjectShare.title')}</title>
-  <defaultTemplate/>
-  <validationScript/>
   <comment/>
-  <minorEdit>false</minorEdit>
+  <minorEdit>true</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <content>{{include reference="EESCCode.ShareMacro" /}}
-
-{{velocity}}
-#*
- * EESC share a project
- * -----
- *
- * This page propose to share or change existing rights of an existing project.
- *
- * Author: Fabio MANCINELLI &lt;fabio.mancinelli@xwiki.com&gt;
- *         Jean SIMARD &lt;jean.simard@xwiki.com&gt;
- *#
-##############################################
-##                 GLOBALS
-##############################################
-## HTTP REQUEST PARAMETERS
-#set($reqStep = $request.getParameter('step'))
-#if($request.getParameter('cancel'))
-  #set($reqStep = 'cancel')
-#end
-#set($reqReferer = $request.getParameter('referer'))
-#if(!$reqReferer)
-  #set($reqReferer = $request.getHeader('referer'))
-#end
-#set($reqProjectName = $request.getParameter('projectname'))
-#set($reqScope = $request.getParameter('scope'))
-#set($reqUsers = $request.getParameterValues('users'))
-#set($reqGroups = $request.getParameterValues('groups'))
-##############################################
-##                CONTROLLER
-##############################################
-#controller()
-#macro(controller)
-  #if($reqStep.equals('cancel'))
-    #stepCancel($reqReferer)
-  #elseif($reqStep.equals('form') &amp;&amp; $reqProjectName)
-    #stepForm($reqProjectName)
-  #elseif($reqStep.equals('share') &amp;&amp; $reqProjectName)
-    #stepShare($reqProjectName, $reqScope, $reqUsers, $reqGroups)
-  #else
-    #displayError()
-  #end
-#end
-##############################################
-##               ADD DATA
-##############################################
-#*
- * Share the project
- * -----
- *
- * Given the HTTP POST request, change the project rights.
- *
- * @param $projectName The name of the project to create
- * @param $scope The type of restriction of the project ('public', 'shared-public', 'shared-private' or 'private')
- * @param $users The list of authorized users if it apply (if $scope is 'shared-*')
- * @param $groups The list of authorized users if it apply (if $scope is 'shared-*')
- *#
-#macro(stepShare, $projectName, $scope, $users, $groups)
-  #set($projectref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectName))
-  #set($project = $xwiki.getDocument($projectref))
-  #set($shareobj = $project.getObject('EESCCode.CollaborativeProjectClass'))
-  #set($discard = $shareobj.set('scope', $scope))
-  #set($discard = $project.removeObjects('XWiki.XWikiRights'))
-  ## Rights of the creator
-  #set($object = $project.newObject('XWiki.XWikiRights'))
-  #set($discard = $object.set('users', $project.creator))
-  #set($discard = $object.set('groups', ''))
-  #set($discard = $object.set('levels', 'view,edit,delete,creator'))
-  #set($discard = $object.set('allow', 'true'))
-  #if($scope.endsWith('public'))
-    #set($object = $project.newObject('XWiki.XWikiRights'))
-    #set($discard = $object.set('users', ''))
-    #set($discard = $object.set('groups', 'XWiki.XWikiAllGroup'))
-    #set($discard = $object.set('levels', 'view,edit'))
-    #set($discard = $object.set('allow', 'true'))
-  #end
-  #if($scope.startsWith('shared'))
-    #if($scope.equals('shared-public'))
-      #set($rights = 'view,edit')
-    #elseif($scope.equals('shared-private'))
-      #set($rights = 'view')
-    #end
-    ## Rights for the users
-    #foreach($username in $users)
-      #set($user = $xwiki.getDocument($services.model.resolveDocument($username)))
-      #if($user.getObjectNumbers('XWiki.XWikiUsers') &gt;= 1)
-        #set($object = $project.newObject('XWiki.XWikiRights'))
-        #set($discard = $object.set('users', $username))
-        #set($discard = $object.set('groups', ''))
-        #set($discard = $object.set('levels', $rights))
-        #set($discard = $object.set('allow', 'true'))
-      #end
-    #end
-    ## Rights for the groups
-    #foreach($groupname in $groups)
-      #set($group = $xwiki.getDocument($services.model.resolveDocument($groupname)))
-      #if($group.getObjectNumbers('XWiki.XWikiGroups') &gt;= 1)
-        #set($object = $project.newObject('XWiki.XWikiRights'))
-        #set($discard = $object.set('users', ''))
-        #set($discard = $object.set('groups', $groupname))
-        #set($discard = $object.set('levels', $rights))
-        #set($discard = $object.set('allow', 'true'))
-      #end
-    #end
-  #end
-  #set($discard = $project.save())
-  #set($discard = $response.sendRedirect($xwiki.getURL($projectref, 'view', '')))
-#end
-##############################################
-##                  VIEW
-##############################################
-#*
- * Redirect to the referer
- * -----
- *
- * Redirect the user to the page from where it was coming from.
- *
- * @param $referer The URL to redirect
- *#
-#macro(stepCancel, $referer)
-  #set($discard = $response.sendRedirect($referer))
-#end
-#*
- * Display error
- * -----
- *
- * Display an error when the HTTP request is incomplete.
- *#
-#macro(displayError)
-  {{error}}
-    ${services.localization.render('eesc.ProjectShare.error')}
-  {{/error}}
-#end
-#*
- * Display the form
- * -----
- *
- * Display the form to the user
- *
- * @param $spaceName The optional space name that may have been given
- *#
-#macro(stepForm, $spaceName)
-  #set($projectref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'Projects', "${reqProjectName}"))
-  #set($projectlink = "&lt;span class=""wikilink""&gt;&lt;a href=""${xwiki.getURL($projectref)}""&gt;${reqProjectName}&lt;/a&gt;&lt;/span&gt;")
-  #set($message = ${services.localization.render('eesc.ProjectShare.message', ["${projectlink}"])})
-
-  {{html clean='false'}}
-    &lt;form class="xform" method="POST" action="${xwiki.getURL($services.model.resolveDocument('EESCCode.ProjectShare'))}"&gt;
-      &lt;input type="hidden" name="step" value="share" /&gt;
-      &lt;input type="hidden" name="referer" value="${reqReferer}" /&gt;
-      &lt;input type="hidden" name="projectname" value="${reqProjectName}" /&gt;
-      &lt;dl&gt;
-        &lt;dt&gt;
-          &lt;label for="shareWith"&gt;
-            $message
-          &lt;/label&gt;
-        &lt;/dt&gt;
-        &lt;dd&gt;
-          #htmlshareproject($reqProjectName)
-        &lt;/dd&gt;
-      &lt;/dl&gt;
-      &lt;div class="bottombuttons"&gt;
-        &lt;div class="buttons"&gt;
-          &lt;span class="buttonwrapper"&gt;
-            &lt;input type="submit" name="share" value="${services.localization.render('eesc.ProjectShare.bottombuttons.share')}" class="button" /&gt;
-          &lt;/span&gt;
-          &lt;span class="buttonwrapper"&gt;
-            &lt;input type="submit" name="cancel" value="${services.localization.render('eesc.ProjectShare.bottombuttons.cancel')}" class="button" /&gt;
-          &lt;/span&gt;
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/form&gt;
-  {{/html}}
-
-#end
-{{/velocity}}
-</content>
+  <content>{{include reference="EESCCode.ShareMacro"/}}&#xd;
+&#xd;
+{{velocity}}&#xd;
+#*&#xd;
+ * EESC share a project&#xd;
+ * -----&#xd;
+ *&#xd;
+ * This page propose to share or change existing rights of an existing project.&#xd;
+ *&#xd;
+ * Author: Fabio MANCINELLI &lt;fabio.mancinelli@xwiki.com>&#xd;
+ *         Jean SIMARD &lt;jean.simard@xwiki.com>&#xd;
+ *         Mohamed BOUSSAA &lt;mohamed.boussa@xwiki.com>&#xd;
+ *#&#xd;
+##############################################&#xd;
+##                 GLOBALS&#xd;
+##############################################&#xd;
+## HTTP REQUEST PARAMETERS&#xd;
+#set($reqStep = $request.getParameter('step'))&#xd;
+#if($request.getParameter('cancel'))&#xd;
+  #set($reqStep = 'cancel')&#xd;
+#end&#xd;
+#set($reqReferer = $request.getParameter('referer'))&#xd;
+#if(!$reqReferer)&#xd;
+  #set($reqReferer = $request.getHeader('referer'))&#xd;
+#end&#xd;
+#set($reqProjectName = $request.getParameter('projectname'))&#xd;
+#set($reqScope = $request.getParameter('scope'))&#xd;
+&#xd;
+#set($editScope = $request.getParameter('editscope'))&#xd;
+#set($viewScope = $request.getParameter('viewscope'))&#xd;
+## The scope is now a combination of edit scope and view scope (ex: all, some-all, some-some ...)&#xd;
+#set($reqScope = $editScope)&#xd;
+#if($editScope &amp;&amp; $editScope != "all")&#xd;
+   #set($reqScope = $editScope + "-" + $viewScope)&#xd;
+#end&#xd;
+#set($editUsers= $request.getParameterValues('editusers'))&#xd;
+#set($editGroups = $request.getParameterValues('editgroups'))&#xd;
+#set($viewUsers = $request.getParameterValues('viewusers'))&#xd;
+#set($viewGroups = $request.getParameterValues('viewgroups'))&#xd;
+&#xd;
+##############################################&#xd;
+##                CONTROLLER&#xd;
+##############################################&#xd;
+#controller()&#xd;
+#macro(controller)&#xd;
+  #if($reqStep.equals('cancel'))&#xd;
+    #stepCancel($reqReferer)&#xd;
+  #elseif($reqStep.equals('form') &amp;&amp; $reqProjectName)&#xd;
+    #stepForm($reqProjectName)&#xd;
+  #elseif($reqStep.equals('share') &amp;&amp; $reqProjectName)&#xd;
+    ## #stepShare($reqProjectName, $reqScope, $reqUsers, $reqGroups)&#xd;
+    #setProjectRights($reqProjectName, $reqScope, $editUsers, $editGroups, $viewUsers, $viewGroups)&#xd;
+  #else&#xd;
+    #displayError()&#xd;
+  #end&#xd;
+#end&#xd;
+##############################################&#xd;
+##               ADD DATA&#xd;
+##############################################&#xd;
+#*&#xd;
+ * Share the project&#xd;
+ * -----&#xd;
+ *&#xd;
+ * Given the HTTP POST request, change the project rights.&#xd;
+ *&#xd;
+ * @param $projectName The name of the project to create&#xd;
+ * @param $scope The type of restriction of the project ('public', 'shared-public', 'shared-private' or 'private')&#xd;
+ * @param $users The list of authorized users if it apply (if $scope is 'shared-*')&#xd;
+ * @param $groups The list of authorized users if it apply (if $scope is 'shared-*')&#xd;
+ *#&#xd;
+#macro(stepShare, $projectName, $scope, $users, $groups)&#xd;
+  #set($projectref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectName))&#xd;
+  #set($project = $xwiki.getDocument($projectref))&#xd;
+  #set($shareobj = $project.getObject('EESCCode.CollaborativeProjectClass'))&#xd;
+  #set($discard = $shareobj.set('scope', $scope))&#xd;
+  #set($discard = $project.removeObjects('XWiki.XWikiRights'))&#xd;
+  ## Rights of the creator&#xd;
+  #set($object = $project.newObject('XWiki.XWikiRights'))&#xd;
+  #set($discard = $object.set('users', $project.creator))&#xd;
+  #set($discard = $object.set('groups', ''))&#xd;
+  #set($discard = $object.set('levels', 'view,edit,delete,creator'))&#xd;
+  #set($discard = $object.set('allow', 'true'))&#xd;
+  #if($scope.endsWith('public'))&#xd;
+    #set($object = $project.newObject('XWiki.XWikiRights'))&#xd;
+    #set($discard = $object.set('users', ''))&#xd;
+    #set($discard = $object.set('groups', 'XWiki.XWikiAllGroup'))&#xd;
+    #set($discard = $object.set('levels', 'view,edit'))&#xd;
+    #set($discard = $object.set('allow', 'true'))&#xd;
+  #end&#xd;
+  #if($scope.startsWith('shared'))&#xd;
+    #if($scope.equals('shared-public'))&#xd;
+      #set($rights = 'view,edit')&#xd;
+    #elseif($scope.equals('shared-private'))&#xd;
+      #set($rights = 'view')&#xd;
+    #end&#xd;
+    ## Rights for the users&#xd;
+    #foreach($username in $users)&#xd;
+      #set($user = $xwiki.getDocument($services.model.resolveDocument($username)))&#xd;
+      #if($user.getObjectNumbers('XWiki.XWikiUsers') >= 1)&#xd;
+        #set($object = $project.newObject('XWiki.XWikiRights'))&#xd;
+        #set($discard = $object.set('users', $username))&#xd;
+        #set($discard = $object.set('groups', ''))&#xd;
+        #set($discard = $object.set('levels', $rights))&#xd;
+        #set($discard = $object.set('allow', 'true'))&#xd;
+      #end&#xd;
+    #end&#xd;
+    ## Rights for the groups&#xd;
+    #foreach($groupname in $groups)&#xd;
+      #set($group = $xwiki.getDocument($services.model.resolveDocument($groupname)))&#xd;
+      #if($group.getObjectNumbers('XWiki.XWikiGroups') >= 1)&#xd;
+        #set($object = $project.newObject('XWiki.XWikiRights'))&#xd;
+        #set($discard = $object.set('users', ''))&#xd;
+        #set($discard = $object.set('groups', $groupname))&#xd;
+        #set($discard = $object.set('levels', $rights))&#xd;
+        #set($discard = $object.set('allow', 'true'))&#xd;
+      #end&#xd;
+    #end&#xd;
+  #end&#xd;
+  #set($discard = $project.save())&#xd;
+  #set($discard = $response.sendRedirect($xwiki.getURL($projectref, 'view', '')))&#xd;
+#end&#xd;
+#*&#xd;
+ * Share the project&#xd;
+ * -----&#xd;
+ *&#xd;
+ * Given the HTTP POST request, change the project rights.&#xd;
+ *&#xd;
+ * @param $projectName The name of the project to create&#xd;
+ * @param $scope The type of restriction of the project ('all','some-all','some-some','nobody-all','nobody-some','nobody-nobody')&#xd;
+ * @param $editUsers The list of authorized users to edit if it apply (if $scope is 'some-*')&#xd;
+ * @param $editGroups The list of authorized users groups to edit if it apply (if $scope is 'some-*')&#xd;
+ * @param $viewUsers The list of authorized users to view if it apply (if $scope is 'some-some' or 'nobody-some')&#xd;
+ * @param $viewGroups The list of authorized users groups to view if it apply (if $scope is 'some-some' or 'nobody-some')&#xd;
+ *#&#xd;
+#macro(setProjectRights, $projectName, $scope, $editUsers, $editGroups, $viewUsers, $viewGroups)&#xd;
+  #set($projectref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectName))&#xd;
+  #set($project = $xwiki.getDocument($projectref))&#xd;
+  #set($shareobj = $project.getObject('EESCCode.CollaborativeProjectClass'))&#xd;
+  #set($discard = $shareobj.set('scope', $scope))&#xd;
+  #set($discard = $project.removeObjects('XWiki.XWikiRights'))&#xd;
+  ## Rights of the creator&#xd;
+  #set($object = $project.newObject('XWiki.XWikiRights'))&#xd;
+  #set($discard = $object.set('users', $project.creator))&#xd;
+  #set($discard = $object.set('groups', ''))&#xd;
+  #set($discard = $object.set('levels', 'view,edit,delete,creator'))&#xd;
+  #set($discard = $object.set('allow', 'true'))&#xd;
+  #if($scope.endsWith('all'))&#xd;
+    #set($rights = 'view')&#xd;
+    #if($scope.equals('all'))&#xd;
+       #set($rights = 'view,edit')&#xd;
+    #end&#xd;
+    #set($object = $project.newObject('XWiki.XWikiRights'))&#xd;
+    #set($discard = $object.set('users', ''))&#xd;
+    #set($discard = $object.set('groups', 'XWiki.XWikiAllGroup'))&#xd;
+    #set($discard = $object.set('levels', $rights))&#xd;
+    #set($discard = $object.set('allow', 'true'))&#xd;
+  #end&#xd;
+  #if($scope.startsWith('some'))&#xd;
+    #set($rights = 'view,edit')&#xd;
+    ## Rights for the edit users&#xd;
+    #foreach($username in $editUsers)&#xd;
+      #set($user = $xwiki.getDocument($services.model.resolveDocument($username)))&#xd;
+      #if($user.getObjectNumbers('XWiki.XWikiUsers') >= 1)&#xd;
+        #set($object = $project.newObject('XWiki.XWikiRights'))&#xd;
+        #set($discard = $object.set('users', $username))&#xd;
+        #set($discard = $object.set('groups', ''))&#xd;
+        #set($discard = $object.set('levels', $rights))&#xd;
+        #set($discard = $object.set('allow', 'true'))&#xd;
+      #end&#xd;
+    #end&#xd;
+    ## Rights for the edit groups&#xd;
+    #foreach($groupname in $editGroups)&#xd;
+      #set($group = $xwiki.getDocument($services.model.resolveDocument($groupname)))&#xd;
+      #if($group.getObjectNumbers('XWiki.XWikiGroups') >= 1)&#xd;
+        #set($object = $project.newObject('XWiki.XWikiRights'))&#xd;
+        #set($discard = $object.set('users', ''))&#xd;
+        #set($discard = $object.set('groups', $groupname))&#xd;
+        #set($discard = $object.set('levels', $rights))&#xd;
+        #set($discard = $object.set('allow', 'true'))&#xd;
+      #end&#xd;
+    #end&#xd;
+  #end&#xd;
+  #if($scope.endsWith('some'))&#xd;
+    #set($rights = 'view')&#xd;
+    ## Rights for the view users&#xd;
+    #foreach($username in $viewUsers)&#xd;
+      #set($user = $xwiki.getDocument($services.model.resolveDocument($username)))&#xd;
+      #if($user.getObjectNumbers('XWiki.XWikiUsers') >= 1)&#xd;
+        #set($object = $project.newObject('XWiki.XWikiRights'))&#xd;
+        #set($discard = $object.set('users', $username))&#xd;
+        #set($discard = $object.set('groups', ''))&#xd;
+        #set($discard = $object.set('levels', $rights))&#xd;
+        #set($discard = $object.set('allow', 'true'))&#xd;
+      #end&#xd;
+    #end&#xd;
+    ## Rights for the view groups&#xd;
+    #foreach($groupname in $viewGroups)&#xd;
+      #set($group = $xwiki.getDocument($services.model.resolveDocument($groupname)))&#xd;
+      #if($group.getObjectNumbers('XWiki.XWikiGroups') >= 1)&#xd;
+        #set($object = $project.newObject('XWiki.XWikiRights'))&#xd;
+        #set($discard = $object.set('users', ''))&#xd;
+        #set($discard = $object.set('groups', $groupname))&#xd;
+        #set($discard = $object.set('levels', $rights))&#xd;
+        #set($discard = $object.set('allow', 'true'))&#xd;
+      #end&#xd;
+    #end&#xd;
+  #end&#xd;
+  #set($discard = $project.save())&#xd;
+  #**&#xd;
+  *  Updates project tasks rights&#xd;
+  *#&#xd;
+  #set($ProjectRightsManager = $xwiki.parseGroovyFromPage("EESCCode.ProjectRightsManagerGroovy"))&#xd;
+  #set($discard = $ProjectRightsManager.init($xwiki, $context, $services))&#xd;
+  #set($discard = $ProjectRightsManager.setProjectTasksRights($projectref))&#xd;
+  ## Redirection&#xd;
+  #set($discard = $response.sendRedirect($xwiki.getURL($projectref, 'view', '')))&#xd;
+#end&#xd;
+##############################################&#xd;
+##                  VIEW&#xd;
+##############################################&#xd;
+#*&#xd;
+ * Redirect to the referer&#xd;
+ * -----&#xd;
+ *&#xd;
+ * Redirect the user to the page from where it was coming from.&#xd;
+ *&#xd;
+ * @param $referer The URL to redirect&#xd;
+ *#&#xd;
+#macro(stepCancel, $referer)&#xd;
+  #set($discard = $response.sendRedirect($referer))&#xd;
+#end&#xd;
+#*&#xd;
+ * Display error&#xd;
+ * -----&#xd;
+ *&#xd;
+ * Display an error when the HTTP request is incomplete.&#xd;
+ *#&#xd;
+#macro(displayError)&#xd;
+  {{error}}&#xd;
+    ${services.localization.render('eesc.ProjectShare.error')}&#xd;
+  {{/error}}&#xd;
+#end&#xd;
+#*&#xd;
+ * Display the form&#xd;
+ * -----&#xd;
+ *&#xd;
+ * Display the form to the user&#xd;
+ *&#xd;
+ * @param $spaceName The optional space name that may have been given&#xd;
+ *#&#xd;
+#macro(stepForm, $spaceName)&#xd;
+  #set($projectref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'Projects', "${reqProjectName}"))&#xd;
+  #set($projectlink = "&lt;span class=""wikilink"">&lt;a href=""${xwiki.getURL($projectref)}"">${reqProjectName}&lt;/a>&lt;/span>")&#xd;
+  #set($message = ${services.localization.render('eesc.ProjectShare.message', ["${projectlink}"])})&#xd;
+&#xd;
+  {{html clean='false'}}&#xd;
+    &lt;form class="xform" method="POST" action="${xwiki.getURL($services.model.resolveDocument('EESCCode.ProjectShare'))}">&#xd;
+      &lt;input type="hidden" name="step" value="share" />&#xd;
+      &lt;input type="hidden" name="referer" value="${reqReferer}" />&#xd;
+      &lt;input type="hidden" name="projectname" value="${reqProjectName}" />&#xd;
+      &lt;dl>&#xd;
+        &lt;dt>&#xd;
+          &lt;label for="shareWith">&#xd;
+            $message&#xd;
+          &lt;/label>&#xd;
+        &lt;/dt>&#xd;
+        &lt;dd>&#xd;
+          #htmlshareproject($reqProjectName)&#xd;
+        &lt;/dd>&#xd;
+      &lt;/dl>&#xd;
+      &lt;div class="bottombuttons">&#xd;
+        &lt;div class="buttons">&#xd;
+          &lt;span class="buttonwrapper">&#xd;
+            &lt;input type="submit" name="share" value="${services.localization.render('eesc.ProjectShare.bottombuttons.share')}" class="button" />&#xd;
+          &lt;/span>&#xd;
+          &lt;span class="buttonwrapper">&#xd;
+            &lt;input type="submit" name="cancel" value="${services.localization.render('eesc.ProjectShare.bottombuttons.cancel')}" class="button" />&#xd;
+          &lt;/span>&#xd;
+        &lt;/div>&#xd;
+      &lt;/div>&#xd;
+    &lt;/form>&#xd;
+  {{/html}}&#xd;
+&#xd;
+#end&#xd;
+{{/velocity}}</content>
 </xwikidoc>

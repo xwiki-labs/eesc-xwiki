@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<xwikidoc version="1.1">
+  <web>ProjectsCode</web>
+  <name>Translations</name>
+  <language>fr</language>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <creator>XWiki.Admin</creator>
+  <creationDate>1403099129000</creationDate>
+  <parent>ProjectsCode.WebHome</parent>
+  <author>XWiki.Admin</author>
+  <contentAuthor>XWiki.Admin</contentAuthor>
+  <date>1415889978000</date>
+  <contentUpdateDate>1415889922000</contentUpdateDate>
+  <version>1.5</version>
+  <title>Translations</title>
+  <comment/>
+  <minorEdit>true</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>prj.title=Application Projets&#xd;
+prj.app.title=Projets&#xd;
+prj.salesorder.name=Nom&#xd;
+prj.salesorder.status=Statut&#xd;
+prj.salesorder.salesStatus=Statut des ventes&#xd;
+prj.salesorder.startDate=Date de début&#xd;
+prj.salesorder.endDate=Date de fin&#xd;
+prj.salesorder.pmDays=Jours de PM&#xd;
+prj.salesorder.devDays=Jours de dév&#xd;
+prj.salesorder.infraDays=Jours d'infra&#xd;
+prj.salesorder.testDays=Jours de tests&#xd;
+prj.salesorder.designerDays=Jours de concepteurs&#xd;
+prj.salesorder.otherDays=Autres jours&#xd;
+prj.salesorder.amount=Montant&#xd;
+prj.salesorder.crmProject=CRM&#xd;
+prj.salesorder.title=Commande(s)&#xd;
+prj.salesorder.edit=Editer la commande(s)&#xd;
+prj.salesorder.add=Ajouter une commande&#xd;
+prj.templates.project=Page de Projet ou Sous-projet&#xd;
+prj.templates.specifications=Spécifications&#xd;
+prj.templates.planning=Page de Planning&#xd;
+prj.templates.infrainfo=Information d'infrastructure&#xd;
+prj.templates.oaten=OAT (Modèle anglais de VABF)&#xd;
+prj.templates.oatfr=VABF (Modèle français)&#xd;
+prj.templates.installlog=Logs d'installations&#xd;
+prj.templates.installinstructions=Instructions d'installation&#xd;
+platform.index.status=Statut&#xd;
+platform.index.version=Version&#xd;
+prj.config.title=Configuration de l'Application Projet&#xd;
+admin.projects=Application Projet&#xd;
+prj.subproject=Sous-projet&#xd;
+prj.subproject.create=Créer un sous-projet&#xd;
+prj.tab.docs.all=Tous les Documents&#xd;
+prj.tab.info.title=Info&#xd;
+prj.tab.docs.title=Documents&#xd;
+prj.tab.task.title=Toutes les tâches&#xd;
+prj.tab.dev.title=Dév&#xd;
+prj.tab.sales.title=Ventes&#xd;
+prj.tab.infra.title=Infrastructure&#xd;
+prj.tab.stats.title=Stats&#xd;
+prj.dev.jira.title=Tâches Jira&#xd;
+</content>
+</xwikidoc>
