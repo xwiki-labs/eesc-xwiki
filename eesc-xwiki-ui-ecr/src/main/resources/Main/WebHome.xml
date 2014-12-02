@@ -32,8 +32,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1409045288000</creationDate>
-  <date>1412073664000</date>
-  <contentUpdateDate>1412071142000</contentUpdateDate>
+  <date>1417531413000</date>
+  <contentUpdateDate>1417531413000</contentUpdateDate>
   <version>1.1</version>
   <title>Accueil</title>
   <defaultTemplate/>
@@ -470,26 +470,37 @@
 ## GLOBAL VARIABLES
 #set($userId = $xcontext.getUserReference().name)
 #set($groupsForUser = $services.eesc.getGroupsForUser($userId))
+#set($groupUID = $request.getParameter('GROUPE_ID'))
 ##############################################
 ##                 LIST DOCUMENTS
 ##############################################
-#set($query_select = "distinct doc.fullName")
-#set($query_from = "XWikiDocument doc, BaseObject as oshare, BaseObject as oright, LargeStringProperty as pusers, LargeStringProperty as pgroups")
-#set($query_where_share = "doc.fullName = oshare.name and oshare.className = 'EESCCode.CollaborativeDocumentClass' and doc.fullName &lt;&gt; 'EESCCode.CollaborativeDocumentTemplate'")
-#set($query_where_right = "doc.fullName = oright.name and oright.className = 'XWiki.XWikiRights'")
-#set($query_where_users = "pusers.id.id = oright.id and pusers.id.name = 'users' and pusers.value = '${xcontext.user}'")
-#set($query_where_groups_values = "pgroups.value = 'XWiki.XWikiAllGroup'")
-#set($sep = ' or ')
-#foreach($g in $groupsForUser)
-  ## All groups has been prefixed with 'XWiki.' (for example, group '00123' is 'XWiki.00123')
-  #set($query_where_groups_values = "${query_where_groups_values}${sep}pgroups.value = 'XWiki.${g.getId()}'")
+#if($groupUID)
+  #set($query_select = "distinct doc.fullName")
+  #set($query_from = "XWikiDocument doc, BaseObject as oshare, BaseObject as oright, LargeStringProperty as pusers, LargeStringProperty as pgroups")
+  #set($query_where_share = "doc.fullName = oshare.name and oshare.className = 'EESCCode.CollaborativeDocumentClass' and doc.fullName &lt;&gt; 'EESCCode.CollaborativeDocumentTemplate'")
+  #set($query_where_right = "doc.fullName = oright.name and oright.className = 'XWiki.XWikiRights'")
+  #set($query_where_groups = "pgroups.id.id = oright.id and pgroups.id.name = 'groups' and pgroups.value = 'XWiki.$groupUID'")
+  #set($query_where = "${query_where_share} and ${query_where_right} and ( ${query_where_groups} )")
+  #set($query = "select ${query_select} from ${query_from} where ${query_where}")
+#else
+  #set($query_select = "distinct doc.fullName")
+  #set($query_from = "XWikiDocument doc, BaseObject as oshare, BaseObject as oright, LargeStringProperty as pusers, LargeStringProperty as pgroups")
+  #set($query_where_share = "doc.fullName = oshare.name and oshare.className = 'EESCCode.CollaborativeDocumentClass' and doc.fullName &lt;&gt; 'EESCCode.CollaborativeDocumentTemplate'")
+  #set($query_where_right = "doc.fullName = oright.name and oright.className = 'XWiki.XWikiRights'")
+  #set($query_where_users = "pusers.id.id = oright.id and pusers.id.name = 'users' and pusers.value = '${xcontext.user}'")
+  #set($query_where_groups_values = "pgroups.value = 'XWiki.XWikiAllGroup'")
+  #set($sep = ' or ')
+  #foreach($g in $groupsForUser)
+    ## All groups has been prefixed with 'XWiki.' (for example, group '00123' is 'XWiki.00123')
+    #set($query_where_groups_values = "${query_where_groups_values}${sep}pgroups.value = 'XWiki.${g.getId()}'")
+  #end
+  ## For XWiki.Admin, '${query_where_groups_values}' is empty so it will result in the following
+  ## $query_where_groups =&gt; "pgroups.id.id = oright.id and pgroups.id.name = 'groups'"
+  ## which will list every document with this property (no matter what value is in it); hence, all collaborative documents will be listed.
+  #set($query_where_groups = "pgroups.id.id = oright.id and pgroups.id.name = 'groups'#if(${query_where_groups_values}!='') and ( ${query_where_groups_values} )#{end}")
+  #set($query_where = "${query_where_share} and ${query_where_right} and ( ( ${query_where_users} ) or ( ${query_where_groups} ) )")
+  #set($query = "select ${query_select} from ${query_from} where ${query_where}")
 #end
-## For XWiki.Admin, '${query_where_groups_values}' is empty so it will result in the following
-## $query_where_groups =&gt; "pgroups.id.id = oright.id and pgroups.id.name = 'groups'"
-## which will list every document with this property (no matter what value is in it); hence, all collaborative documents will be listed.
-#set($query_where_groups = "pgroups.id.id = oright.id and pgroups.id.name = 'groups'#if(${query_where_groups_values}!='') and ( ${query_where_groups_values} )#{end}")
-#set($query_where = "${query_where_share} and ${query_where_right} and ( ( ${query_where_users} ) or ( ${query_where_groups} ) )")
-#set($query = "select ${query_select} from ${query_from} where ${query_where}")
 #set($results = $services.query.hql($query).addFilter('hidden').addFilter('unique').execute())
 #set($viewabledocs = [])
 ## Filter documents the user has access to
