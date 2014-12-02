@@ -30,8 +30,8 @@
   <parent>ProjectsCode.ProjectsCodeSheet</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1416169343000</date>
-  <contentUpdateDate>1416169227000</contentUpdateDate>
+  <date>1416913734000</date>
+  <contentUpdateDate>1416913640000</contentUpdateDate>
   <version>1.1</version>
   <title>ProjectsInfoSheet</title>
   <comment/>
@@ -100,7 +100,10 @@
   )))
   (% id="pInfo2" %)
   (((
-    ; &lt;label for="ProjectsCode.ProjectsCodeClass_0_member_other"&gt;$escapetool.xml($doc.displayPrettyName('member_other', false, false))&lt;/label&gt;
+    ; &lt;label for="ProjectsCode.ProjectsCodeClass_0_member_other"&gt;
+##$escapetool.xml($doc.displayPrettyName('member_other', false, false))
+$escapetool.xml($services.localization.render('eesc.projectsheet_other_members'))
+&lt;/label&gt;
     : {{html clean="false"}}#htmlshareproject($projectname, $scope, $eusers, $egroups, $vusers, $vgroups, 'view'){{/html}}
   )))
   (% id="pInfo3"  %)

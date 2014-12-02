@@ -30,8 +30,8 @@
   <parent>Main.WebHome</parent>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1416168262000</date>
-  <contentUpdateDate>1416168262000</contentUpdateDate>
+  <date>1416913634000</date>
+  <contentUpdateDate>1416913634000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <comment/>
@@ -116,8 +116,9 @@ eesc.prj.tab.mytasks.title=Mes tâches
 eesc.TaskManager.TaskManagerClass_description=Description et avancement de la tâche
 eesc.TaskManager.TaskManagerSheet.title.placeholder=Exemple: Faire ses devoirs
 eesc.ProjectsCode.ProjectsCodeClass_details=Description et avancement du projet
-EESCCode.TaskManagerMembersClass_assignees=Autres membres
-eesc.TaskManager.TaskManagerClass_assignee=Référent
+EESCCode.TaskManagerMembersClass_assignees=Autres participants
+eesc.TaskManager.TaskManagerClass_assignee=Responsable de la tâche
+eesc.projectsheet_other_members=Autres participants
   </content>
   <object>
     <name>EESCCode.Translations</name>
