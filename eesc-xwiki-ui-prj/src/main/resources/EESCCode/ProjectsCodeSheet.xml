@@ -32,8 +32,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1405959382000</creationDate>
-  <date>1406033001000</date>
-  <contentUpdateDate>1406033001000</contentUpdateDate>
+  <date>1416906399000</date>
+  <contentUpdateDate>1416906399000</contentUpdateDate>
   <version>1.1</version>
   <title/>
   <defaultTemplate/>
@@ -46,7 +46,7 @@
   #if($request.tab)
     #set($currentTab = $request.tab)
   #else
-    #set($currentTab = "info")
+    #set($currentTab = "eesc-info")
   #end
   #set( $discard = $xwiki.ssx.use("ProjectsCode.StyleSheetExtension"))
   #set ($discard = $doc.use('ProjectsCode.ProjectsCodeClass'))
@@ -54,7 +54,6 @@
   #set($configDoc = $xwiki.getDocument("ProjectsCode.ProjectConfig"))
   #set($activeTabs = $configDoc.getValue("activeTabs"))
   #if($context.action=="view")
-
     ## Tabs
     {{html wiki="true"}}
       &lt;div class="floatcontainer"&gt;
