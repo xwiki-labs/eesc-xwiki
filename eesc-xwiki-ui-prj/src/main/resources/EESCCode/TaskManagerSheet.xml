@@ -35,8 +35,7 @@
   <date>1406035904000</date>
   <contentUpdateDate>1406035904000</contentUpdateDate>
   <version>1.1</version>
-  <title>$xwiki.getDocument($doc).getObject('TaskManager.TaskManagerClass').getProperty('name').value
-</title>
+  <title>$xwiki.getDocument($doc).getObject('TaskManager.TaskManagerClass').getProperty('name').value</title>
   <defaultTemplate/>
   <validationScript/>
   <comment/>
@@ -152,6 +151,259 @@
     </property>
     <property>
       <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>EESCCode.TaskManagerSheet</name>
+    <number>2</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>3865629f-0c4e-4548-8309-d2612082ff9b</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>var action = "saveandcontinue";
+require(['jquery'], function ($) {
+   $(document).ready(function(){
+      $("input[type='submit'][name='action_save']").click(function(event){
+         event.preventDefault();
+         action = "save";
+         $("input[type='submit'][name='action_saveandcontinue']").click();
+      });
+   });
+});
+document.observe("xwiki:actions:save", function(event){
+  var doContinue = event.memo['continue'];
+  if (doContinue) {
+    require(['jquery'], function ($) {
+        // Send ajax request to save rights on the task document
+        var form = event.memo.form;
+        var taskManager = $("input[type='hidden'][name^='TaskManager.TaskManagerClass']",$(form)).val();
+        var taskMembers = $("input[type='hidden'][name^='EESCCode.TaskManagerMembersClass']",$(form));
+        var project = $("select[name='TaskManager.TaskManagerClass_0_project']",$(form)).val();
+        var taskDocRef = $("input[type='hidden'][name='taskDocRef']",$(form)).val();
+        var params="taskManager=" + taskManager;
+        taskMembers.each(function(index){
+           params = params + "&amp;taskMembers=" + $(this).val();
+        });
+        params = params + "&amp;project=" + project;
+        params = params + "&amp;task=" + taskDocRef;
+        params = "?" + params + "&amp;action=setTaskRights&amp;xpage=plain";
+        $.ajax({
+	   url:"$xwiki.getURL('EESCCode.AjaxActions')" + params,
+	   type:'GET',
+	   //dataType:'json',
+	   //data: {}, 
+	   success:function(rep, textStatus, jqXHR)//En cas de succes
+	    {},
+	   error:function(jqXHR, textStatus, errorThrown)//En cas d'erreur (jqXHR : objet XMLHttpRequest )
+	    {
+	       console.log("Problem with the request :" + jqXHR.status + "\n Please try again");
+	    },
+           complete:function( jqXHR , textStatus ){
+              if(action == "save"){
+                 $("input[type='submit'][name='action_save']").unbind("click");
+                 $("input[type='submit'][name='action_save']").click();
+              }
+           }
+       });
+    });
+  }
+});</code>
+    </property>
+    <property>
+      <name>Add task rights before saving the modifications on a task</name>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.JavaScriptExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage|onDemand|always</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>EESCCode.TaskManagerSheet</name>
+    <number>3</number>
+    <className>XWiki.JavaScriptExtension</className>
+    <guid>0d9716f5-5ce4-428b-9320-bad36f23becb</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>require(['jquery'], function ($) {
+   $(document).ready(function(){
+      $("input[id='TaskManager.TaskManagerClass_0_progress']").change(function(event){
+        var val = $(this).val();
+        var status = "ToDo";
+        if(val &amp;&amp; val != ""){
+            if(val &gt; 0 &amp;&amp; val &lt; 100){
+               status = "InProgress";
+            }
+            else if(val &gt;= 100){
+               status = "Done";
+               if(val &gt; 100){
+                  $(this).val(100);
+               }
+            }
+            else if(val &lt; 0){
+               $(this).val(0);
+            }
+        }
+         $("input[name='TaskManager.TaskManagerClass_0_status']").val(status);
+      });
+   });
+});</code>
+    </property>
+    <property>
+      <name>Update the status value once the progress field is modified</name>
+    </property>
+    <property>
+      <parse/>
+    </property>
+    <property>
+      <use>currentPage</use>
     </property>
   </object>
   <content>{{velocity}}
@@ -337,7 +589,9 @@
                     #if($docref == $selectedproject)
                       #set($selected = 'selected')
                     #end
-                    &lt;option label="${title}" value="${docref}" ${selected}&gt;${title}&lt;/option&gt;
+                    #if($xwiki.hasAccessLevel('edit', $xcontext.getUser(), $docref))
+                        &lt;option label="${title}" value="${docref}" ${selected}&gt;${title}&lt;/option&gt;
+                    #end
                   #end
                 &lt;/select&gt;
               )))
@@ -411,11 +665,16 @@
             (((
               (% class="form-group" %)
               (((
-                ; &lt;label for="TaskManager.TaskManagerClass_0_status"&gt;
+                ; #*&lt;label for="TaskManager.TaskManagerClass_0_status"&gt;
                     $services.icon.render('accept')
                     $escapetool.xml($doc.displayPrettyName('status', false, false))
-                  &lt;/label&gt;
-                : $doc.display('status')
+                  &lt;/label&gt;*#
+                : ##$doc.display('status')
+                   #set($status = "ToDo")
+                   #if($doc.getValue("status") &amp;&amp; $doc.getValue("status") != "")
+                      #set($status = $doc.getValue('status'))
+                   #end
+                  &lt;input type="hidden" name="TaskManager.TaskManagerClass_0_status" value="$status"/&gt;
               )))
               (% class="form-group" %)
               (((
@@ -449,10 +708,15 @@
           )))
         )))
       #end
+     #**
+     * Setting rights on the task
+     *#
+     #if($xcontext.action =='edit')
+       &lt;input type="hidden" name="taskDocRef" value="$doc.getDocumentReference()"/&gt;
+     #end
     {{/html}}
   #else
     {{info}}You have to be logged in in order to view this page{{/info}}
   #end
-{{/velocity}}
-</content>
+{{/velocity}}</content>
 </xwikidoc>

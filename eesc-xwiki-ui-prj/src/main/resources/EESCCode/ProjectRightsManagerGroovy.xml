@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ * See the NOTICE file distributed with this work for additional
+ * information regarding copyright ownership.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU Lesser General Public License as
+ * published by the Free Software Foundation; either version 2.1 of
+ * the License, or (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this software; if not, write to the Free
+ * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
+ * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
+-->
+
+<xwikidoc>
+  <web>EESCCode</web>
+  <name>ProjectRightsManagerGroovy</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1416217009000</creationDate>
+  <date>1416470305000</date>
+  <contentUpdateDate>1416470289000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>/** 
+* @Author : Mohamed BOUSSAA&lt;mohamed.boussaa@xwiki.com&gt;
+* Managing projects and tasks rights
+*/
+import com.xpn.xwiki.api.Util;
+class ProjectRightsManager{
+def xwiki;
+def context;
+def XWikiContext;
+def services;
+def util;
+
+void init(xwiki, context, services) {
+  try {
+    this.xwiki = xwiki;    
+    this.context = context;
+    this.services = services;
+    this.util = new Util(xwiki.getXWiki(),context.getContext());
+  }
+  catch (Exception e) {
+  }
+}
+
+/**
+* Get project rights
+*
+* @param projectDocRef : project docFullName
+* @return HashMap : This methode return a HashMap object containing the creator of the project, users and groups allowed to edit and the users and groups allowed to view the project
+*/
+def getProjectRights(projectDocRef){
+  try {
+    def editUsers = new ArrayList();
+    def editGroups = new ArrayList();
+    def viewUsers = new ArrayList();
+    def viewGroups = new ArrayList();
+    def projectCreator = "";
+    def rep = new HashMap();
+    if(projectDocRef &amp;&amp; projectDocRef != "" &amp;&amp; xwiki.exists(projectDocRef)){
+       def project = xwiki.getDocument(projectDocRef);
+       if(project){
+          projectCreator = project.creator;
+          //Get edit users and groups
+          def editRights = project.getObjects('XWiki.XWikiRights','levels','view,edit');
+          if(editRights &amp;&amp; editRights.size() &gt; 0){
+            for(rightObj in editRights){
+              def user = rightObj.getProperty('users').value;
+              def group = rightObj.getProperty('groups').value;
+              if(user &amp;&amp; !user.equals('')){
+                if(!user.equals(projectCreator)){
+                   editUsers.add(user);
+                }
+              }
+             else if(group &amp;&amp; !group.equals('')){
+               editGroups.add(group);
+             }
+            }
+          }
+          //Get view users and groups
+          def viewRights = project.getObjects('XWiki.XWikiRights','levels','view');
+          if(viewRights &amp;&amp; viewRights.size() &gt; 0){
+            for(rightObj in viewRights){
+              def user = rightObj.getProperty('users').value;
+              def group = rightObj.getProperty('groups').value;
+              if(user &amp;&amp; !user.equals('')){
+                if(!user.equals(projectCreator)){
+                   viewUsers.add(user);
+                }
+              }
+             else if(group &amp;&amp; !group.equals('')){
+               viewGroups.add(group);
+             }
+            }
+          }
+       }
+    }
+    rep.put("projectCreator",projectCreator);
+    rep.put("editUsers",editUsers);
+    rep.put("editGroups",editGroups);
+    rep.put("viewUsers",viewUsers);
+    rep.put("viewGroups",viewGroups);
+    return rep;
+    } 
+  catch (Exception e) {
+  }
+}
+
+/**
+* Get project tasks
+*
+* @param projectDocRef : project docFullName
+* @return List : Returns project tasks
+*/
+def getProjectTasks(projectDocRef){
+  try {
+        def query = "SELECT DISTINCT doc.fullName FROM XWikiDocument doc, BaseObject obj, StringProperty sp WHERE obj.name=doc.fullName AND obj.className='TaskManager.TaskManagerClass' AND obj.id.id=sp.id AND sp.name='project' and sp.value='"+ projectDocRef +"'";
+       def results = services.query.xwql(query).execute();
+       return results;
+  } 
+  catch (Exception e) {
+  }
+}
+
+/**
+* Set project tasks rights : give the same right of the project to its tasks
+*
+* @param projectDocRef : project docFullName
+*/
+void setProjectTasksRights(projectDocRef){
+  try {
+       if(projectDocRef &amp;&amp; projectDocRef != "" &amp;&amp; xwiki.exists(projectDocRef)){
+           def projectRights = this.getProjectRights(projectDocRef);
+           if(projectRights){
+               def projectTasks = this.getProjectTasks(projectDocRef);
+               //Set the project creator right on the task
+               def editUsers = projectRights.get("editUsers");
+               def editGroups = projectRights.get("editGroups");
+               def viewUsers = projectRights.get("viewUsers");
+               def viewGroups = projectRights.get("viewGroups");
+               if(projectTasks &amp;&amp; projectTasks.size() &gt; 0){
+                   for(task in projectTasks){
+                      setTaskRights(task, projectRights);
+                   }
+               }
+           }
+       }
+  } 
+  catch (Exception e) {
+  }
+}
+
+/**
+* Set task rights : Task manager, task creator and project leader have view,edit,delete rights on the task
+* @param taskDocRef : Task document reference
+* @param projectDocRef : Project document reference of the task
+* @param taskManager : Manager of the task
+* @param taskMembers : Members of the task
+*/
+void setTaskRights(taskDocRef, projectRights, taskManager = null, taskMembers = null){
+  try {
+      if(taskDocRef &amp;&amp; taskDocRef != "" &amp;&amp; xwiki.exists(taskDocRef)){
+           def task = xwiki.getDocument(taskDocRef); 
+           if(task){
+               //Remove old rights objects
+               task.removeObjects('XWiki.XWikiRights');
+               //Rights of the task creator
+               if(task.creator &amp;&amp; task.creator != "" &amp;&amp; xwiki.exists(task.creator)){
+                  def object = task.newObject('XWiki.XWikiRights');
+                  object.set('users', task.creator);
+                  object.set('groups', '');
+                  object.set('levels', 'view,edit,delete,creator');
+                  object.set('allow', 'true');
+               }
+               //Rights of the task manager
+               //If the taskManger is null get it from the task object
+               if(!taskManager){
+                     taskManager = task.getValue("assignee");
+                     if(!taskMembers){
+                          def memberskObj = task.getObject("EESCCode.TaskManagerMembersClass");
+                          if(memberskObj){ 
+                             def taskMembersStr = memberskObj.getValue('assignees');
+                             if(taskMembersStr &amp;&amp; taskMembersStr != ""){
+                                taskMembers = taskMembersStr.split(",");
+                             }
+                          }
+                     }
+               }
+               if(taskManager &amp;&amp; taskManager != "" &amp;&amp; xwiki.exists(taskManager)){
+                  def object = task.newObject('XWiki.XWikiRights');
+                  object.set('users', taskManager);
+                  object.set('groups', '');
+                  object.set('levels', 'view,edit,delete');
+                  object.set('allow', 'true');
+               }
+               //Rights of the Task Members
+               if(taskMembers &amp;&amp; taskMembers.size() &gt; 0){
+                  for(user in taskMembers){
+                     def object = task.newObject('XWiki.XWikiRights');
+                     object.set('users', user);
+                     object.set('groups', '')
+                     object.set('levels', "view,edit");
+                     object.set('allow', 'true')                 
+                  }
+               }
+              
+               //Rights of the project members
+               if(projectRights &amp;&amp; projectRights.size() &gt; 0){
+                  //Rights of the project creator
+                  if(projectRights.get("projectCreator") &amp;&amp; projectRights.get("projectCreator") != "" &amp;&amp; xwiki.exists(projectRights.get("projectCreator"))){
+                     def object = task.newObject('XWiki.XWikiRights');
+                     object.set('users', projectRights.get("projectCreator"));
+                     object.set('groups', '');
+                     object.set('levels', 'view,edit,delete');
+                     object.set('allow', 'true');
+                  }
+                  //Set edit users rights
+                  if(projectRights.get("editUsers") &amp;&amp; projectRights.get("editUsers").size() &gt; 0){
+                     for(user in projectRights.get("editUsers")){
+                        if(user &amp;&amp; user != "" &amp;&amp; xwiki.exists(user)){
+                           def object = task.newObject('XWiki.XWikiRights');
+                           object.set('users', user);
+                           object.set('groups', '')
+                           object.set('levels', "view");
+                           object.set('allow', 'true');                 
+                        }
+                     }
+                  }
+                  //Set edit groups rights
+                  if(projectRights.get("editGroups") &amp;&amp; projectRights.get("editGroups").size() &gt; 0){
+                     for(group in projectRights.get("editGroups")){
+                        if(group &amp;&amp; group != "" &amp;&amp; xwiki.exists(group)){
+                           def object = task.newObject('XWiki.XWikiRights');
+                           object.set('users', '');
+                           object.set('groups', group)
+                           object.set('levels', "view");
+                           object.set('allow', 'true');
+                        }                 
+                     }
+                  }
+                  //Set view users rights
+                  if(projectRights.get("viewUsers") &amp;&amp; projectRights.get("viewUsers").size() &gt; 0){
+                     for(user in projectRights.get("viewUsers")){
+                        if(user &amp;&amp; user != "" &amp;&amp; xwiki.exists(user)){
+                           def object = task.newObject('XWiki.XWikiRights');
+                           object.set('users', user);
+                           object.set('groups', '')
+                           object.set('levels', "view");
+                           object.set('allow', 'true');
+                        }                 
+                     }
+                  }
+                  //Set view groups rights
+                  if(projectRights.get("viewGroups") &amp;&amp; projectRights.get("viewGroups").size() &gt; 0){
+                     for(group in projectRights.get("viewGroups")){
+                        if(group &amp;&amp; group != "" &amp;&amp; xwiki.exists(group)){
+                           def object = task.newObject('XWiki.XWikiRights');
+                           object.set('users', '');
+                           object.set('groups', group)
+                           object.set('levels', "view");
+                           object.set('allow', 'true');
+                        }                 
+                     }
+                  }
+                }
+                task.save();
+            }
+       }
+  } 
+  catch (Exception e) {
+  }
+}
+
+}//End of class</content>
+</xwikidoc>

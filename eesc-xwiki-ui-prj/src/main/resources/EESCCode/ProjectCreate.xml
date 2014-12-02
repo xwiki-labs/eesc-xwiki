@@ -32,8 +32,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1407314461000</creationDate>
-  <date>1407319939000</date>
-  <contentUpdateDate>1407319939000</contentUpdateDate>
+  <date>1416169340000</date>
+  <contentUpdateDate>1416169166000</contentUpdateDate>
   <version>1.1</version>
   <title>${services.localization.render('eesc.ProjectCreate.title')}</title>
   <defaultTemplate/>
@@ -277,10 +277,23 @@
 #set($reqProjectName = $request.getParameter('projectname'))
 #set($reqScope = $request.getParameter('scope'))
 #if(!$reqScope || $reqScope.equals(''))
-  #set($reqScope = 'public')
+  #set($reqScope = 'all')
 #end
-#set($reqUsers = $request.getParameterValues('users'))
-#set($reqGroups = $request.getParameterValues('groups'))
+
+#set($editScope = $request.getParameter('editscope'))
+#set($viewScope = $request.getParameter('viewscope'))
+#if(!$editScope || $editScope.equals(''))
+  #set($editScope = 'all')
+#end
+## The scope is now a combination of edit scope and view scope (ex: all, some-all, some-some ...)
+#set($reqScope = $editScope)
+#if($editScope &amp;&amp; $editScope != "all")
+   #set($reqScope = $editScope + "-" + $viewScope)
+#end
+#set($editUsers= $request.getParameterValues('editusers'))
+#set($editGroups = $request.getParameterValues('editgroups'))
+#set($viewUsers = $request.getParameterValues('viewusers'))
+#set($viewGroups = $request.getParameterValues('viewgroups'))
 #set($reqErrors = $request.getParameterValues('errors'))
 ##############################################
 ##                CONTROLLER
@@ -290,9 +303,9 @@
   #if($reqStep.equals('cancel'))
     #stepCancel($reqReferer)
   #elseif($reqStep.equals('form'))
-    #stepForm($reqReferer, $reqProjectName, $reqScope, $reqUsers, $reqGroups, $reqErrors)
+    #stepForm($reqReferer, $reqProjectName, $reqScope, $editUsers, $editGroups, $viewUsers, $viewGroups, $reqErrors)
   #elseif($reqStep.equals('create'))
-    #stepCreate($reqProjectName, $reqScope, $reqUsers, $reqGroups)
+    #stepCreate($reqProjectName, $reqScope, $editUsers, $editGroups, $viewUsers, $viewGroups)
   #else
     #displayError()
   #end
@@ -308,10 +321,12 @@
  *
  * @param $projectName The name of the project to create
  * @param $scope The type of restriction of the project ('public', 'shared-public', 'shared-private' or 'private')
- * @param $users The list of authorized users if it apply (if $scope is 'shared-*')
- * @param $groups The list of authorized users if it apply (if $scope is 'shared-*')
+ * @param $eusers The list of authorized users to edit if it apply (if $scope is 'some-*')
+ * @param $egroups The list of authorized users to edit if it apply (if $scope is 'some-*')
+ * @param $vusers The list of authorized users to view if it apply (if $scope is '*-some')
+ * @param $vgroups The list of authorized users to view if it apply (if $scope is '*-some')
  *#
-#macro(checkFields $projectName $scope $users $groups)
+#macro(checkFields $projectName $scope $eusers $egroups $vusers $vgroups)
   #set($errors = [])
   ## Check that the project has a name
   #if($projectName.equals(''))
@@ -330,11 +345,17 @@
     #set($querystring = "${querystring}${sep}step=form")
     #set($querystring = "${querystring}${sep}projectname=${projectName}")
     #set($querystring = "${querystring}${sep}scope=${scope}")
-    #foreach($user in $users)
-      #set($querystring = "${querystring}${sep}users=${user}")
+    #foreach($user in $eusers)
+      #set($querystring = "${querystring}${sep}editusers=${user}")
     #end
-    #foreach($group in $groups)
-      #set($querystring = "${querystring}${sep}groups=${group}")
+    #foreach($group in $egroups)
+      #set($querystring = "${querystring}${sep}editgroups=${group}")
+    #end
+    #foreach($user in $vusers)
+      #set($querystring = "${querystring}${sep}viewusers=${user}")
+    #end
+    #foreach($group in $vgroups)
+      #set($querystring = "${querystring}${sep}viewgroups=${group}")
     #end
     #foreach($error in $errors)
       #set($querystring = "${querystring}${sep}errors=${error}")
@@ -350,12 +371,15 @@
  * Given the HTTP POST request, create the project with the rights that apply.
  *
  * @param $projectName The name of the project to create
- * @param $scope The type of restriction of the project ('public', 'shared-public', 'shared-private' or 'private')
- * @param $users The list of authorized users if it apply (if $scope is 'shared-*')
- * @param $groups The list of authorized users if it apply (if $scope is 'shared-*')
+ * @param $scope The type of restriction of the project ('all', 'some-all', 'some-some' ...)
+ * @param $eusers The list of authorized users to edit if it apply (if $scope is 'some-*')
+ * @param $egroups The list of authorized users to edit if it apply (if $scope is '*-some')
+ * @param $vusers The list of authorized users to view if it apply ()
+ * @param $vgroups The list of authorized users to view if it apply ()
+
  *#
-#macro(stepCreate $projectName $scope $users $groups)
-  #checkFields($projectName, $scope, $users, $groups)
+#macro(stepCreate $projectName $scope $eusers $egroups $vusers $vgroups)
+  #checkFields($projectName, $scope, $eusers, $egroups, $vusers, $vgroups)
   #set($querystring = "template=EESCCode.ProjectsCodeTemplate")
   #set($sep = '&amp;')
   #set($querystring = "${querystring}${sep}sheet=EESCCode.ProjectsCodeSheet")
@@ -363,14 +387,24 @@
   #set($querystring = "${querystring}${sep}title=${projectName}")
   #set($querystring = "${querystring}${sep}ProjectsCode.ProjectsCodeClass_0_projectLeader=${xcontext.userReference}")
   #set($querystring = "${querystring}${sep}scope=${scope}")
-  #foreach($user in $users)
+  #foreach($user in $eusers)
     #if($user &amp;&amp; !$user.isEmpty())
-      #set($querystring = "${querystring}${sep}user=${user}")
+      #set($querystring = "${querystring}${sep}editusers=${user}")
     #end
   #end
-  #foreach($group in $groups)
+  #foreach($group in $egroups)
     #if($group &amp;&amp; !$group.isEmpty())
-      #set($querystring = "${querystring}${sep}group=${group}")
+      #set($querystring = "${querystring}${sep}editgroups=${group}")
+    #end
+  #end
+  #foreach($user in $vusers)
+    #if($user &amp;&amp; !$user.isEmpty())
+      #set($querystring = "${querystring}${sep}viewusers=${user}")
+    #end
+  #end
+  #foreach($group in $vgroups)
+    #if($group &amp;&amp; !$group.isEmpty())
+      #set($querystring = "${querystring}${sep}viewgroups=${group}")
     #end
   #end
   #set($projectref = $services.model.createDocumentReference(${xcontext.mainWikiName}, 'Projects', $projectName))
@@ -414,7 +448,7 @@
  * @param $groups The list of authorized users if it apply (if $scope is 'shared-*')
  * @param $errors The list of possible errors
  *#
-#macro(stepForm $referer $projectName $scope $users $groups $errors)
+#macro(stepForm $referer $projectName $scope $eusers $egroups $vusers $vgroups $errors)
 
   {{html clean='false'}}
     &lt;form class="xform" method="GET" action="${xwiki.getURL($services.model.createDocumentReference(${xcontext.mainWikiName}, 'EESCCode', 'ProjectCreate'))}"&gt;
@@ -448,7 +482,7 @@
           &lt;/label&gt;
         &lt;/dt&gt;
         &lt;dd&gt;
-          #htmlshareproject($projectName, $scope, $users, $groups, 'edit')
+          #htmlshareproject($projectName, $scope, $eusers, $egroups, $vusers, $vgroups, 'edit')
         &lt;/dd&gt;
       &lt;/dl&gt;
       &lt;div class="bottombuttons"&gt;

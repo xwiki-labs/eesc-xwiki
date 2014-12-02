@@ -47,8 +47,18 @@
       #else
         <input type="hidden" name="parent" value="Main.WebHome" />
       #end
-      <input type="submit" class="btn btn-success" value="${services.localization.render('eesc.template.eescheader.create.task')}" />
-    </form>
+	  #set($showNewTaskBtn = false)
+	  #if($isProject)
+	    #if($hasEdit)
+			#set($showNewTaskBtn = true)
+		#end
+	  #else
+		#set($showNewTaskBtn = true)
+	  #end
+		#if($showNewTaskBtn)
+			<input type="submit" class="btn btn-success" value="${services.localization.render('eesc.template.eescheader.create.task')}" />
+		#end
+	</form>
   #end
 </span>
 <span class="text-right">
