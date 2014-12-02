@@ -145,19 +145,6 @@
         <validationRegExp/>
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </issueApplicationURL>
-      <logo>
-        <customDisplay/>
-        <disabled>0</disabled>
-        <name>logo</name>
-        <number>24</number>
-        <picker>0</picker>
-        <prettyName>Logo</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <validationMessage/>
-        <validationRegExp/>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </logo>
       <member_designer>
         <cache>0</cache>
         <customDisplay/>

@@ -32,8 +32,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1405091832000</creationDate>
-  <date>1411656304000</date>
-  <contentUpdateDate>1411656304000</contentUpdateDate>
+  <date>1417513972000</date>
+  <contentUpdateDate>1417513972000</contentUpdateDate>
   <version>1.1</version>
   <title>$services.localization.render('platform.core.profile.title', ["$!doc.getValue('first_name') $!doc.getValue('last_name')"])</title>
   <defaultTemplate/>

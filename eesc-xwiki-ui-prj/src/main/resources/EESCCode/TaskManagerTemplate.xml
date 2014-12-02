@@ -26,25 +26,23 @@
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <creator>xwiki:XWiki.Admin</creator>
-  <creationDate>1405598894000</creationDate>
   <parent>TaskManagerClass</parent>
+  <creator>xwiki:XWiki.Admin</creator>
   <author>xwiki:XWiki.Admin</author>
+  <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1405598894000</creationDate>
   <date>1405600699000</date>
   <contentUpdateDate>1405599946000</contentUpdateDate>
   <version>1.1</version>
   <title/>
+  <defaultTemplate/>
+  <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <content/>
   <object>
-    <name>EESCCode.TaskManagerTemplate</name>
-    <number>0</number>
-    <className>EESCCode.TaskManagerMembersClass</className>
-    <guid>3aebaf09-2a21-4b8f-a521-0e3c928abdf2</guid>
     <class>
       <name>EESCCode.TaskManagerMembersClass</name>
       <customClass/>
@@ -76,15 +74,15 @@
         <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
       </assignees>
     </class>
+    <name>EESCCode.TaskManagerTemplate</name>
+    <number>0</number>
+    <className>EESCCode.TaskManagerMembersClass</className>
+    <guid>3aebaf09-2a21-4b8f-a521-0e3c928abdf2</guid>
     <property>
       <assignees/>
     </property>
   </object>
   <object>
-    <name>EESCCode.TaskManagerTemplate</name>
-    <number>0</number>
-    <className>TaskManager.TaskManagerClass</className>
-    <guid>b3fdafa0-cad7-40c4-84df-613553044523</guid>
     <class>
       <name>TaskManager.TaskManagerClass</name>
       <customClass/>
@@ -428,6 +426,10 @@
         <classType>com.xpn.xwiki.objects.classes.DBListClass</classType>
       </status>
     </class>
+    <name>EESCCode.TaskManagerTemplate</name>
+    <number>0</number>
+    <className>TaskManager.TaskManagerClass</className>
+    <guid>b3fdafa0-cad7-40c4-84df-613553044523</guid>
     <property>
       <assignee/>
     </property>
@@ -457,10 +459,6 @@
     </property>
   </object>
   <object>
-    <name>EESCCode.TaskManagerTemplate</name>
-    <number>0</number>
-    <className>XWiki.DocumentSheetBinding</className>
-    <guid>503a8295-bf20-46d1-bf79-a8c9edc26b67</guid>
     <class>
       <name>XWiki.DocumentSheetBinding</name>
       <customClass/>
@@ -484,8 +482,13 @@
         <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
       </sheet>
     </class>
+    <name>EESCCode.TaskManagerTemplate</name>
+    <number>0</number>
+    <className>XWiki.DocumentSheetBinding</className>
+    <guid>503a8295-bf20-46d1-bf79-a8c9edc26b67</guid>
     <property>
       <sheet>EESCCode.TaskManagerSheet</sheet>
     </property>
   </object>
+  <content/>
 </xwikidoc>
