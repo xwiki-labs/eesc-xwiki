@@ -268,8 +268,7 @@
                         $services.icon.render('user')
                         $escapetool.xml($doc.displayPrettyName('reporter', false, false))
                       &lt;/label&gt;
-                    : ##$doc.display('reporter', 'view')
-                      #if($doc.isNew())
+                    : #if($doc.isNew())
                          #set($obj = $doc.getObject("TaskManager.TaskManagerClass"))
                          #set($discard = $obj.set("reporter",$context.getUser()))
                          $obj.get("reporter")
