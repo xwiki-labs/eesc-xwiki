@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
  * See the NOTICE file distributed with this work for additional
  * information regarding copyright ownership.
@@ -20,114 +19,25 @@
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
 -->
 
-<xwikidoc>
+<xwikidoc version="1.1">
   <web>EESCCode</web>
   <name>ProjectsInfoSheet</name>
   <language/>
   <defaultLanguage/>
   <translation>0</translation>
-  <parent>ProjectsCode.ProjectsCodeSheet</parent>
   <creator>xwiki:XWiki.Admin</creator>
-  <author>xwiki:XWiki.Admin</author>
-  <customClass/>
-  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1407314460000</creationDate>
-  <date>1416913734000</date>
-  <contentUpdateDate>1416913640000</contentUpdateDate>
+  <parent>ProjectsCode.ProjectsCodeSheet</parent>
+  <author>xwiki:XWiki.Admin</author>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <date>1421334543000</date>
+  <contentUpdateDate>1421334445000</contentUpdateDate>
   <version>1.1</version>
   <title>ProjectsInfoSheet</title>
-  <defaultTemplate/>
-  <validationScript/>
   <comment/>
   <minorEdit>false</minorEdit>
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>true</hidden>
-  <object>
-    <class>
-      <name>XWiki.UIExtensionClass</name>
-      <customClass/>
-      <customMapping/>
-      <defaultViewSheet/>
-      <defaultEditSheet/>
-      <defaultWeb/>
-      <nameField/>
-      <validationScript/>
-      <content>
-        <disabled>0</disabled>
-        <name>content</name>
-        <number>3</number>
-        <prettyName>Extension Content</prettyName>
-        <rows>10</rows>
-        <size>40</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </content>
-      <extensionPointId>
-        <disabled>0</disabled>
-        <name>extensionPointId</name>
-        <number>1</number>
-        <prettyName>Extension Point ID</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </extensionPointId>
-      <name>
-        <disabled>0</disabled>
-        <name>name</name>
-        <number>2</number>
-        <prettyName>Extension ID</prettyName>
-        <size>30</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
-      </name>
-      <parameters>
-        <disabled>0</disabled>
-        <name>parameters</name>
-        <number>4</number>
-        <prettyName>Extension Parameters</prettyName>
-        <rows>10</rows>
-        <size>40</size>
-        <unmodifiable>0</unmodifiable>
-        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
-      </parameters>
-      <scope>
-        <cache>0</cache>
-        <disabled>0</disabled>
-        <displayType>select</displayType>
-        <multiSelect>0</multiSelect>
-        <name>scope</name>
-        <number>5</number>
-        <prettyName>Extension Scope</prettyName>
-        <relationalStorage>0</relationalStorage>
-        <separator> </separator>
-        <separators> ,|</separators>
-        <size>1</size>
-        <unmodifiable>0</unmodifiable>
-        <values>wiki=Current Wiki|user=Current User|global=Global</values>
-        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
-      </scope>
-    </class>
-    <name>EESCCode.ProjectsInfoSheet</name>
-    <number>0</number>
-    <className>XWiki.UIExtensionClass</className>
-    <guid>e0bdd2d6-86e4-46c2-a458-7508353e7eb0</guid>
-    <property>
-      <content>{{include document="EESCCode.ProjectsInfoSheet" /}}</content>
-    </property>
-    <property>
-      <extensionPointId>org.xwiki.contrib.project.tab</extensionPointId>
-    </property>
-    <property>
-      <name>eesc-info</name>
-    </property>
-    <property>
-      <parameters>label=eesc.prj.tab.info.title
-priority=1</parameters>
-    </property>
-    <property>
-      <scope>wiki</scope>
-    </property>
-  </object>
   <content>{{include reference="EESCCode.ShareMacro"/}}
 
 {{velocity}}
@@ -186,7 +96,12 @@ priority=1</parameters>
   (((
     ; &lt;label for="ProjectsCode.ProjectsCodeClass_0_projectLeader"&gt;$escapetool.xml($doc.displayPrettyName('projectLeader', false, false))&lt;/label&gt;
     : $doc.display('projectLeader', 'view')
-      {{html clean="false"}}&lt;input type="hidden" name="ProjectsCode.ProjectsCodeClass_0_projectLeader" value="$!{request.getParameter('ProjectsCode.ProjectsCodeClass_0_projectLeader')}" /&gt;{{/html}}
+      #if(!$xwiki.exists($doc.fullName))
+         #set($projectLeader = $request.getParameter('ProjectsCode.ProjectsCodeClass_0_projectLeader'))
+      #else
+         #set($projectLeader = $doc.getValue('projectLeader'))
+      #end
+      {{html clean="false"}}&lt;input type="hidden" name="ProjectsCode.ProjectsCodeClass_0_projectLeader" value="$!{projectLeader}" /&gt;{{/html}}
   )))
   (% id="pInfo2" %)
   (((
@@ -207,7 +122,7 @@ $escapetool.xml($services.localization.render('eesc.projectsheet_other_members')
 &lt;input type="hidden" id="template" name="template" value="${template}" /&gt;
 &lt;input type="hidden" id="parent" name="parent" value="${parent}" /&gt;
 &lt;input type="hidden" id="objectPolicy" name="objectPolicy" value="updateOrCreate" /&gt;
-&lt;input type="hidden" id="title" name="title" value="[${doc.space}] ${doc.name}" /&gt;
+##&lt;input type="hidden" id="title" name="title" value="[${doc.space}] ${doc.name}" /&gt;
 &lt;input type="hidden" id="EESCCode.CollaborativeProjectClass_0_scope" name="EESCCode.CollaborativeProjectClass_0_scope" value="${scope}" /&gt;
 ## Creator of the document
 &lt;input type="hidden" id="XWiki.XWikiRights_0_users" name="XWiki.XWikiRights_0_users" value="${xcontext.user}" /&gt;
@@ -284,4 +199,90 @@ $escapetool.xml($services.localization.render('eesc.projectsheet_other_members')
 #end
 {{/html}}
 {{/velocity}}</content>
+  <object>
+    <name>EESCCode.ProjectsInfoSheet</name>
+    <number>0</number>
+    <className>XWiki.UIExtensionClass</className>
+    <guid>e0bdd2d6-86e4-46c2-a458-7508353e7eb0</guid>
+    <class>
+      <name>XWiki.UIExtensionClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <content>
+        <disabled>0</disabled>
+        <name>content</name>
+        <number>3</number>
+        <prettyName>Extension Content</prettyName>
+        <rows>10</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </content>
+      <extensionPointId>
+        <disabled>0</disabled>
+        <name>extensionPointId</name>
+        <number>1</number>
+        <prettyName>Extension Point ID</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </extensionPointId>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>2</number>
+        <prettyName>Extension ID</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parameters>
+        <disabled>0</disabled>
+        <name>parameters</name>
+        <number>4</number>
+        <prettyName>Extension Parameters</prettyName>
+        <rows>10</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </parameters>
+      <scope>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>scope</name>
+        <number>5</number>
+        <prettyName>Extension Scope</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>wiki=Current Wiki|user=Current User|global=Global</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </scope>
+    </class>
+    <property>
+      <content>{{include document="EESCCode.ProjectsInfoSheet" /}}</content>
+    </property>
+    <property>
+      <extensionPointId>org.xwiki.contrib.project.tab</extensionPointId>
+    </property>
+    <property>
+      <name>eesc-info</name>
+    </property>
+    <property>
+      <parameters>label=eesc.prj.tab.info.title
+priority=1</parameters>
+    </property>
+    <property>
+      <scope>wiki</scope>
+    </property>
+  </object>
 </xwikidoc>
