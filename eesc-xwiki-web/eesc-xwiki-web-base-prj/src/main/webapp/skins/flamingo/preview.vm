@@ -2,7 +2,6 @@
 <div class="main layoutsubsection">
 <div id="mainContentArea">
 <div class="topbuttons">#template("previewactions.vm")<hr /></div>
-#template("eescTitle.vm")
 #template("hierarchy.vm")
 #template("contentview.vm")
 <div class="bottombuttons"><hr />#template("previewactions.vm")</div>
