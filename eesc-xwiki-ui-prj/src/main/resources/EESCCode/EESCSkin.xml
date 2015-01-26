@@ -29,8 +29,8 @@
   <creationDate>1421919832000</creationDate>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1422267718000</date>
-  <contentUpdateDate>1421920020000</contentUpdateDate>
+  <date>1422285284000</date>
+  <contentUpdateDate>1422281732000</contentUpdateDate>
   <version>1.1</version>
   <title>EESC Skin</title>
   <comment/>
@@ -38,6 +38,15 @@
   <syntaxId>xwiki/2.1</syntaxId>
   <hidden>false</hidden>
   <content/>
+  <attachment>
+    <filename>uicomponents.widgets.userpicker.userPicker.js</filename>
+    <author>XWiki.Admin</author>
+    <date>1422281732000</date>
+    <version>1.1</version>
+    <comment/>
+    <content>dmFyIFhXaWtpPShmdW5jdGlvbiBkZWZpbmVVc2VyUGlja2VyKGUpe3ZhciBiPWUud2lkZ2V0cztpZighYnx8IWIuU3VnZ2VzdFBpY2tlcil7dmFyIGM9YXJndW1lbnRzWzFdfHwwO2lmKGM+NSl7Y29uc29sZS5lcnJvcigiRmFpbGVkIHRvIGRlZmluZSB0aGUgVXNlclBpY2tlciBtb2R1bGU6IHJlcXVpcmVkIGRlcGVuZGVuY3kgU3VnZ2VzdFBpY2tlciBpcyBtaXNzaW5nLiIpfWVsc2V7c2V0VGltZW91dChkZWZpbmVVc2VyUGlja2VyLmJpbmQod2luZG93LGUsYysxKSwwKX1yZXR1cm4gZX12YXIgYT1DbGFzcy5jcmVhdGUoYi5TdWdnZXN0UGlja2VyLHttYXRjaGVzU2VsZWN0ZWRWYWx1ZTpmdW5jdGlvbihnLGYpe3JldHVybiBlLk1vZGVsLnJlc29sdmUoZyxlLkVudGl0eVR5cGUuRE9DVU1FTlQpLm5hbWU9PWYuaWR9LGdldERlZmF1bHRTdWdnZXN0aW9uOmZ1bmN0aW9uKGcpe3ZhciBmPWUuTW9kZWwucmVzb2x2ZShnLGUuRW50aXR5VHlwZS5ET0NVTUVOVCk7cmV0dXJue2lkOmYubmFtZSx2YWx1ZTpnLGluZm86Zi5uYW1lLGljb246Ii9wcmovcmVzb3VyY2VzL2ljb25zL3h3aWtpL25vYXZhdGFyLnBuZyJ9fSxhZGRJdGVtOmZ1bmN0aW9uKCRzdXBlcixmKXt0aGlzLmlucHV0Lmhhc0NsYXNzTmFtZSgibXVsdGlwbGVTZWxlY3Rpb24iKXx8dGhpcy5saXN0LnVwZGF0ZSgiIik7JHN1cGVyKGYpfSxkaXNwbGF5SXRlbTpmdW5jdGlvbihmKXt2YXIgZz10aGlzLnN1Z2dlc3QuY3JlYXRlSXRlbURpc3BsYXkoZix7fSk7Zy5kb3duKCIudXNlci1uYW1lIikuaW5zZXJ0KHRoaXMuY3JlYXRlRGVsZXRlVG9vbCgpKTtyZXR1cm4gbmV3IEVsZW1lbnQoImxpIikuaW5zZXJ0KGcpLmluc2VydCh0aGlzLmNyZWF0ZUl0ZW1JbnB1dChmKSl9fSk7Yi5Vc2VyUGlja2VyPUNsYXNzLmNyZWF0ZShiLlN1Z2dlc3Qse2luaXRpYWxpemU6ZnVuY3Rpb24oJHN1cGVyLGYsZyl7JHN1cGVyKGYsT2JqZWN0LmV4dGVuZCh7dmFybmFtZToiaW5wdXQiLGVuYWJsZUhpZGVCdXR0b246ZmFsc2UsdGltZW91dDozMDAwMH0sZ3x8e30pKTt2YXIgaD1mO2lmKGYuaGFzQ2xhc3NOYW1lKCJ3aXRoU2NvcGUiKSYmIWYuaGFzQ2xhc3NOYW1lKCJnbG9iYWwiKSl7dGhpcy5fc291cmNlVVJMPWcuc2NyaXB0O3RoaXMuX2NyZWF0ZVNjb3BlKCk7aD1mLnVwKCl9dGhpcy5fc2VsZWN0aW9uTWFuYWdlcj10aGlzLl9jcmVhdGVTZWxlY3Rpb25NYW5hZ2VyKHtsaXN0SW5zZXJ0aW9uRWxlbWVudDpoLGxpc3RJbnNlcnRpb25Qb3NpdGlvbjoiYmVmb3JlIixhY2NlcHRGcmVlVGV4dDp0cnVlfSk7dGhpcy5tdWx0aXBsZVNlbGVjdGlvbj1mLmhhc0NsYXNzTmFtZSgibXVsdGlwbGVTZWxlY3Rpb24iKTtpZihmLmlkIT0iIil7Yi5Vc2VyUGlja2VyLmluc3RhbmNlc1tmLmlkXT10aGlzfX0sY3JlYXRlSXRlbURpc3BsYXk6ZnVuY3Rpb24oayxqKXt2YXIgZj1uZXcgRWxlbWVudCgiZGl2Iix7ImNsYXNzIjoidXNlciJ9KTt2YXIgZz1uZXcgRWxlbWVudCgiZGl2Iix7ImNsYXNzIjoidXNlci1hdmF0YXItd3JhcHBlciJ9KTtnLmluc2VydChuZXcgRWxlbWVudCgiaW1nIix7c3JjOmsuaWNvbixhbHQ6ay5pbmZvLCJjbGFzcyI6Imljb24ifSkpO2YuaW5zZXJ0KGcpO3ZhciBpPWouaGlnaGxpZ2h0P3RoaXMuZW1waGFzaXplTWF0Y2hlcyh0aGlzLnNJbnB1dCxrLmluZm8pOmsuaW5mbztmLmluc2VydChuZXcgRWxlbWVudCgiZGl2Iix7ImNsYXNzIjoidXNlci1uYW1lIn0pLnVwZGF0ZShpKSk7dmFyIGg9ai5oaWdobGlnaHQ/dGhpcy5lbXBoYXNpemVNYXRjaGVzKHRoaXMuc0lucHV0LGsuaWQpOmsuaWQ7Zi5pbnNlcnQobmV3IEVsZW1lbnQoImRpdiIseyJjbGFzcyI6InVzZXItYWxpYXMifSkudXBkYXRlKGgpKTtyZXR1cm4gZn0sY2xlYXI6ZnVuY3Rpb24oKXt0aGlzLmZsZC5jbGVhcigpO3RoaXMuX3NlbGVjdGlvbk1hbmFnZXIuY2xlYXJBY2NlcHRlZExpc3QoKX0sX2NyZWF0ZVNlbGVjdGlvbk1hbmFnZXI6ZnVuY3Rpb24oZil7cmV0dXJuIG5ldyBhKHRoaXMuZmxkLHRoaXMsZil9LF9jcmVhdGVTY29wZTpmdW5jdGlvbigpe3RoaXMuX3Njb3BlPW5ldyBFbGVtZW50KCJpbnB1dCIse3R5cGU6ImltYWdlIiwiY2xhc3MiOiJzY29wZSIsYWx0OiJDbGlxdWVyIHBvdXIgYmFzY3VsZXIgZW50cmUgbGEgcG9ydMOpZSBsb2NhbGUgZXQgY2VsbGUgZ2xvYmFsZSIsdGl0bGU6IkNsaXF1ZXIgcG91ciBiYXNjdWxlciBlbnRyZSBsYSBwb3J0w6llIGxvY2FsZSBldCBjZWxsZSBnbG9iYWxlIn0pO3ZhciBmPW5ldyBFbGVtZW50KCJzcGFuIikuaW5zZXJ0KHRoaXMuX3Njb3BlKTt0aGlzLmZsZC5pbnNlcnQoe2JlZm9yZTpmfSk7Zi5pbnNlcnQodGhpcy5mbGQpO3RoaXMuX3Njb3BlLm9ic2VydmUoImNsaWNrIix0aGlzLl90b2dnbGVTY29wZS5iaW5kQXNFdmVudExpc3RlbmVyKHRoaXMpKTt0aGlzLl90b2dnbGVTY29wZSgpfSxfdG9nZ2xlU2NvcGU6ZnVuY3Rpb24oZil7ZiYmZi5zdG9wKCk7aWYodGhpcy5fc2NvcGUudmFsdWU9PSJsb2NhbCIpe3RoaXMuX3Njb3BlLnZhbHVlPSJnbG9iYWwiO3RoaXMuX3Njb3BlLnNyYz0iL3Byai9yZXNvdXJjZXMvaWNvbnMvc2lsay93b3JsZC5wbmcifWVsc2V7dGhpcy5fc2NvcGUudmFsdWU9ImxvY2FsIjt0aGlzLl9zY29wZS5zcmM9Ii9wcmovcmVzb3VyY2VzL2ljb25zL3NpbGsvd29ybGRfZGVsZXRlLnBuZyJ9dGhpcy5zb3VyY2VzWzBdLnNjcmlwdD10aGlzLl9zb3VyY2VVUkwrIndpa2k9Iit0aGlzLl9zY29wZS52YWx1ZSsiJiJ9LGRldGFjaDpmdW5jdGlvbigkc3VwZXIpe3RoaXMuX3NlbGVjdGlvbk1hbmFnZXImJnRoaXMuX3NlbGVjdGlvbk1hbmFnZXIuZGV0YWNoKCk7dGhpcy5fc2NvcGUmJnRoaXMuX3Njb3BlLnN0b3BPYnNlcnZpbmcoImNsaWNrIikudXAoKS5pbnNlcnQoe2JlZm9yZTp0aGlzLmZsZH0pLnJlbW92ZSgpOyRzdXBlcigpfX0pO2IuVXNlclBpY2tlci5pbnN0YW5jZXM9e307dmFyIGQ9ZnVuY3Rpb24oZil7dmFyIGg9e3VzZXJzOntzY3JpcHQ6ZS5jdXJyZW50RG9jdW1lbnQuZ2V0VVJMKCJnZXQiLCJ4cGFnZT11b3Jnc3VnZ2VzdCZ1b3JnPXVzZXIiICsgKCgkKCdUYXNrTWFuYWdlci5UYXNrTWFuYWdlckNsYXNzXzBfcHJvamVjdCcpKT8iJnByb2plY3Q9IiArICQoJ1Rhc2tNYW5hZ2VyLlRhc2tNYW5hZ2VyQ2xhc3NfMF9wcm9qZWN0JykudmFsdWU6IiIpICsgIiYiKSxub3Jlc3VsdHM6IlV0aWxpc2F0ZXVyIG5vbiB0cm91dsOpIn0sZ3JvdXBzOntzY3JpcHQ6ZS5jdXJyZW50RG9jdW1lbnQuZ2V0VVJMKCJnZXQiLCJ4cGFnZT11b3Jnc3VnZ2VzdCZ1b3JnPWdyb3VwJiIpLG5vcmVzdWx0czoiR3JvdXBlIGludHJvdXZhYmxlIn19O3ZhciBnPShmJiZmLm1lbW8uZWxlbWVudHMpfHxbJCgiYm9keSIpXTtPYmplY3Qua2V5cyhoKS5lYWNoKGZ1bmN0aW9uKGkpe2cuZWFjaChmdW5jdGlvbihqKXtqLnNlbGVjdCgiaW5wdXQuc3VnZ2VzdCIraS5jYXBpdGFsaXplKCkpLmVhY2goZnVuY3Rpb24oayl7aWYoIWsuaGFzQ2xhc3NOYW1lKCJpbml0aWFsaXplZCIpKXt2YXIgbD1PYmplY3QuY2xvbmUoaFtpXSk7aWYoay5oYXNDbGFzc05hbWUoImdsb2JhbCIpKXtsLnNjcmlwdD1sLnNjcmlwdCsid2lraT1nbG9iYWwmIn1uZXcgYi5Vc2VyUGlja2VyKGssbCk7ay5hZGRDbGFzc05hbWUoImluaXRpYWxpemVkIil9fSl9KX0pO3JldHVybiB0cnVlfTsoZS5kb21Jc0xvYWRlZCYmZCgpKXx8ZG9jdW1lbnQub2JzZXJ2ZSgieHdpa2k6ZG9tOmxvYWRlZCIsZCk7ZG9jdW1lbnQub2JzZXJ2ZSgieHdpa2k6ZG9tOnVwZGF0ZWQiLGQpO3JldHVybiBlfSkoWFdpa2l8fHt9KTs=</content>
+    <filesize>3773</filesize>
+  </attachment>
   <object>
     <name>EESCCode.EESCSkin</name>
     <number>0</number>
@@ -851,11 +860,22 @@ $renderedContent
 #end
 
 #macro (displayResult $result)
+  #if ($request.uorg == 'user')
+     #set($projectRightsManager = $xwiki.parseGroovyFromPage("EESCCode.ProjectRightsManagerGroovy"))
+     #set($discard = $projectRightsManager.init($xwiki, $context, $services))
+     #if($request.project &amp;&amp; "$request.project" != "")
+       #set($filterByProject = true)
+       #set($projectRights = $projectRightsManager.getProjectRights($request.project))
+       #set($projectCreator = $projectRights.get("projectCreator"))
+       #set($projectEditGroups = $projectRights.get("editGroups"))
+       #set($projectEditUsers = $projectRights.get("editUsers"))
+     #end
+  #end
   #set ($reference = $services.model.resolveDocument($result, $wikiReference))
   ## Make sure we use relative references as much as possible. See XWIKI-10046.
   #set ($stringReference = $services.model.serialize($reference, 'compactwiki'))
   #getUserAvatarURL($reference $avatarURL 30)
-  #if ($request.uorg == 'user')
+  #if($request.uorg == 'user')
     ## The string returned by XWiki#getUserName() is XML encoded.
     #set ($prettyName = $xwiki.getUserName($stringReference, false))
   #else
@@ -864,8 +884,30 @@ $renderedContent
       #set ($prettyName = $reference.name)
     #end
   #end
-  &lt;rs id="$escapetool.xml($reference.name)" icon="$escapetool.xml($avatarURL.url)"
+  #if($request.uorg == 'user' &amp;&amp; $filterByProject)
+   #set($showItem = false)
+   #if($projectEditGroups.contains("XWiki.XWikiAllGroup"))
+      #set($showItem = true)
+   #else
+     #if(($projectCreator == $stringReference) || $projectEditUsers.contains($stringReference))
+       #set($showItem = true)  
+     #end
+     ## Check if the result belongs to a group that can edit the project
+     #foreach($g in $projectEditGroups)
+        #set($usr = $xwiki.getUser($stringReference))
+        #if($usr &amp;&amp; $usr.isUserInGroup($g))
+           #set($showItem = true)
+        #end
+     #end
+   #end
+    #if($showItem)
+       &lt;rs id="$escapetool.xml($reference.name)" icon="$escapetool.xml($avatarURL.url)"
+       info="$prettyName"&gt;$escapetool.xml($stringReference)&lt;/rs&gt;
+       #end
+  #else
+    &lt;rs id="$escapetool.xml($reference.name)" icon="$escapetool.xml($avatarURL.url)"
     info="$prettyName"&gt;$escapetool.xml($stringReference)&lt;/rs&gt;
+  #end
 #end
 
 #if ($request.wiki == 'global')
