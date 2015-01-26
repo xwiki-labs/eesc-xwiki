@@ -29,7 +29,7 @@
   <creationDate>1421919832000</creationDate>
   <author>xwiki:XWiki.Admin</author>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
-  <date>1421943381000</date>
+  <date>1422267718000</date>
   <contentUpdateDate>1421920020000</contentUpdateDate>
   <version>1.1</version>
   <title>EESC Skin</title>
@@ -673,7 +673,8 @@ $renderedContent
 #set($projectshareref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'ProjectShare'))
 #set($projectcreateref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'ProjectCreate'))
 #set($tasktemplateref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'TaskManagerTemplate'))
-#set($newtaskname = "$xwiki.getUniquePageName('TaskManager',$services.localization.render('eesc.home.task'))")
+#set($taskname = $services.localization.render('eesc.home.task') + $xwiki.getUserName($context.getUser(),false) + $datetool.get('yyyyMdHms'))
+#set($newtaskname = "$xwiki.getUniquePageName('TaskManager',$taskname)")
 #set($newtaskref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'TaskManager',$newtaskname))
 &lt;style type="text/css"&gt;
 .form-inline {
