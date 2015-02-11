@@ -24,6 +24,7 @@
   <name>GlobalVars</name>
   <language/>
   <defaultLanguage/>
+  <parent>WebHome</parent>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1421940122000</creationDate>

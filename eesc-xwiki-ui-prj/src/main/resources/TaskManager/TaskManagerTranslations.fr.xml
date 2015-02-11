@@ -23,6 +23,7 @@
 <xwikidoc version="1.1">
   <web>TaskManager</web>
   <name>TaskManagerTranslations</name>
+  <parent>WebHome</parent>
   <language>fr</language>
   <defaultLanguage>en</defaultLanguage>
   <translation>1</translation>

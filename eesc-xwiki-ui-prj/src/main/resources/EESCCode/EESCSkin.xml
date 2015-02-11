@@ -24,6 +24,7 @@
   <name>EESCSkin</name>
   <language/>
   <defaultLanguage/>
+  <parent>WebHome</parent>
   <translation>0</translation>
   <creator>xwiki:XWiki.Admin</creator>
   <creationDate>1421919832000</creationDate>
