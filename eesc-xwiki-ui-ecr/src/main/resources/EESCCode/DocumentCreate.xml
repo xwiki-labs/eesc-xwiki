@@ -278,7 +278,7 @@
 #set($reqDocumentName = $request.getParameter('documentname'))
 #set($reqRights = $request.getParameter('scope'))
 #if(!$reqRights || $reqRights.equals(''))
-  #set($reqRights = 'public')
+  #set($reqRights = 'shared')
 #end
 #set($reqUsers = $request.getParameterValues('users'))
 #set($reqGroups = $request.getParameterValues('groups'))
