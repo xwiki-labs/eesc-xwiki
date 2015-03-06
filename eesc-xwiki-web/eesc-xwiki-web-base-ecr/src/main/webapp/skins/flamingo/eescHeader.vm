@@ -67,6 +67,7 @@
         </ul>
       </div>
       <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'edit', '')}">
+        <input type="hidden" name="editor" value="wysiwyg" />
         <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.document.edit')}" /> 
       </form>
       #if($doc.hasAccessLevel("delete"))
