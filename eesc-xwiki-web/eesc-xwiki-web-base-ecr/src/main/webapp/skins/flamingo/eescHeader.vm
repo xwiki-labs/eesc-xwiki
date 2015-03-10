@@ -70,6 +70,11 @@
         <input type="hidden" name="editor" value="wysiwyg" />
         <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.document.edit')}" /> 
       </form>
+      <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'view', '')}">
+          <input type="hidden" name="xpage" value="rename" />
+          <input type="hidden" name="step" value="1" />
+          <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.document.move')}" />
+      </form>
       #if($doc.hasAccessLevel("delete"))
         <form class="form-inline" method="GET" action="${xwiki.getURL($documentshareref, 'view', '')}">
           <input type="hidden" name="step" value="form" />
