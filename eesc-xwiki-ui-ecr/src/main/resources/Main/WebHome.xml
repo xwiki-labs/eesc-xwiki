@@ -481,7 +481,7 @@
   #set($query_where_right = "doc.fullName = oright.name and oright.className = 'XWiki.XWikiRights'")
   #set($query_where_groups = "pgroups.id.id = oright.id and pgroups.id.name = 'groups' and pgroups.value = 'XWiki.$groupUID'")
   #set($query_where = "${query_where_share} and ${query_where_right} and ( ${query_where_groups} )")
-  #set($query = "select ${query_select} from ${query_from} where ${query_where}")
+  #set($query = "select ${query_select} from ${query_from} where ${query_where} order by doc.space asc")
 #else
   #set($query_select = "distinct doc.fullName")
   #set($query_from = "XWikiDocument doc, BaseObject as oshare, BaseObject as oright, LargeStringProperty as pusers, LargeStringProperty as pgroups")
@@ -499,7 +499,7 @@
   ## which will list every document with this property (no matter what value is in it); hence, all collaborative documents will be listed.
   #set($query_where_groups = "pgroups.id.id = oright.id and pgroups.id.name = 'groups'#if(${query_where_groups_values}!='') and ( ${query_where_groups_values} )#{end}")
   #set($query_where = "${query_where_share} and ${query_where_right} and ( ( ${query_where_users} ) or ( ${query_where_groups} ) )")
-  #set($query = "select ${query_select} from ${query_from} where ${query_where}")
+  #set($query = "select ${query_select} from ${query_from} where ${query_where} order by doc.space asc")
 #end
 #set($results = $services.query.hql($query).addFilter('hidden').addFilter('unique').execute())
 #set($viewabledocs = [])
