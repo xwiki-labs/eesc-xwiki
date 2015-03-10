@@ -440,7 +440,7 @@
       &lt;/div&gt;&lt;!-- "#eesc-share-with-users" --&gt;
       &lt;div id="eesc-share-with-groups"&gt;
         &lt;span class="xHint"&gt;
-          ${services.localization.render('eesc.DocumentCreate.hint.users')}
+          ${services.localization.render('eesc.DocumentCreate.hint.groups')}
         &lt;/span&gt;
         &lt;input id="eesc-suggestGroups" type="text" name="groups" class="suggestGroups global multipleSelection" value="${documentgroups}" /&gt;
       &lt;/div&gt;&lt;!-- "#eesc-share-with-groups" --&gt;
