@@ -434,7 +434,7 @@
           &lt;/span&gt;
         &lt;/dt&gt;
         &lt;dd&gt;
-          &lt;input type="text" name="spacename" #if(${spaceName} &amp;&amp; !${spaceName.isEmpty()} &amp;&amp; !${eescForbiddenSpaces.contains($spaceName)}) value="${spaceName}" class="suggestSpaces" #{else}value="Dossier" class="suggestSpaces" #{end} /&gt;
+          &lt;input type="text" name="spacename" #if(${spaceName} &amp;&amp; !${spaceName.isEmpty()} &amp;&amp; !${eescForbiddenSpaces.contains($spaceName)}) value="${spaceName}" class="suggestSpaces" #{else}value="${services.localization.render('eesc.DocumentCreate.hint.foldername')}" class="suggestSpaces withTip" autofocus #{end} /&gt;
           #if($errors.contains('EMPTY_SPACE'))
             &lt;div class="box errormessage"&gt;
               $services.localization.render('eesc.DocumentCreate.error.space.empty')
@@ -452,7 +452,7 @@
           &lt;/label&gt;
         &lt;/dt&gt;
         &lt;dd&gt;
-          &lt;input type="text" name="documentname" #if(${documentName} &amp;&amp; !${documentName.isEmpty()}) value="${documentName}" #{else}value="${services.localization.render('eesc.DocumentCreate.hint.documentname')}" class="withTip" autofocus #{end} /&gt;
+          &lt;input type="text" name="documentname" #if(${documentName} &amp;&amp; !${documentName.isEmpty()}) value="${documentName}" #{else}value="${services.localization.render('eesc.DocumentCreate.hint.documentname')}" class="withTip" #{end} /&gt;
           #if($errors.contains('EMPTY_DOCUMENT'))
             &lt;div class="box errormessage"&gt;
               $services.localization.render('eesc.DocumentCreate.error.document.empty')
