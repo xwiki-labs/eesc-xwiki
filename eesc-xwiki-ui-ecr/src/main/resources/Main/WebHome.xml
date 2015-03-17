@@ -470,7 +470,7 @@
 ## GLOBAL VARIABLES
 #set($userId = $xcontext.getUserReference().name)
 #set($groupsForUser = $services.eesc.getGroupsForUser($userId))
-#set($groupUID = $request.getParameter('GROUPE_ID'))
+#set($groupUID = $request.getParameter('GROUP_ID'))
 ##############################################
 ##                 LIST DOCUMENTS
 ##############################################
