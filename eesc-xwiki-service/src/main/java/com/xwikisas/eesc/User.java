@@ -7,19 +7,23 @@ public class User
     String name;
 
     UserStatus status;
+    
+    String etabId;
 
-    public User(String userId, String userName, UserStatus userStatus)
+    public User(String userId, String userName, UserStatus userStatus, String userEtabId)
     {
         id = userId;
         name = userName;
         status = userStatus;
+        etabId = userEtabId;
     }
 
-    public User(String userId, String userName, String userStatus)
+    public User(String userId, String userName, String userStatus, String userEtabId)
     {
         id = userId;
         name = userName;
         status = UserStatus.forName(userStatus);
+        etabId = userEtabId;
     }
 
     public String getId()
@@ -35,6 +39,11 @@ public class User
     public UserStatus getStatus()
     {
         return status;
+    }
+    
+    public String getEtabId()
+    {
+    	return etabId;
     }
 
     @Override

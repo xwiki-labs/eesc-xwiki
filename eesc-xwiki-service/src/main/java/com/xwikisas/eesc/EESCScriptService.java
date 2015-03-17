@@ -55,6 +55,11 @@ public class EESCScriptService implements ScriptService, Initializable
     {
         return eesc.isMember(userID, groupID);
     }
+    
+    public boolean isFromEtab(String userID, String etabID)
+    {
+        return eesc.isFromEtab(userID, etabID);
+    }
 
     public List<Group> getAllGroups()
     {
