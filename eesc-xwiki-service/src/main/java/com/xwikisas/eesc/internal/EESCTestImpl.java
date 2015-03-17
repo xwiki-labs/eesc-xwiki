@@ -45,7 +45,13 @@ public class EESCTestImpl implements EESC, Initializable
             userStatus = UserStatus.valueOf(property);
         }
         return userStatus;
-
+    }
+    
+    private String getEtabId(String userID)
+    {
+        String userKey = String.format("user.%s.etabid", userID);
+        String userEtabId = properties.getProperty(userKey);
+        return userEtabId;
     }
 
     private String getGroupName(String groupID)
@@ -79,8 +85,9 @@ public class EESCTestImpl implements EESC, Initializable
         if (userID != null) {
             String userName = getUserName(userID);
             UserStatus userStatus = getUserStatus(userID);
+            String userEtabId = getEtabId(userID);
             if (userName != null && userStatus != null) {
-                user = new User(userID, userName, userStatus);
+                user = new User(userID, userName, userStatus, userEtabId);
             }
         }
         return user;
@@ -113,7 +120,8 @@ public class EESCTestImpl implements EESC, Initializable
                     String userId = key.split("\\.")[3];
                     String userName = getUserName(userId);
                     UserStatus userStatus = getUserStatus(userId);
-                    User user = new User(userId, userName, userStatus);
+                    String userEtabId = getUserName(userId);
+                    User user = new User(userId, userName, userStatus, userEtabId);
                     userList.add(user);
                 }
             }
@@ -160,6 +168,16 @@ public class EESCTestImpl implements EESC, Initializable
         }
 
     }
+    
+	@Override
+	public boolean isFromEtab(String userID, String etabID) {
+		User user = getUser(userID);
+		if (user.getEtabId().equals(etabID)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
     @Override
     public List<Group> getAllGroups()
