@@ -474,7 +474,8 @@
    #if($groupIDCookie) 
        ## Remove the cookie and create another one
        #set($discard = $response.removeCookie('GROUP_ID',$request))
-       #set($discard = $response.addCookie('GROUP_ID',$groupUID,86400)) ## Cookie age 1 day 24*60*60 seconds
+       ## Cookie age 1 day 24*60*60 seconds
+       #set($discard = $response.addCookie('GROUP_ID',$groupUID,86400))
    #else 
        ## Create
        #set($discard = $response.addCookie('GROUP_ID',$groupUID,86400))
@@ -532,9 +533,7 @@
 #end
 #set($lastspacename = '')
 #if(!$viewabledocs.isEmpty())
-
   ## Add/remove 'open' to have the menu expanded/folded by default
-
   {{menu type="vertical collapsible open"}}
     #foreach($pagename in $viewabledocs)
       #set($pagenameelements = $pagename.split('\.'))
@@ -551,20 +550,15 @@
     #end
     * ----
   {{/menu}}
-
 #else
   #if($xcontext.getUserReference())
-
     {{info}}
       ${services.localization.render('eesc.WebHome.nodocument')}
     {{/info}}
-
   #else
-
     {{error}}
       ${services.localization.render('eesc.WebHome.unconnected')}
     {{/error}}
-
   #end
 #end
 {{/velocity}}</content>
