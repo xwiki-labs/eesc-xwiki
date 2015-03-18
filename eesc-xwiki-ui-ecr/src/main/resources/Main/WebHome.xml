@@ -465,16 +465,38 @@
  * Author: Jean SIMARD (jean.simard@xwiki.com)
  *#
 ##############################################
+## Manage parameters cookies
+##############################################
+#set($groupID = $request.getParameter('GROUP_ID'))
+#set($groupIDCookie = $request.getCookie('GROUP_ID'))
+#if($groupID)
+   ## Edit or create the cookie if not exist
+   #if($groupIDCookie) 
+       ## Remove the cookie and create another one
+       #set($discard = $response.removeCookie('GROUP_ID',$request))
+       #set($discard = $response.addCookie('GROUP_ID',$groupID,86400)) ## Cookie age 1 day 24*60*60 seconds
+   #else 
+       ## Create
+       #set($discard = $response.addCookie('GROUP_ID',$groupID,86400))
+   #end
+#end
+##############################################
 ##                 GLOBALS
 ##############################################
 ## GLOBAL VARIABLES
 #set($userId = $xcontext.getUserReference().name)
 #set($groupsForUser = $services.eesc.getGroupsForUser($userId))
 #set($groupUID = $request.getParameter('GROUP_ID'))
+#if(!$groupUID)
+   #if($request.getCookie("GROUP_ID"))
+      #set($cookie = $request.getCookie('GROUP_ID'))
+      #set($groupUID = $cookie.getValue())
+   #end
+#end
 ##############################################
 ##                 LIST DOCUMENTS
 ##############################################
-#if($groupUID)
+#if( "$!groupUID" != "" &amp;&amp; !$groupUID.equals('all'))
   #set($query_select = "distinct doc.fullName")
   #set($query_from = "XWikiDocument doc, BaseObject as oshare, BaseObject as oright, LargeStringProperty as pusers, LargeStringProperty as pgroups")
   #set($query_where_share = "doc.fullName = oshare.name and oshare.className = 'EESCCode.CollaborativeDocumentClass' and doc.fullName &lt;&gt; 'EESCCode.CollaborativeDocumentTemplate'")
@@ -511,7 +533,10 @@
 #end
 #set($lastspacename = '')
 #if(!$viewabledocs.isEmpty())
-  {{menu type="vertical collapsible open"}}## Add/remove 'open' to have the menu expanded/folded by default
+
+  ## Add/remove 'open' to have the menu expanded/folded by default
+
+  {{menu type="vertical collapsible open"}}
     #foreach($pagename in $viewabledocs)
       #set($pagenameelements = $pagename.split('\.'))
       #set($spacename = $pagenameelements.get(0))
@@ -527,17 +552,21 @@
     #end
     * ----
   {{/menu}}
+
 #else
   #if($xcontext.getUserReference())
+
     {{info}}
       ${services.localization.render('eesc.WebHome.nodocument')}
     {{/info}}
+
   #else
+
     {{error}}
       ${services.localization.render('eesc.WebHome.unconnected')}
     {{/error}}
+
   #end
 #end
-
 {{/velocity}}</content>
 </xwikidoc>
