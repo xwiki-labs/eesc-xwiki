@@ -467,17 +467,17 @@
 ##############################################
 ## Manage parameters cookies
 ##############################################
-#set($groupID = $request.getParameter('GROUP_ID'))
+#set($groupUID = $request.getParameter('GROUP_ID'))
 #set($groupIDCookie = $request.getCookie('GROUP_ID'))
-#if($groupID)
+#if($groupUID)
    ## Edit or create the cookie if not exist
    #if($groupIDCookie) 
        ## Remove the cookie and create another one
        #set($discard = $response.removeCookie('GROUP_ID',$request))
-       #set($discard = $response.addCookie('GROUP_ID',$groupID,86400)) ## Cookie age 1 day 24*60*60 seconds
+       #set($discard = $response.addCookie('GROUP_ID',$groupUID,86400)) ## Cookie age 1 day 24*60*60 seconds
    #else 
        ## Create
-       #set($discard = $response.addCookie('GROUP_ID',$groupID,86400))
+       #set($discard = $response.addCookie('GROUP_ID',$groupUID,86400))
    #end
 #end
 ##############################################
@@ -486,7 +486,6 @@
 ## GLOBAL VARIABLES
 #set($userId = $xcontext.getUserReference().name)
 #set($groupsForUser = $services.eesc.getGroupsForUser($userId))
-#set($groupUID = $request.getParameter('GROUP_ID'))
 #if(!$groupUID)
    #if($request.getCookie("GROUP_ID"))
       #set($cookie = $request.getCookie('GROUP_ID'))
