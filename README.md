@@ -3,10 +3,10 @@ Projet EESC
 
 # Installation
 You can clone the git repository from
-[Github](https://github.com/fmancinelli/eesc-xwiki).  Don't forget to also
+[Github](https://github.com/xwiki-labs/eesc-xwiki).  Don't forget to also
 initialize submodules
 
-	git clone https://github.com/fmancinelli/eesc-xwiki.git
+	git clone https://github.com/xwiki-labs/eesc-xwiki.git
 	cd eesc-xwiki
 	git submodule init
 	git submodule update
