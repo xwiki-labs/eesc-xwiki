@@ -10,6 +10,7 @@ initialize submodules
 	cd eesc-xwiki
 	git submodule init
 	git submodule update
+	mvn clean install
 
 # Deploy
 To deploy, you can use the `eesc-deploy` script that will help you to deploy the
