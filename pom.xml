@@ -39,8 +39,8 @@
 
   <properties>
 	  <application-task.version>2.3-SNAPSHOT</application-task.version>
-	  <application-project-management-generic.version>0.9-SNAPSHOT</application-project-management-generic.version>
-	  <application-project-management-taskmanager.version>0.9-SNAPSHOT</application-project-management-taskmanager.version>
+	  <application-project-management-generic.version>1.0-SNAPSHOT</application-project-management-generic.version>
+	  <application-project-management-taskmanager.version>1.0-SNAPSHOT</application-project-management-taskmanager.version>
   </properties>
 
   <modules>
