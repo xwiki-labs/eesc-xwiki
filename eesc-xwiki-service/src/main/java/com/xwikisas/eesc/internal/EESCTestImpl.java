@@ -2,6 +2,7 @@ package com.xwikisas.eesc.internal;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
@@ -47,11 +48,11 @@ public class EESCTestImpl implements EESC, Initializable
         return userStatus;
     }
     
-    private String getEtabId(String userID)
+    private List<String> getEtabId(String userID)
     {
         String userKey = String.format("user.%s.etabid", userID);
         String userEtabId = properties.getProperty(userKey);
-        return userEtabId;
+        return new ArrayList<String>(Arrays.asList(userEtabId.split(",")));
     }
 
     private String getGroupName(String groupID)
@@ -85,7 +86,7 @@ public class EESCTestImpl implements EESC, Initializable
         if (userID != null) {
             String userName = getUserName(userID);
             UserStatus userStatus = getUserStatus(userID);
-            String userEtabId = getEtabId(userID);
+            List<String> userEtabId = getEtabId(userID);
             if (userName != null && userStatus != null) {
                 user = new User(userID, userName, userStatus, userEtabId);
             }
@@ -120,7 +121,7 @@ public class EESCTestImpl implements EESC, Initializable
                     String userId = key.split("\\.")[3];
                     String userName = getUserName(userId);
                     UserStatus userStatus = getUserStatus(userId);
-                    String userEtabId = getUserName(userId);
+                    List<String> userEtabId = getEtabId(userId);
                     User user = new User(userId, userName, userStatus, userEtabId);
                     userList.add(user);
                 }
@@ -172,7 +173,7 @@ public class EESCTestImpl implements EESC, Initializable
 	@Override
 	public boolean isFromEtab(String userID, String etabID) {
 		User user = getUser(userID);
-		if (user.getEtabId().equals(etabID)) {
+		if (user.getEtabId().contains(etabID)) {
 			return true;
 		} else {
 			return false;

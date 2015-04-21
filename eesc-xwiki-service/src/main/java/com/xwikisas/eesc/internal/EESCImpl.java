@@ -1,5 +1,6 @@
 package com.xwikisas.eesc.internal;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,7 +14,9 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.xwiki.component.annotation.Component;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 import com.xwikisas.eesc.EESC;
 import com.xwikisas.eesc.Group;
 import com.xwikisas.eesc.User;
@@ -100,7 +103,8 @@ public class EESCImpl implements EESC {
 				userID);
 		JsonElement json;
 		User user;
-		String id, nickname, status, etabId;
+		String id, nickname, status;
+		List<String> etabId;
 
 		json = askForJSON(getUserURL);
 		if (json == null) {
@@ -109,7 +113,10 @@ public class EESCImpl implements EESC {
 		id = json.getAsJsonObject().get("id").getAsString();
 		nickname = json.getAsJsonObject().get("nickname").getAsString();
 		status = json.getAsJsonObject().get("status").getAsString();
-		etabId = json.getAsJsonObject().get("etabid").getAsString();
+		// Convert JSON array to Java array
+		// https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html
+		Type listType = new TypeToken<List<String>>() {}.getType();
+		etabId = new Gson().fromJson(json.getAsJsonObject().get("etabid"), listType);
 		user = new User(id, nickname, status, etabId);
 		return user;
 	}
@@ -127,7 +134,8 @@ public class EESCImpl implements EESC {
 		JsonElement json;
 		List<User> userList = new ArrayList<User>();
 		User user;
-		String id, nickname, status, etabId;
+		String id, nickname, status;
+		List<String> etabId;
 
 		json = askForJSON(getUsersForGroupURL);
 		if (json == null) {
@@ -137,7 +145,10 @@ public class EESCImpl implements EESC {
 			id = jsonUser.getAsJsonObject().get("id").getAsString();
 			nickname = jsonUser.getAsJsonObject().get("nickname").getAsString();
 			status = jsonUser.getAsJsonObject().get("status").getAsString();
-			etabId = json.getAsJsonObject().get("etabid").getAsString();
+			// Convert JSON array to Java array
+			// https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html
+			Type listType = new TypeToken<List<String>>() {}.getType();
+			etabId = new Gson().fromJson(json.getAsJsonObject().get("etabid"), listType);
 			user = new User(id, nickname, status, etabId);
 			userList.add(user);
 		}
@@ -172,7 +183,8 @@ public class EESCImpl implements EESC {
 		String isMemberURL = String.format("%s/annuaire/group/%s/user/%s",
 				webserviceURL, groupID, userID);
 		JsonElement json;
-		String id, nickname, status, etabId;
+		String id, nickname, status;
+		List<String> etabId;
 
 		json = askForJSON(isMemberURL);
 		if (json == null) {
@@ -181,7 +193,10 @@ public class EESCImpl implements EESC {
 		id = json.getAsJsonObject().get("id").getAsString();
 		nickname = json.getAsJsonObject().get("nickname").getAsString();
 		status = json.getAsJsonObject().get("status").getAsString();
-		etabId = json.getAsJsonObject().get("etabid").getAsString();
+		// Convert JSON array to Java array
+		// https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html
+		Type listType = new TypeToken<List<String>>() {}.getType();
+		etabId = new Gson().fromJson(json.getAsJsonObject().get("etabid"), listType);
 		try {
 			new User(id, nickname, status, etabId);
 		} catch (Exception e) {
@@ -193,7 +208,7 @@ public class EESCImpl implements EESC {
 	@Override
 	public boolean isFromEtab(String userID, String etabID) {
 		User user = getUser(userID);
-		if (user.getEtabId().equals(etabID)) {
+		if (user.getEtabId().contains(etabID)) {
 			return true;
 		} else {
 			return false;
