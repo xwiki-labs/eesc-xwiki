@@ -49,6 +49,7 @@
     <module>eesc-xwiki-distribution</module>
     <module>eesc-xwiki-ui-ecr</module>
     <module>eesc-xwiki-ui-prj</module>
+    <module>eesc-xwiki-ui-uas</module>
     <module>eesc-xwiki-web</module>
     <module>eesc-xwiki-service</module>
   </modules>

@@ -1,0 +1,93 @@
+###
+### Header for EESC
+###
+### Provide functional buttons (create, edit, share, delete)
+###
+#if($request.getParameter('xpage').equals('print'))
+  <script type="text/javascript">
+    require(["jquery"], function($) {
+      $(function() {
+        $('.eesc-service-title').css('display', 'none');
+        $('#hierarchy').css('display', 'none');
+        $('#docextrapanes').css('display', 'none');
+        $('#xdocFooter').css('display', 'none');
+        window.print();
+      });
+    });
+  </script>
+#else
+  #set($documentref = $services.model.resolveDocument($doc.fullName))
+  #set($documentshareref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'DocumentShare'))
+  #set($documentcreateref = $services.model.createDocumentReference($services.wiki.currentWikiId, 'EESCCode', 'DocumentCreate'))
+  <style type="text/css">
+  .form-inline {
+    display: inline-block;
+  }
+  .text-right {
+    float: right;
+  }
+  </style>
+  <span class="text-left">
+    <form class="form-inline" method="GET" action="${xwiki.getURL($documentcreateref)}">
+      <input type="hidden" name="step" value="form" />
+      <input type="hidden" name="spacename" value="${doc.getSpace()}" />
+      <input type="submit" class="btn btn-success" value="${services.localization.render('eesc.template.eescheader.create.document')}" />
+    </form>
+  </span>
+  <span class="text-right">
+    #if(!$doc.isHidden() && $hasEdit)
+      <div class="btn-group">
+        <button type="button" class="btn btn-primary">${services.localization.render('eesc.template.eescheader.document.export')}</button>
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+          <span class="caret" />
+          <span class="sr-only">Toggle dropdown</span>
+        </button>
+        <ul class="dropdown-menu" role="menu">
+          <li>
+            <a href="${xwiki.getURL($documentref, 'view', 'xpage=pdfoptions')}">${services.localization.render('eesc.template.eescheader.document.export.pdf')}</a>
+          </li>
+          #if("$!{services.officemanager.serverState}" == "Connected")
+            <li>
+              <a href="${xwiki.getURL($documentref, 'export', 'format=rtf')}">${services.localization.render('eesc.template.eescheader.document.export.rtf')}</a>
+            </li>
+            <li>
+              <a href="${xwiki.getURL($documentref, 'export', 'format=odt')}">${services.localization.render('eesc.template.eescheader.document.export.odt')}</a>
+            </li>
+            <li>
+              <a href="${xwiki.getURL($documentref, 'export', 'format=doc')}">${services.localization.render('eesc.template.eescheader.document.export.doc')}</a>
+            </li>
+          #end
+          <li>
+            <a href="${xwiki.getURL($documentref, 'export', 'format=html')}">${services.localization.render('eesc.template.eescheader.document.export.html')}</a>
+          </li>
+          <li class="divider" />
+          <li>
+            <a href="${xwiki.getURL($documentref, 'view', 'xpage=print')}">${services.localization.render('eesc.template.eescheader.document.export.print')}</a>
+          <li>
+        </ul>
+      </div>
+      <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'edit', '')}">
+        <input type="hidden" name="editor" value="wysiwyg" />
+        <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.document.edit')}" /> 
+      </form>
+      <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'view', '')}">
+          <input type="hidden" name="xpage" value="rename" />
+          <input type="hidden" name="step" value="1" />
+          <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.document.move')}" />
+      </form>
+      #if($doc.hasAccessLevel("delete"))
+        <form class="form-inline" method="GET" action="${xwiki.getURL($documentshareref, 'view', '')}">
+          <input type="hidden" name="step" value="form" />
+          <input type="hidden" name="spacename" value="${doc.space}" />
+          <input type="hidden" name="documentname" value="${doc.name}" />
+          <input type="submit" class="btn btn-primary" value="${services.localization.render('eesc.template.eescheader.document.share')}" /> 
+        </form>
+      #end
+      #if($doc.hasAccessLevel("delete"))
+        <form class="form-inline" method="GET" action="${xwiki.getURL($documentref, 'delete', '')}">
+          <input type="submit" class="btn btn-danger" value="${services.localization.render('eesc.template.eescheader.document.delete')}" /> 
+        </form>
+      #end
+  #end
+  </span>
+#end

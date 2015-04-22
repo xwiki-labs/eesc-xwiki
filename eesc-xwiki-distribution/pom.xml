@@ -38,8 +38,10 @@
   <modules>
     <module>eesc-xwiki-web-ecr-hsqldb</module>
     <module>eesc-xwiki-web-prj-hsqldb</module>
+    <module>eesc-xwiki-web-uas-hsqldb</module>
     <module>eesc-xwiki-ui-ecr-all</module>
     <module>eesc-xwiki-ui-prj-all</module>
+    <module>eesc-xwiki-ui-uas-all</module>
   </modules>
 
   <build>

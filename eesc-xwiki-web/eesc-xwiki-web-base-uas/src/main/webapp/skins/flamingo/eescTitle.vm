@@ -1,0 +1,12 @@
+###
+### Title for EESC
+###
+<style type="text/css">
+.eesc-service-title {
+  color: gray;
+}
+</style>
+<h1 class="eesc-service-title">${services.localization.render('eesc.service.name')}</h1>
+#if($doc.parent && $doc.parent == '')
+  <hr />
+#end
