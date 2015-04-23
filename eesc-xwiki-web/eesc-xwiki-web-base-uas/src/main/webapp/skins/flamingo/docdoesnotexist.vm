@@ -1,0 +1,10 @@
+###
+### Document does not exist message
+###
+###
+#if ($services.distribution.jobStatus && $services.distribution.jobStatus.state.name() != 'FINISHED' && $services.distribution.canDisplayDistributionWizard())
+  $response.sendRedirect($xwiki.getURL('XWiki.Distribution', 'distribution', "xredirect=$escapetool.url($xwiki.relativeRequestURL)"))
+#else
+  #set($documentredirectref = $services.model.createDocumentReference($xcontext.mainWikiName, 'Main', 'WebHome'))
+  $response.sendRedirect($xwiki.getURL($documentredirectref))
+#end
