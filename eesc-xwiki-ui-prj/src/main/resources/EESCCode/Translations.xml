@@ -94,6 +94,7 @@ eesc.home.title.mytasks=Mes tâches
 eesc.home.assignedto=assignée à
 eesc.home.noassigned=non-assignée
 eesc.home.unconnected=Vous n'êtes pas correctement authentifié. Essayer de recharger la page. Si le problème persiste, contactez votre responsable informatique.
+eesc.home.notbelongtoetab=Vous n'appartenez pas à cet établissement, veuillez réessayer et contacter l'administrateur si le problème persiste.
 eesc.home.task=Tâche
 eesc.home.project=Projet
 eesc.home.notask=Aucune tâche ne vous est assignée.
