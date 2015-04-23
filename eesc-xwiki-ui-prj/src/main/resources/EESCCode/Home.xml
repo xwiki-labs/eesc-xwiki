@@ -53,12 +53,34 @@
  *#
 #set($discard = $xwiki.ssx.use('TaskManager.TaskManagerClass'))
 ##############################################
+## Manage parameters cookies
+##############################################
+#set($groupUID = $request.getParameter('GROUP_ID'))
+#set($groupIDCookie = $request.getCookie('GROUP_ID'))
+#if($groupUID)
+   ## Edit or create the cookie if not exist
+   #if($groupIDCookie) 
+       ## Remove the cookie and create another one
+       #set($discard = $response.removeCookie('GROUP_ID',$request))
+       ## Cookie age 1 day 24*60*60 seconds
+       #set($discard = $response.addCookie('GROUP_ID',$groupUID,86400))
+   #else 
+       ## Create
+       #set($discard = $response.addCookie('GROUP_ID',$groupUID,86400))
+   #end
+#end
+##############################################
 ##                 GLOBALS
 ##############################################
 ## GLOBAL VARIABLES
 #set($userId = $xcontext.getUserReference().name)
 #set($groupsForUser = $services.eesc.getGroupsForUser($userId))
-#set($groupUID = $request.getParameter('GROUP_ID'))
+#if(!$groupUID)
+   #if($request.getCookie("GROUP_ID"))
+      #set($cookie = $request.getCookie('GROUP_ID'))
+      #set($groupUID = $cookie.getValue())
+   #end
+#end
 ##############################################
 ##                 LIST PROJECTS
 ##############################################
