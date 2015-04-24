@@ -30,12 +30,14 @@ Les informations pour un utilisateur sont les suivantes :
 ```
 user.<uid>=<name>
 user.<uid>.status=<status>
+user.<uid>.etabid=<etabid-1>,<etabid-2>,<etabid-3>
 ```
 où les différentes informations entre < et > doivent être remplies selon les conditions suivantes :
 
 * \<uid> est l'identifiant alphanumérique de l'utilisateur; il doit être unique dans le fichier.
 * \<name> est le nom de l'utilisateur qui sera affiché dans l'interface utilisateur.
 * \<status> est le statut de l'utilisateur qui sera une des valeurs suivantes : TEACHER, STUDENT, LOCAL_ADMIN, STAFF, PARENT ou GUEST.
+* \<etabid-#> est l'identifiant de l'établissement dont l'utilisateur fait parti; l'utilisateur peut appartenir à plusieurs établissements qui seront séparés par une virgule et sans espace
 
 Les groupes
 
@@ -76,19 +78,32 @@ et les groupes suivants :
 | Classe de 6e A | Fanny PARENT, Rita SANCHEZ, Pierre PARENT |
 | College | Tous les membres |
 
+et enfin les établissements suivants :
+
+| Établissement | Membres |
+| ------------- | ------- |
+| Lycée Voltaire | Tous les membres |
+| Collège Victor Hugo | Richard NACCI et Arnaud RÉGNAL |
+
 ```
 user.320000000000046020=Fanny PARENT
 user.320000000000046020.status=STUDENT
+user.320000000000046020.etabid=voltaire
 user.310750000000010020=Rita SANCHEZ
 user.310750000000010020.status=TEACHER
+user.310750000000010020.etabid=voltaire
 user.330000000000126020=Pierre PARENT
 user.330000000000126020.status=PARENT
+user.330000000000126020.etabid=voltaire
 user.310750000000013020=Richard NACCI
 user.310750000000013020.status=LOCAL_ADMIN
+user.310750000000013020.etabid=voltaire,victor-hugo
 user.310750000000012020=Étienne DUJARDIN
 user.310750000000012020.status=STAFF
+user.310750000000012020.etabid=voltaire
 user.5000=Arnaud RÉGNAL
 user.5000.status=GUEST
+user.5000.etabid=voltaire,victor-hugo
 
 group.0001=Administration
 group.0001.type=PRIVATE
