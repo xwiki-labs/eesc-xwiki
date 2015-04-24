@@ -98,6 +98,7 @@ eesc.CollaborativeDocumentTemplate.title=Nouveau document
 # WebHome
 eesc.WebHome.nodocument=Vous n'avez aucun document accessible.
 eesc.WebHome.unconnected=Vous n'êtes pas correctement authentifié. Essayer de recharger la page. Si le problème persiste, contactez votre responsable informatique.
+eesc.WebHome.notbelongtoetab=Vous n'appartenez pas à cet établissement, veuillez réessayer et contacter l'administrateur si le problème persiste.
 
 # Create document
 eesc.DocumentCreate.bottombuttons.create=Créer le document

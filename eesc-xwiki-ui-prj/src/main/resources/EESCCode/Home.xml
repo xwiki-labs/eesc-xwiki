@@ -55,6 +55,7 @@
 ##############################################
 ## Manage parameters cookies
 ##############################################
+## GROUP_ID
 #set($groupUID = $request.getParameter('GROUP_ID'))
 #set($groupIDCookie = $request.getCookie('GROUP_ID'))
 #if($groupUID)
@@ -69,6 +70,22 @@
        #set($discard = $response.addCookie('GROUP_ID',$groupUID,86400))
    #end
 #end
+
+## ETAB_ID
+#set($etabID = $request.getParameter('ETAB_ID'))
+#set($etabIDCookie = $request.getCookie('ETAB_ID'))
+#if($etabID)
+   ## Edit or create the cookie if not exist
+   #if($etabIDCookie) 
+       ## Remove the cookie and create another one
+       #set($discard = $response.removeCookie('ETAB_ID',$request))
+       ## Cookie age 1 day 24*60*60 seconds
+       #set($discard = $response.addCookie('ETAB_ID',$etabID,86400))
+   #else 
+       ## Create
+       #set($discard = $response.addCookie('ETAB_ID',$etabID,86400))
+   #end
+#end
 ##############################################
 ##                 GLOBALS
 ##############################################
@@ -81,9 +98,17 @@
       #set($groupUID = $cookie.getValue())
    #end
 #end
+
+#if(!$etabID)
+   #if($request.getCookie("ETAB_ID"))
+      #set($cookie = $request.getCookie('ETAB_ID'))
+      #set($etabID = $cookie.getValue())
+   #end
+#end
 ##############################################
 ##                 LIST PROJECTS
 ##############################################
+#if("$!etabID" != "" &amp;&amp; $services.eesc.isFromEtab($userId,$etabID))
 #if($groupUID)
   #set($query_select = "distinct doc.fullName, doc.title")
   #set($query_from = "XWikiDocument doc, BaseObject as oshare, BaseObject as oright, LargeStringProperty as pusers, LargeStringProperty as pgroups")
@@ -237,6 +262,11 @@
       #end
     #end
   {{/menu}}
+#end
+#else
+    {{error}}
+      ${services.localization.render('eesc.home.notbelongtoetab')}
+    {{/error}}
 #end
 {{/velocity}}
 </content>
