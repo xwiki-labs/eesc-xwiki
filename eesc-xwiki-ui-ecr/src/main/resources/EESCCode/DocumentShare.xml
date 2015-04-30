@@ -32,8 +32,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1400748597000</creationDate>
-  <date>1400857958000</date>
-  <contentUpdateDate>1400857908000</contentUpdateDate>
+  <date>1430402532000</date>
+  <contentUpdateDate>1430402509000</contentUpdateDate>
   <version>1.1</version>
   <title>${services.localization.render('eesc.DocumentShare.title')}</title>
   <defaultTemplate/>
@@ -114,9 +114,14 @@
   #set($discard = $object.set('levels', 'view,edit,delete,creator'))
   #set($discard = $object.set('allow', 'true'))
   #if($scope.equals('public'))
+    #set($etabCookie = $request.getCookie('ETAB_ID'))
+    #set($shared_group = 'XWiki.XWikiAllGroup')
+    #if($etabCookie)
+      #set($shared_group = 'XWiki.etab-${etabCookie.value}')
+    #end
     #set($object = $document.newObject('XWiki.XWikiRights'))
     #set($discard = $object.set('users', ''))
-    #set($discard = $object.set('groups', 'XWiki.XWikiAllGroup'))
+    #set($discard = $object.set('groups', "${shared_group}"))
     #set($discard = $object.set('levels', 'view,edit'))
     #set($discard = $object.set('allow', 'true'))
   #elseif($scope.equals('shared'))

@@ -32,8 +32,8 @@
   <customClass/>
   <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
   <creationDate>1409045288000</creationDate>
-  <date>1417531413000</date>
-  <contentUpdateDate>1417531413000</contentUpdateDate>
+  <date>1430402976000</date>
+  <contentUpdateDate>1430402976000</contentUpdateDate>
   <version>1.1</version>
   <title>Accueil</title>
   <defaultTemplate/>
@@ -482,7 +482,6 @@
        #set($discard = $response.addCookie('GROUP_ID',$groupUID,86400))
    #end
 #end
-
 ## ETAB_ID
 #set($etabID = $request.getParameter('ETAB_ID'))
 #set($etabIDCookie = $request.getCookie('ETAB_ID'))
@@ -505,14 +504,13 @@
 #set($userId = $xcontext.getUserReference().name)
 #set($groupsForUser = $services.eesc.getGroupsForUser($userId))
 #if(!$groupUID)
-   #if($request.getCookie("GROUP_ID"))
+   #if($request.getCookie('GROUP_ID'))
       #set($cookie = $request.getCookie('GROUP_ID'))
       #set($groupUID = $cookie.getValue())
    #end
 #end
-
 #if(!$etabID)
-   #if($request.getCookie("ETAB_ID"))
+   #if($request.getCookie('ETAB_ID'))
       #set($cookie = $request.getCookie('ETAB_ID'))
       #set($etabID = $cookie.getValue())
    #end
@@ -520,34 +518,26 @@
 ##############################################
 ##                 LIST DOCUMENTS
 ##############################################
-#if("$!etabID" != "" &amp;&amp; $services.eesc.isFromEtab($userId,$etabID))
-#if( "$!groupUID" != "" &amp;&amp; !$groupUID.equals('all'))
-  #set($query_select = "distinct doc.fullName")
-  #set($query_from = "XWikiDocument doc, BaseObject as oshare, BaseObject as oright, LargeStringProperty as pusers, LargeStringProperty as pgroups")
-  #set($query_where_share = "doc.fullName = oshare.name and oshare.className = 'EESCCode.CollaborativeDocumentClass' and doc.fullName &lt;&gt; 'EESCCode.CollaborativeDocumentTemplate'")
-  #set($query_where_right = "doc.fullName = oright.name and oright.className = 'XWiki.XWikiRights'")
-  #set($query_where_groups = "pgroups.id.id = oright.id and pgroups.id.name = 'groups' and pgroups.value = 'XWiki.$groupUID'")
-  #set($query_where = "${query_where_share} and ${query_where_right} and ( ${query_where_groups} )")
-  #set($query = "select ${query_select} from ${query_from} where ${query_where} order by doc.space asc")
-#else
-  #set($query_select = "distinct doc.fullName")
-  #set($query_from = "XWikiDocument doc, BaseObject as oshare, BaseObject as oright, LargeStringProperty as pusers, LargeStringProperty as pgroups")
-  #set($query_where_share = "doc.fullName = oshare.name and oshare.className = 'EESCCode.CollaborativeDocumentClass' and doc.fullName &lt;&gt; 'EESCCode.CollaborativeDocumentTemplate'")
-  #set($query_where_right = "doc.fullName = oright.name and oright.className = 'XWiki.XWikiRights'")
-  #set($query_where_users = "pusers.id.id = oright.id and pusers.id.name = 'users' and pusers.value = '${xcontext.user}'")
-  #set($query_where_groups_values = "pgroups.value = 'XWiki.XWikiAllGroup'")
-  #set($sep = ' or ')
-  #foreach($g in $groupsForUser)
-    ## All groups has been prefixed with 'XWiki.' (for example, group '00123' is 'XWiki.00123')
-    #set($query_where_groups_values = "${query_where_groups_values}${sep}pgroups.value = 'XWiki.${g.getId()}'")
-  #end
-  ## For XWiki.Admin, '${query_where_groups_values}' is empty so it will result in the following
-  ## $query_where_groups =&gt; "pgroups.id.id = oright.id and pgroups.id.name = 'groups'"
-  ## which will list every document with this property (no matter what value is in it); hence, all collaborative documents will be listed.
-  #set($query_where_groups = "pgroups.id.id = oright.id and pgroups.id.name = 'groups'#if(${query_where_groups_values}!='') and ( ${query_where_groups_values} )#{end}")
-  #set($query_where = "${query_where_share} and ${query_where_right} and ( ( ${query_where_users} ) or ( ${query_where_groups} ) )")
-  #set($query = "select ${query_select} from ${query_from} where ${query_where} order by doc.space asc")
+#set($query_select = "distinct doc.fullName")
+#set($query_from = "XWikiDocument doc, BaseObject as oshare, BaseObject as oright, LargeStringProperty as pusers, LargeStringProperty as pgroups")
+#set($query_where_share = "doc.fullName = oshare.name and oshare.className = 'EESCCode.CollaborativeDocumentClass' and doc.fullName &lt;&gt; 'EESCCode.CollaborativeDocumentTemplate'")
+#set($query_where_right = "doc.fullName = oright.name and oright.className = 'XWiki.XWikiRights'")
+#set($query_groups = '')
+#set($groups_sep = '')
+#if("$!etabID" != "" &amp;&amp; $services.eesc.isFromEtab($userId, $etabID))
+  #set($query_groups = "pgroups.value = 'XWiki.etab-${etabID}'" )
+  #set($groups_sep = ' or ')
 #end
+#if( "$!groupUID" != "" &amp;&amp; !$groupUID.equals('all'))
+  #set($query_groups = "${query_groups}${groups_sep}pgroups.value = 'XWiki.${groupUID}'")
+#end
+#set($query_where_groups = "pgroups.id.id = oright.id and pgroups.id.name = 'groups'")
+#if("${query_groups}" != "")
+  #set($query_where_groups = "${query_where_groups} and ( ${query_groups} )")
+#end
+#set($query_where_users = "pusers.id.id = oright.id and pusers.id.name = 'users' and pusers.value = 'XWiki.$userId'")
+#set($query_where = "${query_where_share} and ${query_where_right} and ( ( ${query_where_groups} ) or ( ${query_where_users} ) )")
+#set($query = "select ${query_select} from ${query_from} where ${query_where}")## order by doc.space asc")
 #set($results = $services.query.hql($query).addFilter('hidden').addFilter('unique').execute())
 #set($viewabledocs = [])
 ## Filter documents the user has access to
@@ -557,7 +547,7 @@
   #end
 #end
 #set($lastspacename = '')
-#if(!$viewabledocs.isEmpty())
+#if(!$viewabledocs.isEmpty() || !$services.eesc.isFromEtab($userId, $etabID))
   ## Add/remove 'open' to have the menu expanded/folded by default
   {{menu type="vertical collapsible open"}}
     #foreach($pagename in $viewabledocs)
@@ -576,20 +566,21 @@
     * ----
   {{/menu}}
 #else
-  #if($xcontext.getUserReference())
-    {{info}}
-      ${services.localization.render('eesc.WebHome.nodocument')}
-    {{/info}}
-  #else
-    {{error}}
-      ${services.localization.render('eesc.WebHome.unconnected')}
-    {{/error}}
-  #end
-#end
-#else
+  #if(!$services.eesc.isFromEtab($userId, $etabID))
     {{error}}
       ${services.localization.render('eesc.WebHome.notbelongtoetab')}
     {{/error}}
+  #else
+    #if($xcontext.getUserReference())
+      {{info}}
+        ${services.localization.render('eesc.WebHome.nodocument')}
+      {{/info}}
+    #else
+      {{error}}
+        ${services.localization.render('eesc.WebHome.unconnected')}
+      {{/error}}
+    #end
+  #end
 #end
 {{/velocity}}</content>
 </xwikidoc>

@@ -24,6 +24,7 @@ import com.xpn.xwiki.user.impl.xwiki.XWikiAuthServiceImpl;
 import com.xpn.xwiki.web.Utils;
 import com.xwikisas.eesc.EESC;
 import com.xwikisas.eesc.Group;
+import com.xwikisas.eesc.GroupType;
 import com.xwikisas.eesc.User;
 
 /**
@@ -178,6 +179,11 @@ public class XWikiCASAuthServiceImpl extends XWikiAuthServiceImpl
         // Add the user to the groups he's in
         for (Group group : groups) {
             addUserToGroup(user, group, context);
+        }
+        
+        for (String etabId : user.getEtabId()) {
+        	Group group = new Group("etab-" + etabId, "Etablissement " + etabId, GroupType.PUBLIC);
+        	addUserToGroup(user, group, context);
         }
 
         return false;
