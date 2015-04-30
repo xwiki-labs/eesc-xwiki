@@ -208,11 +208,13 @@ public class EESCImpl implements EESC {
 	@Override
 	public boolean isFromEtab(String userID, String etabID) {
 		User user = getUser(userID);
-		if (user.getEtabId().contains(etabID)) {
-			return true;
-		} else {
-			return false;
+		List<String> etabIds = user.getEtabId();
+		if (etabIds != null) {
+			if (etabIds.contains(etabID)) {
+				return true;
+			}
 		}
+		return false;
 	}
 
 	@Override
