@@ -19,9 +19,7 @@
   
   <div class="main">
   <div id="mainContentArea">
-  #template("eescTitle.vm")
   #template("hierarchy.vm")
-  #template("eescHeader.vm")
   #if($viewer == 'content')
     #template("contentview.vm")
   #else
