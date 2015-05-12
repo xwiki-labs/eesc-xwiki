@@ -115,8 +115,10 @@ public class EESCImpl implements EESC {
 		status = json.getAsJsonObject().get("status").getAsString();
 		// Convert JSON array to Java array
 		// https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html
-		Type listType = new TypeToken<List<String>>() {}.getType();
-		etabId = new Gson().fromJson(json.getAsJsonObject().get("etabid"), listType);
+		Type listType = new TypeToken<List<String>>() {
+		}.getType();
+		etabId = new Gson().fromJson(json.getAsJsonObject().get("etabid"),
+				listType);
 		user = new User(id, nickname, status, etabId);
 		return user;
 	}
@@ -147,8 +149,14 @@ public class EESCImpl implements EESC {
 			status = jsonUser.getAsJsonObject().get("status").getAsString();
 			// Convert JSON array to Java array
 			// https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html
-			Type listType = new TypeToken<List<String>>() {}.getType();
-			etabId = new Gson().fromJson(json.getAsJsonObject().get("etabid"), listType);
+			Type listType = new TypeToken<List<String>>() {
+			}.getType();
+			if (jsonUser.getAsJsonObject().get("etabid") != null) {
+				etabId = new Gson().fromJson(
+						jsonUser.getAsJsonObject().get("etabid"), listType);
+			} else {
+				etabId = getUser(id).getEtabId();
+			}
 			user = new User(id, nickname, status, etabId);
 			userList.add(user);
 		}
@@ -195,8 +203,10 @@ public class EESCImpl implements EESC {
 		status = json.getAsJsonObject().get("status").getAsString();
 		// Convert JSON array to Java array
 		// https://google-gson.googlecode.com/svn/trunk/gson/docs/javadocs/com/google/gson/Gson.html
-		Type listType = new TypeToken<List<String>>() {}.getType();
-		etabId = new Gson().fromJson(json.getAsJsonObject().get("etabid"), listType);
+		Type listType = new TypeToken<List<String>>() {
+		}.getType();
+		etabId = new Gson().fromJson(json.getAsJsonObject().get("etabid"),
+				listType);
 		try {
 			new User(id, nickname, status, etabId);
 		} catch (Exception e) {
