@@ -1,6 +1,8 @@
 Projet EESC
 =============
 
+[![XWiki labs logo](https://labs.xwiki.com/xwiki/bin/download/Developments/Xlabs/xwiki-labs-project.png "XWiki labs")](https://labs.xwiki.com/xwiki/bin/view/Main/WebHome)
+
 # Installation
 You can clone the git repository from
 [Github](https://github.com/xwiki-labs/eesc-xwiki).  Don't forget to also
